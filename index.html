@@ -676,70 +676,178 @@
   .modal button:hover { background: #444; }
   .modal .error { color: #f55; font-size: 12px; height: 16px; margin-bottom: 8px; }
 
+
   .viewer {
     display: none;
     position: fixed;
     inset: 0;
-    background: #1e1e1e;
+    background: #111827;
     z-index: 9999;
     flex-direction: column;
-    font-family: -apple-system, 'Segoe UI', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   }
   .viewer.active { display: flex; }
+
   .viewer-bar {
-    background: #2d2d2d;
-    padding: 12px 20px;
+    min-height: 64px;
+    background: #171717;
+    padding: 10px 14px;
     display: flex;
-    gap: 10px;
+    gap: 8px;
     align-items: center;
-    border-bottom: 1px solid #444;
+    border-bottom: 1px solid #333;
+  }
+  .browser-brand {
+    color: #e5e5e5;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    margin-right: 4px;
+  }
+  .url-form {
+    flex: 1;
+    display: flex;
+    min-width: 200px;
   }
   .viewer-bar input[type="text"] {
     flex: 1;
-    padding: 8px 12px;
-    background: #1a1a1a;
-    color: #eee;
+    min-width: 0;
+    padding: 10px 12px;
+    background: #0b0b0b;
+    color: #f5f5f5;
     border: 1px solid #444;
-    border-radius: 4px;
+    border-radius: 8px;
     font-size: 14px;
-    font-family: -apple-system, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    outline: none;
   }
-  .viewer-bar select, .viewer-bar button {
-    padding: 8px 14px;
-    background: #3a3a3a;
-    color: #eee;
-    border: 1px solid #555;
-    border-radius: 4px;
+  .viewer-bar input[type="text"]:focus {
+    border-color: #737373;
+  }
+  .viewer-bar select,
+  .viewer-bar button {
+    padding: 10px 12px;
+    background: #262626;
+    color: #f5f5f5;
+    border: 1px solid #444;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 14px;
-    font-family: -apple-system, sans-serif;
+    font-size: 13px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    white-space: nowrap;
   }
-  .viewer-bar button:hover { background: #4a4a4a; }
-  .viewer-bar .close-btn { background: #5a2a2a; }
-  .viewer-bar .close-btn:hover { background: #7a3a3a; }
+  .viewer-bar button:hover,
+  .viewer-bar select:hover {
+    background: #333;
+  }
+  .viewer-bar .nav-btn {
+    width: 40px;
+    padding-left: 0;
+    padding-right: 0;
+    font-weight: 700;
+  }
+  .viewer-bar .load-btn {
+    background: #8b1818;
+    border-color: #9f1d1d;
+    font-weight: 700;
+  }
+  .viewer-bar .load-btn:hover {
+    background: #a02020;
+  }
+  .viewer-bar .close-btn {
+    background: #3a1f1f;
+    border-color: #5a2a2a;
+  }
+  .viewer-bar .close-btn:hover {
+    background: #6b2b2b;
+  }
+
   .viewer-stage {
     flex: 1;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: auto;
     padding: 30px;
+    background:
+      radial-gradient(circle at top left, rgba(139,24,24,0.22), transparent 34%),
+      linear-gradient(135deg, #111827 0%, #0a0a0a 100%);
   }
-  .device-frame {
-    background: #111;
-    border-radius: 36px;
-    padding: 14px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-    transition: width 0.2s, height 0.2s;
+  .device-shell {
+    background: #080808;
+    border: 1px solid #333;
+    border-radius: 28px;
+    padding: 12px;
+    box-shadow: 0 24px 70px rgba(0,0,0,0.58);
+    display: flex;
+    flex-direction: column;
+    transition: width 0.18s ease, height 0.18s ease;
   }
-  .device-frame iframe {
+  .device-top {
+    height: 34px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0 8px 10px;
+    color: #aaa;
+    font-size: 11px;
+  }
+  .device-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #3f3f46;
+    flex-shrink: 0;
+  }
+  .device-title {
+    margin-left: 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .device-shell iframe {
     width: 100%;
-    height: 100%;
+    flex: 1;
     border: none;
-    border-radius: 22px;
+    border-radius: 18px;
     background: #fff;
   }
-  .empty-state { color: #888; font-size: 16px; text-align: center; }
+  .empty-state {
+    max-width: 560px;
+    color: #d4d4d4;
+    font-size: 15px;
+    text-align: center;
+    line-height: 1.5;
+    background: rgba(23,23,23,0.76);
+    border: 1px solid #333;
+    border-radius: 18px;
+    padding: 26px;
+  }
+  .empty-state strong {
+    color: #fff;
+    display: block;
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+  .viewer-note {
+    position: absolute;
+    left: 18px;
+    bottom: 14px;
+    right: 18px;
+    text-align: center;
+    color: #a3a3a3;
+    font-size: 12px;
+    pointer-events: none;
+  }
+  .browser-status {
+    color: #a3a3a3;
+    font-size: 12px;
+    white-space: nowrap;
+    min-width: 84px;
+    text-align: right;
+  }
+
 
   @media (max-width: 960px) {
     .layout { grid-template-columns: 1fr; }
@@ -1099,43 +1207,88 @@
   </div>
 </div>
 
-<div class="viewer" id="viewer">
+
+<div class="viewer" id="viewer" aria-hidden="true">
   <div class="viewer-bar">
-    <input type="text" id="urlInput" placeholder="Paste a URL (e.g. https://example.com)" />
-    <select id="deviceSelect">
-      <option value="375x667">iPhone SE (375x667)</option>
-      <option value="390x844" selected>iPhone 14 (390x844)</option>
-      <option value="430x932">iPhone 15 Pro Max (430x932)</option>
-      <option value="412x915">Pixel 7 (412x915)</option>
-      <option value="360x800">Galaxy S22 (360x800)</option>
-      <option value="768x1024">iPad (768x1024)</option>
-      <option value="1024x768">iPad Landscape (1024x768)</option>
-      <option value="1440x900">Desktop (1440x900)</option>
+    <div class="browser-brand">Private Viewer</div>
+
+    <button class="nav-btn" id="backBtn" title="Back">←</button>
+    <button class="nav-btn" id="forwardBtn" title="Forward">→</button>
+    <button class="nav-btn" id="reloadBtn" title="Reload">↻</button>
+    <button class="nav-btn" id="homeBtn" title="Clear">⌂</button>
+
+    <form class="url-form" id="urlForm">
+      <input type="text" id="browserUrlInput" placeholder="Paste a URL, for example https://example.com" autocomplete="off" />
+    </form>
+
+    <select id="deviceSelect" title="Preview size">
+      <option value="375x667">iPhone SE</option>
+      <option value="390x844" selected>iPhone 14</option>
+      <option value="430x932">iPhone 15 Pro Max</option>
+      <option value="412x915">Pixel 7</option>
+      <option value="360x800">Galaxy S22</option>
+      <option value="768x1024">iPad</option>
+      <option value="1024x768">iPad Landscape</option>
+      <option value="1440x900">Desktop</option>
     </select>
-    <button id="loadBtn">Load</button>
+
+    <button class="load-btn" id="loadBtn">Load</button>
+    <button id="openNormalBtn" title="Open this URL in a normal tab">Open Tab</button>
     <button class="close-btn" id="closeViewer">Close</button>
+
+    <div class="browser-status" id="browserStatus">Ready</div>
   </div>
+
   <div class="viewer-stage" id="viewerStage">
-    <div class="empty-state">Paste a URL above and click Load to preview.</div>
+    <div class="empty-state">
+      <strong>Private URL Viewer</strong>
+      Paste a normal website link above and press Enter. Some websites will refuse to load inside a frame, which is normal browser security.
+    </div>
+    <div class="viewer-note">This is a local hidden viewer, not a filter bypass or untrackable browser.</div>
   </div>
 </div>
 
+
+
 <script>
+  const ACCESS_CODE = '1111';
+
   let clickCount = 0;
   let clickTimer = null;
+  let browserFrame = null;
+  let lastLoadedUrl = '';
+
   const trigger = document.getElementById('trigger');
   const modalBackdrop = document.getElementById('modalBackdrop');
   const pwInput = document.getElementById('pwInput');
   const pwError = document.getElementById('pwError');
   const pwSubmit = document.getElementById('pwSubmit');
   const pwCancel = document.getElementById('pwCancel');
-  const viewer = document.getElementById('viewer');
 
-  trigger.addEventListener('click', (e) => {
-    e.preventDefault();
+  const viewer = document.getElementById('viewer');
+  const urlForm = document.getElementById('urlForm');
+  const browserUrlInput = document.getElementById('browserUrlInput');
+  const deviceSelect = document.getElementById('deviceSelect');
+  const loadBtn = document.getElementById('loadBtn');
+  const backBtn = document.getElementById('backBtn');
+  const forwardBtn = document.getElementById('forwardBtn');
+  const reloadBtn = document.getElementById('reloadBtn');
+  const homeBtn = document.getElementById('homeBtn');
+  const openNormalBtn = document.getElementById('openNormalBtn');
+  const closeViewer = document.getElementById('closeViewer');
+  const viewerStage = document.getElementById('viewerStage');
+  const browserStatus = document.getElementById('browserStatus');
+
+  trigger.addEventListener('click', (event) => {
+    event.preventDefault();
+
     clickCount++;
     clearTimeout(clickTimer);
-    clickTimer = setTimeout(() => { clickCount = 0; }, 3000);
+
+    clickTimer = setTimeout(() => {
+      clickCount = 0;
+    }, 3000);
+
     if (clickCount >= 5) {
       clickCount = 0;
       openModal();
@@ -1148,20 +1301,38 @@
     pwError.textContent = '';
     setTimeout(() => pwInput.focus(), 50);
   }
+
   function closeModal() {
     modalBackdrop.classList.remove('active');
   }
 
+  function openViewer() {
+    viewer.classList.add('active');
+    viewer.setAttribute('aria-hidden', 'false');
+    setTimeout(() => browserUrlInput.focus(), 50);
+  }
+
+  function closePrivateViewer() {
+    viewer.classList.remove('active');
+    viewer.setAttribute('aria-hidden', 'true');
+  }
+
   pwSubmit.addEventListener('click', checkPassword);
-  pwInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') checkPassword();
+
+  pwInput.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') checkPassword();
   });
+
   pwCancel.addEventListener('click', closeModal);
 
+  modalBackdrop.addEventListener('click', (event) => {
+    if (event.target === modalBackdrop) closeModal();
+  });
+
   function checkPassword() {
-    if (pwInput.value === '1111') {
+    if (pwInput.value === ACCESS_CODE) {
       closeModal();
-      viewer.classList.add('active');
+      openViewer();
     } else {
       pwError.textContent = 'Incorrect code.';
       pwInput.value = '';
@@ -1169,26 +1340,180 @@
     }
   }
 
-  const urlInput = document.getElementById('urlInput');
-  const deviceSelect = document.getElementById('deviceSelect');
-  const loadBtn = document.getElementById('loadBtn');
-  const closeViewer = document.getElementById('closeViewer');
-  const viewerStage = document.getElementById('viewerStage');
+  function setStatus(message) {
+    browserStatus.textContent = message;
+  }
 
-  closeViewer.addEventListener('click', () => viewer.classList.remove('active'));
-  loadBtn.addEventListener('click', loadUrl);
-  urlInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') loadUrl(); });
-  deviceSelect.addEventListener('change', () => { if (urlInput.value.trim()) loadUrl(); });
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, (character) => {
+      return {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      }[character];
+    });
+  }
+
+  function normalizeUrl(rawValue) {
+    let value = rawValue.trim();
+
+    if (!value) return null;
+
+    if (!/^https?:\/\//i.test(value)) {
+      value = 'https://' + value;
+    }
+
+    try {
+      const url = new URL(value);
+
+      if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+        return null;
+      }
+
+      return url.href;
+    } catch {
+      return null;
+    }
+  }
+
+  function getSelectedDeviceSize() {
+    const [width, height] = deviceSelect.value.split('x').map(Number);
+    return { width, height };
+  }
+
+  function renderBrowserFrame(url) {
+    const { width, height } = getSelectedDeviceSize();
+
+    lastLoadedUrl = url;
+    browserUrlInput.value = url;
+    setStatus('Loading');
+
+    viewerStage.innerHTML = `
+      <div class="device-shell" style="width: ${width + 34}px; height: ${height + 72}px;">
+        <div class="device-top">
+          <span class="device-dot"></span>
+          <span class="device-dot"></span>
+          <span class="device-dot"></span>
+          <span class="device-title">${escapeHtml(url)}</span>
+        </div>
+        <iframe
+          id="browserFrame"
+          title="Private URL viewer"
+          src="${escapeHtml(url)}"
+          sandbox="allow-scripts allow-forms allow-same-origin allow-popups"
+          referrerpolicy="no-referrer"
+        ></iframe>
+      </div>
+      <div class="viewer-note">Some websites block iframe loading. That is normal and cannot be fixed with only index.html.</div>
+    `;
+
+    browserFrame = document.getElementById('browserFrame');
+
+    browserFrame.addEventListener('load', () => {
+      setStatus('Ready');
+    });
+  }
 
   function loadUrl() {
-    let url = urlInput.value.trim();
-    if (!url) return;
-    if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
-    const [w, h] = deviceSelect.value.split('x').map(Number);
-    const proxyUrl = '/api/proxy?url=' + encodeURIComponent(url);
-    viewerStage.innerHTML = '<div class="device-frame" style="width: ' + (w + 28) + 'px; height: ' + (h + 28) + 'px;"><iframe src="' + proxyUrl + '" sandbox="allow-scripts allow-forms allow-same-origin allow-popups"></iframe></div>';
+    const safeUrl = normalizeUrl(browserUrlInput.value);
+
+    if (!safeUrl) {
+      setStatus('Invalid URL');
+      browserUrlInput.focus();
+      return;
+    }
+
+    renderBrowserFrame(safeUrl);
   }
+
+  function clearViewer() {
+    browserFrame = null;
+    lastLoadedUrl = '';
+    browserUrlInput.value = '';
+    setStatus('Ready');
+
+    viewerStage.innerHTML = `
+      <div class="empty-state">
+        <strong>Private URL Viewer</strong>
+        Paste a normal website link above and press Enter. Some websites will refuse to load inside a frame, which is normal browser security.
+      </div>
+      <div class="viewer-note">This is a local hidden viewer, not a filter bypass or untrackable browser.</div>
+    `;
+  }
+
+  urlForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    loadUrl();
+  });
+
+  loadBtn.addEventListener('click', loadUrl);
+
+  closeViewer.addEventListener('click', closePrivateViewer);
+
+  backBtn.addEventListener('click', () => {
+    if (!browserFrame) return;
+
+    try {
+      browserFrame.contentWindow.history.back();
+      setStatus('Back');
+    } catch {
+      setStatus('Blocked');
+    }
+  });
+
+  forwardBtn.addEventListener('click', () => {
+    if (!browserFrame) return;
+
+    try {
+      browserFrame.contentWindow.history.forward();
+      setStatus('Forward');
+    } catch {
+      setStatus('Blocked');
+    }
+  });
+
+  reloadBtn.addEventListener('click', () => {
+    if (!browserFrame || !lastLoadedUrl) return;
+
+    try {
+      browserFrame.src = browserFrame.src;
+      setStatus('Reloading');
+    } catch {
+      renderBrowserFrame(lastLoadedUrl);
+    }
+  });
+
+  homeBtn.addEventListener('click', clearViewer);
+
+  openNormalBtn.addEventListener('click', () => {
+    const safeUrl = normalizeUrl(browserUrlInput.value || lastLoadedUrl);
+
+    if (!safeUrl) {
+      setStatus('Invalid URL');
+      return;
+    }
+
+    window.open(safeUrl, '_blank', 'noopener,noreferrer');
+  });
+
+  deviceSelect.addEventListener('change', () => {
+    const safeUrl = normalizeUrl(browserUrlInput.value || lastLoadedUrl);
+
+    if (safeUrl) {
+      renderBrowserFrame(safeUrl);
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      if (modalBackdrop.classList.contains('active')) closeModal();
+      else if (viewer.classList.contains('active')) closePrivateViewer();
+    }
+  });
 </script>
+
 
 </body>
 </html>
