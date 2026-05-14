@@ -32,34 +32,100 @@ function normalizeUrl(rawValue) {
   }
 }
 
-function escapeHtml(value) {
-  return String(value).replace(/[&<>"']/g, (character) => {
-    return {
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#039;"
-    }[character];
-  });
+function injectExtraStyles() {
+  const style = document.createElement("style");
+  style.textContent = `
+    .device-shell {
+      background: #111;
+      border-radius: 24px;
+      padding: 12px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.55);
+      display: flex;
+      flex-direction: column;
+      max-width: calc(100vw - 60px);
+      max-height: calc(100vh - 130px);
+    }
+
+    .device-top {
+      height: 38px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #aaa;
+      font-size: 12px;
+      padding: 0 8px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow: hidden;
+    }
+
+    .device-dot {
+      width: 9px;
+      height: 9px;
+      background: #555;
+      border-radius: 50%;
+      flex: 0 0 auto;
+    }
+
+    .device-title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      margin-left: 6px;
+    }
+
+    #electronBrowserSlot {
+      width: 100%;
+      flex: 1;
+      border-radius: 16px;
+      background: white;
+      overflow: hidden;
+    }
+
+    .viewer-note {
+      color: #888;
+      font-size: 12px;
+      margin-top: 14px;
+      text-align: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .browser-status-pill {
+      color: #aaa;
+      font-size: 12px;
+      white-space: nowrap;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+  `;
+  document.head.appendChild(style);
 }
 
 function setStatus(message) {
-  const status = $("browserStatus");
+  let status = $("browserStatus");
 
-  if (status) {
-    status.textContent = message;
+  if (!status) {
+    status = document.createElement("span");
+    status.id = "browserStatus";
+    status.className = "browser-status-pill";
+
+    const bar = document.querySelector(".viewer-bar");
+    if (bar) bar.appendChild(status);
   }
+
+  status.textContent = message;
+}
+
+function getUrlInput() {
+  return $("browserUrlInput") || $("urlInput");
 }
 
 function getSelectedDeviceSize() {
   const deviceSelect = $("deviceSelect");
-  const value = deviceSelect?.value || "390x844";
+  const value = deviceSelect?.value || "1440x900";
   const [width, height] = value.split("x").map(Number);
 
   return {
-    width: width || 390,
-    height: height || 844
+    width: width || 1440,
+    height: height || 900
   };
 }
 
@@ -78,64 +144,55 @@ function getBrowserSlotBounds() {
   const rect = slot.getBoundingClientRect();
 
   return {
-    x: rect.left,
-    y: rect.top,
-    width: rect.width,
-    height: rect.height
+    x: Math.round(rect.left),
+    y: Math.round(rect.top),
+    width: Math.round(rect.width),
+    height: Math.round(rect.height)
   };
 }
 
 function renderElectronBrowserShell(url) {
   const viewerStage = $("viewerStage");
-  const browserUrlInput = $("browserUrlInput");
+  const urlInput = getUrlInput();
   const { width, height } = getSelectedDeviceSize();
 
   if (!viewerStage) return;
 
   lastLoadedUrl = url;
 
-  if (browserUrlInput) {
-    browserUrlInput.value = url;
+  if (urlInput) {
+    urlInput.value = url;
   }
 
   viewerStage.innerHTML = `
-    <div class="device-shell" style="width: ${width + 34}px; height: ${height + 72}px;">
+    <div class="device-shell" style="width:${width + 24}px;height:${height + 62}px;">
       <div class="device-top">
         <span class="device-dot"></span>
         <span class="device-dot"></span>
         <span class="device-dot"></span>
-        <span class="device-title">${escapeHtml(url)}</span>
+        <span class="device-title">${url}</span>
       </div>
 
-      <div
-        id="electronBrowserSlot"
-        style="
-          width: 100%;
-          flex: 1;
-          border-radius: 18px;
-          background: #fff;
-          overflow: hidden;
-        "
-      ></div>
+      <div id="electronBrowserSlot"></div>
     </div>
 
     <div class="viewer-note">
-      Electron mode: this loads websites in a real Chromium view instead of a normal iframe.
+      Real Electron browser mode. This avoids normal iframe blocking.
     </div>
   `;
 }
 
 async function loadUrl() {
-  const browserUrlInput = $("browserUrlInput");
-  const safeUrl = normalizeUrl(browserUrlInput?.value);
+  const urlInput = getUrlInput();
+  const safeUrl = normalizeUrl(urlInput?.value);
 
   if (!safeUrl) {
     setStatus("Invalid URL");
-    browserUrlInput?.focus();
+    urlInput?.focus();
     return;
   }
 
-  setStatus("Loading");
+  setStatus("Loading...");
   renderElectronBrowserShell(safeUrl);
 
   requestAnimationFrame(async () => {
@@ -150,32 +207,33 @@ async function loadUrl() {
     }
 
     lastLoadedUrl = result.url;
+    setStatus("Ready");
   });
 }
 
 async function resizeBrowserView() {
   if (!lastLoadedUrl) return;
-
   await ipcRenderer.invoke("browser:set-bounds", getBrowserSlotBounds());
 }
 
 async function clearViewer() {
   const viewerStage = $("viewerStage");
-  const browserUrlInput = $("browserUrlInput");
+  const urlInput = getUrlInput();
 
   lastLoadedUrl = "";
 
-  if (browserUrlInput) {
-    browserUrlInput.value = "";
+  if (urlInput) {
+    urlInput.value = "";
   }
 
   if (viewerStage) {
     viewerStage.innerHTML = `
       <div class="empty-state">
-        <strong>Private URL Viewer</strong>
-        Paste a normal website link above and press Enter.
+        Paste a URL above and click Load.
       </div>
-      <div class="viewer-note">This is a local hidden viewer, not a filter bypass or untrackable browser.</div>
+      <div class="viewer-note">
+        Use https://chatgpt.com, not an iframe.
+      </div>
     `;
   }
 
@@ -206,23 +264,20 @@ function closeModal() {
 
 function openViewer() {
   const viewer = $("viewer");
-  const browserUrlInput = $("browserUrlInput");
+  const urlInput = getUrlInput();
 
   viewer?.classList.add("active");
-  viewer?.setAttribute("aria-hidden", "false");
 
   setTimeout(() => {
-    browserUrlInput?.focus();
+    urlInput?.focus();
     resizeBrowserView();
-  }, 75);
+  }, 100);
 }
 
-async function closeViewer() {
+async function closeViewerPanel() {
   const viewer = $("viewer");
 
   viewer?.classList.remove("active");
-  viewer?.setAttribute("aria-hidden", "true");
-
   await ipcRenderer.invoke("browser:hide");
 }
 
@@ -256,203 +311,146 @@ function stop(event) {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
+  injectExtraStyles();
+  setStatus("Ready");
+
   const trigger = $("trigger");
   const modalBackdrop = $("modalBackdrop");
   const pwInput = $("pwInput");
   const pwSubmit = $("pwSubmit");
   const pwCancel = $("pwCancel");
-  const urlForm = $("urlForm");
   const loadBtn = $("loadBtn");
-  const closeViewerBtn = $("closeViewer");
+  const closeViewer = $("closeViewer");
   const backBtn = $("backBtn");
   const forwardBtn = $("forwardBtn");
   const reloadBtn = $("reloadBtn");
   const homeBtn = $("homeBtn");
   const openNormalBtn = $("openNormalBtn");
   const deviceSelect = $("deviceSelect");
+  const urlInput = getUrlInput();
 
-  trigger?.addEventListener(
-    "click",
-    (event) => {
-      stop(event);
+  trigger?.addEventListener("click", (event) => {
+    stop(event);
 
-      clickCount++;
-      clearTimeout(clickTimer);
+    clickCount++;
+    clearTimeout(clickTimer);
 
-      clickTimer = setTimeout(() => {
-        clickCount = 0;
-      }, 3000);
+    clickTimer = setTimeout(() => {
+      clickCount = 0;
+    }, 3000);
 
-      if (clickCount >= 5) {
-        clickCount = 0;
-        openModal();
-      }
-    },
-    true
-  );
+    if (clickCount >= 5) {
+      clickCount = 0;
+      openModal();
+    }
+  }, true);
 
-  pwSubmit?.addEventListener(
-    "click",
-    (event) => {
+  pwSubmit?.addEventListener("click", (event) => {
+    stop(event);
+    checkPassword();
+  }, true);
+
+  pwInput?.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
       stop(event);
       checkPassword();
-    },
-    true
-  );
+    }
+  }, true);
 
-  pwInput?.addEventListener(
-    "keydown",
-    (event) => {
-      if (event.key === "Enter") {
-        stop(event);
-        checkPassword();
-      }
-    },
-    true
-  );
+  pwCancel?.addEventListener("click", (event) => {
+    stop(event);
+    closeModal();
+  }, true);
 
-  pwCancel?.addEventListener(
-    "click",
-    (event) => {
+  modalBackdrop?.addEventListener("click", (event) => {
+    if (event.target === modalBackdrop) {
       stop(event);
       closeModal();
-    },
-    true
-  );
+    }
+  }, true);
 
-  modalBackdrop?.addEventListener(
-    "click",
-    (event) => {
-      if (event.target === modalBackdrop) {
-        stop(event);
+  loadBtn?.addEventListener("click", (event) => {
+    stop(event);
+    loadUrl();
+  }, true);
+
+  urlInput?.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      stop(event);
+      loadUrl();
+    }
+  }, true);
+
+  closeViewer?.addEventListener("click", (event) => {
+    stop(event);
+    closeViewerPanel();
+  }, true);
+
+  backBtn?.addEventListener("click", (event) => {
+    stop(event);
+    ipcRenderer.invoke("browser:back");
+  }, true);
+
+  forwardBtn?.addEventListener("click", (event) => {
+    stop(event);
+    ipcRenderer.invoke("browser:forward");
+  }, true);
+
+  reloadBtn?.addEventListener("click", (event) => {
+    stop(event);
+    ipcRenderer.invoke("browser:reload");
+  }, true);
+
+  homeBtn?.addEventListener("click", (event) => {
+    stop(event);
+    clearViewer();
+  }, true);
+
+  openNormalBtn?.addEventListener("click", (event) => {
+    stop(event);
+
+    const safeUrl = normalizeUrl(getUrlInput()?.value || lastLoadedUrl);
+
+    if (!safeUrl) {
+      setStatus("Invalid URL");
+      return;
+    }
+
+    ipcRenderer.invoke("browser:open-external", safeUrl);
+  }, true);
+
+  deviceSelect?.addEventListener("change", (event) => {
+    stop(event);
+
+    if (lastLoadedUrl) {
+      renderElectronBrowserShell(lastLoadedUrl);
+
+      requestAnimationFrame(() => {
+        ipcRenderer.invoke("browser:set-bounds", getBrowserSlotBounds());
+      });
+    }
+  }, true);
+
+  window.addEventListener("resize", resizeBrowserView);
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      if ($("modalBackdrop")?.classList.contains("active")) {
         closeModal();
+      } else if ($("viewer")?.classList.contains("active")) {
+        closeViewerPanel();
       }
-    },
-    true
-  );
-
-  urlForm?.addEventListener(
-    "submit",
-    (event) => {
-      stop(event);
-      loadUrl();
-    },
-    true
-  );
-
-  loadBtn?.addEventListener(
-    "click",
-    (event) => {
-      stop(event);
-      loadUrl();
-    },
-    true
-  );
-
-  closeViewerBtn?.addEventListener(
-    "click",
-    (event) => {
-      stop(event);
-      closeViewer();
-    },
-    true
-  );
-
-  backBtn?.addEventListener(
-    "click",
-    (event) => {
-      stop(event);
-      ipcRenderer.invoke("browser:back");
-    },
-    true
-  );
-
-  forwardBtn?.addEventListener(
-    "click",
-    (event) => {
-      stop(event);
-      ipcRenderer.invoke("browser:forward");
-    },
-    true
-  );
-
-  reloadBtn?.addEventListener(
-    "click",
-    (event) => {
-      stop(event);
-      ipcRenderer.invoke("browser:reload");
-    },
-    true
-  );
-
-  homeBtn?.addEventListener(
-    "click",
-    (event) => {
-      stop(event);
-      clearViewer();
-    },
-    true
-  );
-
-  openNormalBtn?.addEventListener(
-    "click",
-    (event) => {
-      stop(event);
-
-      const safeUrl = normalizeUrl($("browserUrlInput")?.value || lastLoadedUrl);
-
-      if (!safeUrl) {
-        setStatus("Invalid URL");
-        return;
-      }
-
-      ipcRenderer.invoke("browser:open-external", safeUrl);
-    },
-    true
-  );
-
-  deviceSelect?.addEventListener(
-    "change",
-    (event) => {
-      stop(event);
-
-      if (lastLoadedUrl) {
-        renderElectronBrowserShell(lastLoadedUrl);
-
-        requestAnimationFrame(() => {
-          ipcRenderer.invoke("browser:set-bounds", getBrowserSlotBounds());
-        });
-      }
-    },
-    true
-  );
-
-  window.addEventListener("resize", () => {
-    resizeBrowserView();
-  });
-
-  document.addEventListener(
-    "keydown",
-    (event) => {
-      if (event.key === "Escape") {
-        if ($("modalBackdrop")?.classList.contains("active")) {
-          closeModal();
-        } else if ($("viewer")?.classList.contains("active")) {
-          closeViewer();
-        }
-      }
-    },
-    true
-  );
+    }
+  }, true);
 });
 
 ipcRenderer.on("browser:url-changed", (_, url) => {
   lastLoadedUrl = url;
 
-  const browserUrlInput = $("browserUrlInput");
+  const urlInput = getUrlInput();
 
-  if (browserUrlInput) {
-    browserUrlInput.value = url;
+  if (urlInput) {
+    urlInput.value = url;
   }
 });
 
