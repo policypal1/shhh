@@ -1,0 +1,13 @@
+{
+  "name": "hidden-url-viewer",
+  "version": "1.0.0",
+  "description": "Local hidden URL viewer built with Electron",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron ."
+  },
+  "devDependencies": {
+    "electron": "latest"
+  }
+}
