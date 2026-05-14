@@ -1,0 +1,11 @@
+{
+  "headers": [
+    {
+      "source": "/api/proxy",
+      "headers": [
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+        { "key": "Cache-Control", "value": "no-store" }
+      ]
+    }
+  ]
+}
