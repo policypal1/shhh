@@ -1,6 +1,6 @@
 // /api/proxy.js — Vercel serverless function
-// Fetches a target URL, spoofs a mobile User-Agent, strips headers that block iframing,
-// and rewrites relative URLs so the page renders properly inside the iframe.
+// Fetches a target URL, spoofs a mobile User-Agent, strips iframe-blocking headers,
+// and rewrites links/forms so clicks inside the iframe stay routed through the proxy.
 
 export default async function handler(req, res) {
   const target = req.query.url;
@@ -10,7 +10,6 @@ export default async function handler(req, res) {
     return;
   }
 
-  // Basic safety: only allow http/https
   let targetUrl;
   try {
     targetUrl = new URL(target);
@@ -23,7 +22,6 @@ export default async function handler(req, res) {
     return;
   }
 
-  // Mobile User-Agent (iPhone Safari) — change if you want to spoof Android instead
   const mobileUA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Mobile/15E148 Safari/604.1';
 
   try {
@@ -39,35 +37,71 @@ export default async function handler(req, res) {
     const contentType = upstream.headers.get('content-type') || '';
 
     // Strip headers that would prevent iframing
-    // (We don't forward upstream's X-Frame-Options or frame-ancestors CSP)
     res.setHeader('X-Frame-Options', 'SAMEORIGIN');
-    res.removeHeader && res.removeHeader('Content-Security-Policy');
+    if (res.removeHeader) res.removeHeader('Content-Security-Policy');
 
-    // For HTML, rewrite so relative URLs resolve correctly
     if (contentType.includes('text/html')) {
       let html = await upstream.text();
 
-      // Inject a <base> tag so relative paths resolve to the original domain
-      const baseTag = `<base href="${targetUrl.origin}${targetUrl.pathname.replace(/[^/]*$/, '')}">`;
+      const origin = targetUrl.origin;
+      const basePath = targetUrl.pathname.replace(/[^/]*$/, '');
+
+      // Helper: turn a (possibly relative) URL into an absolute URL using the target page as the base
+      const absolutize = (href) => {
+        if (!href) return null;
+        if (href.startsWith('javascript:') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('#')) {
+          return null; // leave alone
+        }
+        try {
+          return new URL(href, origin + basePath).href;
+        } catch {
+          return null;
+        }
+      };
+
+      // Inject <base> so images, CSS, scripts (non-anchor URLs) resolve from the real origin.
+      // We rewrite anchors and forms BELOW to go through the proxy.
+      const baseTag = `<base href="${origin}${basePath}">`;
       if (/<head[^>]*>/i.test(html)) {
-        html = html.replace(/<head[^>]*>/i, (match) => match + baseTag);
+        html = html.replace(/<head[^>]*>/i, (m) => m + baseTag);
       } else {
         html = baseTag + html;
       }
 
-      // Strip any inline CSP meta tags that would block resources
+      // Remove inline CSP meta tags that could block resources
       html = html.replace(/<meta\s+http-equiv=["']Content-Security-Policy["'][^>]*>/gi, '');
 
-      // Strip frame-busting scripts (basic — catches the common patterns)
+      // Strip basic frame-busting scripts
       html = html.replace(/if\s*\(\s*(?:self|window)\s*!==?\s*(?:top|parent)\s*\)[^;{]*[;{]/gi, '/* frame-bust removed */');
+
+      // Rewrite <a href="..."> to route through the proxy
+      html = html.replace(/<a\b([^>]*?)\shref=(["'])([^"']+)\2/gi, (match, attrs, quote, href) => {
+        const abs = absolutize(href);
+        if (!abs) return match;
+        const proxied = '/api/proxy?url=' + encodeURIComponent(abs);
+        return `<a${attrs} href=${quote}${proxied}${quote}`;
+      });
+
+      // Rewrite <form action="..."> to route through the proxy
+      html = html.replace(/<form\b([^>]*?)\saction=(["'])([^"']+)\2/gi, (match, attrs, quote, action) => {
+        const abs = absolutize(action);
+        if (!abs) return match;
+        const proxied = '/api/proxy?url=' + encodeURIComponent(abs);
+        return `<form${attrs} action=${quote}${proxied}${quote}`;
+      });
+
+      // Forms with no action (submit to current URL) need an action added pointing back to current proxied URL
+      const currentProxied = '/api/proxy?url=' + encodeURIComponent(targetUrl.href);
+      html = html.replace(/<form\b((?:(?!action=)[^>])*?)>/gi, (match, attrs) => {
+        return `<form${attrs} action="${currentProxied}">`;
+      });
 
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
       res.status(upstream.status).send(html);
       return;
     }
 
-    // Non-HTML: pass through as-is (images, CSS, etc. won't normally hit here
-    // since the <base> tag sends those requests directly to the origin server)
+    // Non-HTML: pass through
     res.setHeader('Content-Type', contentType || 'application/octet-stream');
     const buffer = Buffer.from(await upstream.arrayBuffer());
     res.status(upstream.status).send(buffer);
