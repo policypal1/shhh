@@ -849,6 +849,23 @@
   }
 
 
+
+  #electronBrowserSlot {
+    width: 100%;
+    flex: 1;
+    border: none;
+    border-radius: 22px;
+    background: #fff;
+    overflow: hidden;
+  }
+
+  .empty-state code, .viewer-note code {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 4px;
+    padding: 2px 5px;
+  }
+
   @media (max-width: 960px) {
     .layout { grid-template-columns: 1fr; }
     .related-grid { grid-template-columns: 1fr; }
@@ -1255,7 +1272,6 @@
 
   let clickCount = 0;
   let clickTimer = null;
-  let browserFrame = null;
   let lastLoadedUrl = '';
 
   const trigger = document.getElementById('trigger');
@@ -1279,66 +1295,7 @@
   const viewerStage = document.getElementById('viewerStage');
   const browserStatus = document.getElementById('browserStatus');
 
-  trigger.addEventListener('click', (event) => {
-    event.preventDefault();
-
-    clickCount++;
-    clearTimeout(clickTimer);
-
-    clickTimer = setTimeout(() => {
-      clickCount = 0;
-    }, 3000);
-
-    if (clickCount >= 5) {
-      clickCount = 0;
-      openModal();
-    }
-  });
-
-  function openModal() {
-    modalBackdrop.classList.add('active');
-    pwInput.value = '';
-    pwError.textContent = '';
-    setTimeout(() => pwInput.focus(), 50);
-  }
-
-  function closeModal() {
-    modalBackdrop.classList.remove('active');
-  }
-
-  function openViewer() {
-    viewer.classList.add('active');
-    viewer.setAttribute('aria-hidden', 'false');
-    setTimeout(() => browserUrlInput.focus(), 50);
-  }
-
-  function closePrivateViewer() {
-    viewer.classList.remove('active');
-    viewer.setAttribute('aria-hidden', 'true');
-  }
-
-  pwSubmit.addEventListener('click', checkPassword);
-
-  pwInput.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') checkPassword();
-  });
-
-  pwCancel.addEventListener('click', closeModal);
-
-  modalBackdrop.addEventListener('click', (event) => {
-    if (event.target === modalBackdrop) closeModal();
-  });
-
-  function checkPassword() {
-    if (pwInput.value === ACCESS_CODE) {
-      closeModal();
-      openViewer();
-    } else {
-      pwError.textContent = 'Incorrect code.';
-      pwInput.value = '';
-      pwInput.focus();
-    }
-  }
+  const isElectronMode = Boolean(window.electronBrowser);
 
   function setStatus(message) {
     browserStatus.textContent = message;
@@ -1357,7 +1314,7 @@
   }
 
   function normalizeUrl(rawValue) {
-    let value = rawValue.trim();
+    let value = String(rawValue || '').trim();
 
     if (!value) return null;
 
@@ -1380,10 +1337,35 @@
 
   function getSelectedDeviceSize() {
     const [width, height] = deviceSelect.value.split('x').map(Number);
-    return { width, height };
+    return {
+      width: width || 1440,
+      height: height || 900
+    };
   }
 
-  function renderBrowserFrame(url) {
+  function getBrowserSlotBounds() {
+    const slot = document.getElementById('electronBrowserSlot');
+
+    if (!slot) {
+      return {
+        x: -10000,
+        y: -10000,
+        width: 1,
+        height: 1
+      };
+    }
+
+    const rect = slot.getBoundingClientRect();
+
+    return {
+      x: Math.round(rect.left),
+      y: Math.round(rect.top),
+      width: Math.max(1, Math.round(rect.width)),
+      height: Math.max(1, Math.round(rect.height))
+    };
+  }
+
+  function renderElectronShell(url) {
     const { width, height } = getSelectedDeviceSize();
 
     lastLoadedUrl = url;
@@ -1398,25 +1380,13 @@
           <span class="device-dot"></span>
           <span class="device-title">${escapeHtml(url)}</span>
         </div>
-        <iframe
-          id="browserFrame"
-          title="Private URL viewer"
-          src="${escapeHtml(url)}"
-          sandbox="allow-scripts allow-forms allow-same-origin allow-popups"
-          referrerpolicy="no-referrer"
-        ></iframe>
+        <div id="electronBrowserSlot"></div>
       </div>
-      <div class="viewer-note">Some websites block iframe loading. That is normal and cannot be fixed with only index.html.</div>
+      <div class="viewer-note">Electron browser mode. This is not an iframe, so iframe-blocked sites can load normally.</div>
     `;
-
-    browserFrame = document.getElementById('browserFrame');
-
-    browserFrame.addEventListener('load', () => {
-      setStatus('Ready');
-    });
   }
 
-  function loadUrl() {
+  async function loadUrl() {
     const safeUrl = normalizeUrl(browserUrlInput.value);
 
     if (!safeUrl) {
@@ -1425,11 +1395,40 @@
       return;
     }
 
-    renderBrowserFrame(safeUrl);
+    if (!isElectronMode) {
+      setStatus('Run with npm start');
+      viewerStage.innerHTML = `
+        <div class="empty-state">
+          <strong>Electron required</strong><br>
+          You opened this in a normal browser. Close this and run <code>npm start</code> from the project folder.
+        </div>
+        <div class="viewer-note">A normal Chrome tab can only use iframes, and sites like ChatGPT/Instagram block that.</div>
+      `;
+      return;
+    }
+
+    renderElectronShell(safeUrl);
+
+    requestAnimationFrame(async () => {
+      const result = await window.electronBrowser.loadUrl(safeUrl, getBrowserSlotBounds());
+
+      if (!result.success) {
+        setStatus(result.error || 'Could not load');
+        return;
+      }
+
+      lastLoadedUrl = result.url;
+      browserUrlInput.value = result.url;
+      setStatus('Ready');
+    });
   }
 
-  function clearViewer() {
-    browserFrame = null;
+  async function resizeElectronView() {
+    if (!isElectronMode || !lastLoadedUrl) return;
+    await window.electronBrowser.setBounds(getBrowserSlotBounds());
+  }
+
+  async function clearViewer() {
     lastLoadedUrl = '';
     browserUrlInput.value = '';
     setStatus('Ready');
@@ -1437,11 +1436,83 @@
     viewerStage.innerHTML = `
       <div class="empty-state">
         <strong>Private URL Viewer</strong>
-        Paste a normal website link above and press Enter. Some websites will refuse to load inside a frame, which is normal browser security.
+        Paste a normal website link above and press Enter.
       </div>
-      <div class="viewer-note">This is a local hidden viewer, not a filter bypass or untrackable browser.</div>
+      <div class="viewer-note">Run this through Electron with <code>npm start</code>. Do not use it to bypass school, work, or site restrictions.</div>
     `;
+
+    if (isElectronMode) {
+      await window.electronBrowser.hide();
+    }
   }
+
+  function openModal() {
+    modalBackdrop.classList.add('active');
+    pwInput.value = '';
+    pwError.textContent = '';
+    setTimeout(() => pwInput.focus(), 50);
+  }
+
+  function closeModal() {
+    modalBackdrop.classList.remove('active');
+  }
+
+  function openViewer() {
+    viewer.classList.add('active');
+    viewer.setAttribute('aria-hidden', 'false');
+    setTimeout(() => {
+      browserUrlInput.focus();
+      resizeElectronView();
+    }, 75);
+  }
+
+  async function closePrivateViewer() {
+    viewer.classList.remove('active');
+    viewer.setAttribute('aria-hidden', 'true');
+
+    if (isElectronMode) {
+      await window.electronBrowser.hide();
+    }
+  }
+
+  function checkPassword() {
+    if (pwInput.value === ACCESS_CODE) {
+      closeModal();
+      openViewer();
+    } else {
+      pwError.textContent = 'Incorrect code.';
+      pwInput.value = '';
+      pwInput.focus();
+    }
+  }
+
+  trigger.addEventListener('click', (event) => {
+    event.preventDefault();
+
+    clickCount++;
+    clearTimeout(clickTimer);
+
+    clickTimer = setTimeout(() => {
+      clickCount = 0;
+    }, 3000);
+
+    if (clickCount >= 5) {
+      clickCount = 0;
+      openModal();
+    }
+  });
+
+  pwSubmit.addEventListener('click', checkPassword);
+
+  pwInput.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') checkPassword();
+  });
+
+  pwCancel.addEventListener('click', closeModal);
+
+  modalBackdrop.addEventListener('click', (event) => {
+    if (event.target === modalBackdrop) closeModal();
+  });
 
   urlForm.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -1449,45 +1520,27 @@
   });
 
   loadBtn.addEventListener('click', loadUrl);
-
   closeViewer.addEventListener('click', closePrivateViewer);
 
-  backBtn.addEventListener('click', () => {
-    if (!browserFrame) return;
-
-    try {
-      browserFrame.contentWindow.history.back();
-      setStatus('Back');
-    } catch {
-      setStatus('Blocked');
-    }
+  backBtn.addEventListener('click', async () => {
+    if (!isElectronMode) return setStatus('Electron required');
+    await window.electronBrowser.back();
   });
 
-  forwardBtn.addEventListener('click', () => {
-    if (!browserFrame) return;
-
-    try {
-      browserFrame.contentWindow.history.forward();
-      setStatus('Forward');
-    } catch {
-      setStatus('Blocked');
-    }
+  forwardBtn.addEventListener('click', async () => {
+    if (!isElectronMode) return setStatus('Electron required');
+    await window.electronBrowser.forward();
   });
 
-  reloadBtn.addEventListener('click', () => {
-    if (!browserFrame || !lastLoadedUrl) return;
-
-    try {
-      browserFrame.src = browserFrame.src;
-      setStatus('Reloading');
-    } catch {
-      renderBrowserFrame(lastLoadedUrl);
-    }
+  reloadBtn.addEventListener('click', async () => {
+    if (!isElectronMode || !lastLoadedUrl) return;
+    setStatus('Reloading');
+    await window.electronBrowser.reload();
   });
 
   homeBtn.addEventListener('click', clearViewer);
 
-  openNormalBtn.addEventListener('click', () => {
+  openNormalBtn.addEventListener('click', async () => {
     const safeUrl = normalizeUrl(browserUrlInput.value || lastLoadedUrl);
 
     if (!safeUrl) {
@@ -1495,16 +1548,25 @@
       return;
     }
 
-    window.open(safeUrl, '_blank', 'noopener,noreferrer');
+    if (isElectronMode) {
+      await window.electronBrowser.openExternal(safeUrl);
+    } else {
+      window.open(safeUrl, '_blank', 'noopener,noreferrer');
+    }
   });
 
   deviceSelect.addEventListener('change', () => {
     const safeUrl = normalizeUrl(browserUrlInput.value || lastLoadedUrl);
 
-    if (safeUrl) {
-      renderBrowserFrame(safeUrl);
+    if (safeUrl && isElectronMode) {
+      renderElectronShell(safeUrl);
+      requestAnimationFrame(() => {
+        window.electronBrowser.setBounds(getBrowserSlotBounds());
+      });
     }
   });
+
+  window.addEventListener('resize', resizeElectronView);
 
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
@@ -1512,7 +1574,19 @@
       else if (viewer.classList.contains('active')) closePrivateViewer();
     }
   });
+
+  if (isElectronMode) {
+    window.electronBrowser.onUrlChanged((url) => {
+      lastLoadedUrl = url;
+      browserUrlInput.value = url;
+    });
+
+    window.electronBrowser.onStatus((status) => {
+      setStatus(status);
+    });
+  }
 </script>
+
 
 
 </body>
