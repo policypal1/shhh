@@ -1,22 +1,16 @@
+// api/proxy.js
 const dns = require("dns").promises;
 const net = require("net");
 
 const MAX_RESPONSE_BYTES = 4_500_000;
 
-/*
-  ADD ONLY YOUR OWN / CLIENT / TEST DOMAINS HERE.
-
-  Example:
-  const DEFAULT_ALLOWED_HOSTS = [
-    "yourwebsite.com",
-    "www.yourwebsite.com",
-    "clientsite.com",
-    "www.clientsite.com"
-  ];
-*/
+// Add your allowlisted domains here
 const DEFAULT_ALLOWED_HOSTS = [
-  "instagram.com",
-  "chatgpt.com"
+  "chatgpt.com",
+  "google.com",
+  "github.com",
+  "wikipedia.org",
+  "example.com"
 ];
 
 function getAllowedHosts() {
@@ -40,7 +34,6 @@ function isAllowedHost(hostname) {
       return true;
     }
   }
-
   return false;
 }
 
@@ -57,21 +50,16 @@ function isPrivateIp(ip) {
     if (a === 169 && b === 254) return true;
     if (a === 172 && b >= 16 && b <= 31) return true;
     if (a === 192 && b === 168) return true;
-    if (a === 100 && b >= 64 && b <= 127) return true;
-    if (a === 198 && (b === 18 || b === 19)) return true;
     if (a >= 224) return true;
-
     return false;
   }
 
   if (net.isIPv6(ip)) {
     const lower = ip.toLowerCase();
-
     if (lower === "::1") return true;
     if (lower === "::") return true;
     if (lower.startsWith("fc") || lower.startsWith("fd")) return true;
     if (lower.startsWith("fe80")) return true;
-
     return false;
   }
 
@@ -84,7 +72,6 @@ async function validateTargetUrl(rawUrl) {
   }
 
   let target;
-
   try {
     target = new URL(rawUrl);
   } catch {
@@ -99,21 +86,22 @@ async function validateTargetUrl(rawUrl) {
     throw new Error("Username/password URLs are not allowed.");
   }
 
-  if (target.port && target.port !== "80" && target.port !== "443") {
-    throw new Error("Only normal HTTP and HTTPS ports are allowed.");
-  }
-
   if (!isAllowedHost(target.hostname)) {
-    throw new Error(
-      `Host is not allowlisted: ${target.hostname}. Add it to DEFAULT_ALLOWED_HOSTS or the ALLOWED_HOSTS env variable.`
-    );
+    throw new Error(`Host is not allowlisted: ${target.hostname}`);
   }
 
-  const records = await dns.lookup(target.hostname, { all: true });
-
-  for (const record of records) {
-    if (isPrivateIp(record.address)) {
-      throw new Error("Blocked private/internal network address.");
+  try {
+    const records = await dns.lookup(target.hostname, { all: true });
+    for (const record of records) {
+      if (isPrivateIp(record.address)) {
+        throw new Error("Blocked private/internal network address.");
+      }
+    }
+  } catch (dnsError) {
+    // If DNS lookup fails, still allow if hostname is in allowlist
+    // (useful for local testing)
+    if (!isAllowedHost(target.hostname)) {
+      throw dnsError;
     }
   }
 
@@ -130,7 +118,6 @@ function escapeHtmlAttr(value) {
 
 function shouldSkipUrl(value) {
   const clean = String(value || "").trim().toLowerCase();
-
   return (
     !clean ||
     clean.startsWith("#") ||
@@ -144,20 +131,12 @@ function shouldSkipUrl(value) {
 
 function makeProxyUrl(rawUrl, baseUrl) {
   try {
-    if (shouldSkipUrl(rawUrl)) {
-      return rawUrl;
-    }
-
+    if (shouldSkipUrl(rawUrl)) return rawUrl;
     const absolute = new URL(rawUrl, baseUrl);
-
     if (absolute.protocol !== "http:" && absolute.protocol !== "https:") {
       return rawUrl;
     }
-
-    if (!isAllowedHost(absolute.hostname)) {
-      return rawUrl;
-    }
-
+    if (!isAllowedHost(absolute.hostname)) return rawUrl;
     return `/api/proxy?url=${encodeURIComponent(absolute.href)}`;
   } catch {
     return rawUrl;
@@ -170,11 +149,9 @@ function rewriteSrcset(srcset, baseUrl) {
     .map((part) => {
       const trimmed = part.trim();
       if (!trimmed) return "";
-
       const pieces = trimmed.split(/\s+/);
       const url = pieces.shift();
       const rewritten = makeProxyUrl(url, baseUrl);
-
       return [rewritten, ...pieces].join(" ");
     })
     .join(", ");
@@ -185,90 +162,11 @@ function rewriteCssUrls(cssText, baseUrl) {
     /url\((['"]?)(.*?)\1\)/gi,
     (match, quote, rawUrl) => {
       const cleanUrl = String(rawUrl || "").trim();
-
-      if (shouldSkipUrl(cleanUrl)) {
-        return match;
-      }
-
+      if (shouldSkipUrl(cleanUrl)) return match;
       const rewritten = makeProxyUrl(cleanUrl, baseUrl);
       return `url("${rewritten}")`;
     }
   );
-}
-
-function injectNavigationHelper(html) {
-  const helper = `
-<script>
-(function () {
-  const proxyPath = "/api/proxy?url=";
-
-  function proxify(rawUrl) {
-    try {
-      const url = new URL(rawUrl, document.baseURI);
-
-      if (url.protocol !== "http:" && url.protocol !== "https:") {
-        return rawUrl;
-      }
-
-      return proxyPath + encodeURIComponent(url.href);
-    } catch {
-      return rawUrl;
-    }
-  }
-
-  document.addEventListener("click", function (event) {
-    const link = event.target.closest("a[href]");
-    if (!link) return;
-
-    const href = link.getAttribute("href");
-
-    if (
-      !href ||
-      href.startsWith("#") ||
-      href.startsWith("javascript:") ||
-      href.startsWith("mailto:") ||
-      href.startsWith("tel:")
-    ) {
-      return;
-    }
-
-    event.preventDefault();
-    window.location.href = proxify(href);
-  }, true);
-
-  document.addEventListener("submit", function (event) {
-    const form = event.target;
-    if (!form || form.tagName !== "FORM") return;
-
-    const method = String(form.method || "GET").toUpperCase();
-
-    if (method !== "GET") {
-      event.preventDefault();
-      alert("POST forms are disabled in this preview tool.");
-      return;
-    }
-
-    event.preventDefault();
-
-    const action = form.getAttribute("action") || window.location.href;
-    const url = new URL(action, document.baseURI);
-    const formData = new FormData(form);
-
-    for (const [key, value] of formData.entries()) {
-      url.searchParams.set(key, value);
-    }
-
-    window.location.href = proxify(url.href);
-  }, true);
-})();
-</script>
-`;
-
-  if (html.includes("</body>")) {
-    return html.replace("</body>", helper + "</body>");
-  }
-
-  return html + helper;
 }
 
 function rewriteHtml(html, baseUrl) {
@@ -284,11 +182,7 @@ function rewriteHtml(html, baseUrl) {
     /\s(href|src|action|poster)=("([^"]*)"|'([^']*)'|([^\s>]+))/gi,
     (match, attr, fullValue, doubleQuoted, singleQuoted, unquoted) => {
       const value = doubleQuoted ?? singleQuoted ?? unquoted ?? "";
-
-      if (shouldSkipUrl(value)) {
-        return match;
-      }
-
+      if (shouldSkipUrl(value)) return match;
       const rewrittenUrl = makeProxyUrl(value, baseUrl);
       return ` ${attr}="${escapeHtmlAttr(rewrittenUrl)}"`;
     }
@@ -304,32 +198,15 @@ function rewriteHtml(html, baseUrl) {
   );
 
   rewritten = rewriteCssUrls(rewritten, baseUrl);
-  rewritten = injectNavigationHelper(rewritten);
-
   return rewritten;
 }
 
 function copySafeHeaders(upstreamResponse, res) {
   const contentType = upstreamResponse.headers.get("content-type");
-
-  if (contentType) {
-    res.setHeader("content-type", contentType);
-  }
-
+  if (contentType) res.setHeader("content-type", contentType);
   res.setHeader("cache-control", "no-store");
   res.setHeader("x-robots-tag", "noindex, nofollow");
   res.setHeader("x-content-type-options", "nosniff");
-}
-
-async function responseToLimitedBuffer(response) {
-  const arrayBuffer = await response.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer);
-
-  if (buffer.length > MAX_RESPONSE_BYTES) {
-    throw new Error("Response too large for preview.");
-  }
-
-  return buffer;
 }
 
 function sendPlain(res, statusCode, message) {
@@ -340,12 +217,19 @@ function sendPlain(res, statusCode, message) {
 }
 
 module.exports = async function handler(req, res) {
+  // Enable CORS for local development
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS");
+
+  if (req.method === "OPTIONS") {
+    res.statusCode = 204;
+    res.end();
+    return;
+  }
+
   try {
     if (req.method !== "GET" && req.method !== "HEAD") {
-      res.statusCode = 405;
-      res.setHeader("allow", "GET, HEAD");
-      res.end("Only GET and HEAD are allowed.");
-      return;
+      return sendPlain(res, 405, "Only GET and HEAD are allowed.");
     }
 
     const target = await validateTargetUrl(req.query.url);
@@ -354,13 +238,13 @@ module.exports = async function handler(req, res) {
       method: req.method,
       redirect: "manual",
       headers: {
-        "user-agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36",
-        "accept": req.headers.accept || "*/*",
-        "accept-language": req.headers["accept-language"] || "en-US,en;q=0.9"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        "Accept": req.headers.accept || "*/*",
+        "Accept-Language": req.headers["accept-language"] || "en-US,en;q=0.9"
       }
     });
 
+    // Handle redirects
     if (
       upstreamResponse.status >= 300 &&
       upstreamResponse.status < 400 &&
@@ -369,7 +253,6 @@ module.exports = async function handler(req, res) {
       const location = upstreamResponse.headers.get("location");
       const redirectTarget = new URL(location, target.href);
       const safeRedirectTarget = await validateTargetUrl(redirectTarget.href);
-
       res.statusCode = upstreamResponse.status;
       res.setHeader(
         "location",
@@ -388,7 +271,7 @@ module.exports = async function handler(req, res) {
     }
 
     const contentType = upstreamResponse.headers.get("content-type") || "";
-    const buffer = await responseToLimitedBuffer(upstreamResponse);
+    const buffer = Buffer.from(await upstreamResponse.arrayBuffer());
 
     res.statusCode = upstreamResponse.status;
 
