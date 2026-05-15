@@ -244,7 +244,6 @@
       padding: 6px 10px;
       background: #fffaf2;
       white-space: nowrap;
-      cursor: pointer;
     }
 
     .breaking {
@@ -924,7 +923,6 @@
       font-size: 12px;
     }
 
-    /* Modal and Viewer Styles */
     .modal-backdrop {
       display: none;
       position: fixed;
@@ -1009,46 +1007,800 @@
     .modal button:hover { background: #363636; }
     .modal .ghost { background: transparent; color: #bdbdbd; }
 
-    /* Web Viewer Styles */
-    .web-viewer-modal {
+    .viewer {
       display: none;
       position: fixed;
       inset: 0;
-      z-index: 10001;
-      background: rgba(0,0,0,0.92);
-      backdrop-filter: blur(12px);
+      z-index: 9999;
+      background: #111315;
+      color: #e7e7e7;
       flex-direction: column;
-    }
-    .web-viewer-modal.active { display: flex; }
-    
-    .web-viewer-header {
-      background: #1a1a1a;
-      padding: 12px 20px;
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      align-items: center;
-      border-bottom: 1px solid #333;
-    }
-    
-    .web-viewer-header input {
-      flex: 1;
-      min-width: 200px;
-      padding: 10px 14px;
-      background: #2a2a2a;
-      border: 1px solid #444;
-      color: white;
-      border-radius: 8px;
-      font-family: monospace;
-      font-size: 14px;
-    }
-    
-    .web-viewer-header button {
-      padding: 8px 16px;
-      background: #3a3a3a;
-      border: none;
-      color: white;
-      border-radius: 6px;
-      cursor: pointer;
       font-family: var(--sans);
-      font-size
+    }
+
+    .viewer.active { display: flex; }
+
+    .viewer-bar {
+      min-height: 62px;
+      background: #1f2328;
+      border-bottom: 1px solid #343a43;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 10px 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    }
+
+    .viewer-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #d7dce2;
+      font-weight: 800;
+      font-size: 13px;
+      padding-right: 7px;
+      white-space: nowrap;
+    }
+
+    .viewer-brand span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #56d364;
+      box-shadow: 0 0 0 4px rgba(86, 211, 100, 0.13);
+    }
+
+    .browser-controls {
+      display: flex;
+      gap: 6px;
+    }
+
+    .viewer button,
+    .viewer select,
+    .viewer input {
+      border-radius: 9px;
+      border: 1px solid #3a4049;
+      background: #2b3038;
+      color: #e7e7e7;
+      height: 38px;
+      font-family: var(--sans);
+      font-size: 13px;
+    }
+
+    .viewer button {
+      padding: 0 12px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .viewer button:hover { background: #363d47; }
+    .viewer button:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .viewer input[type="text"] {
+      flex: 1;
+      min-width: 160px;
+      background: #121417;
+      border-color: #3a4049;
+      padding: 0 13px;
+      outline: none;
+    }
+
+    .viewer input[type="text"]:focus {
+      border-color: #6b93ff;
+      box-shadow: 0 0 0 3px rgba(107, 147, 255, 0.13);
+    }
+
+    .viewer select { padding: 0 10px; cursor: pointer; }
+
+    .viewer .close-btn {
+      background: #6f2525;
+      border-color: #8e3333;
+    }
+
+    .viewer .close-btn:hover { background: #853030; }
+
+    .viewer-status {
+      color: #9da7b2;
+      font-size: 12px;
+      white-space: nowrap;
+      min-width: 64px;
+    }
+
+    .viewer-stage {
+      flex: 1;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding: 28px;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(73, 89, 131, 0.28), transparent 26rem),
+        radial-gradient(circle at 80% 78%, rgba(130, 74, 47, 0.2), transparent 28rem),
+        #111315;
+    }
+
+    .empty-state {
+      width: min(520px, 100%);
+      text-align: center;
+      color: #aab2bd;
+      border: 1px dashed #3d444f;
+      border-radius: 18px;
+      background: rgba(31, 35, 40, 0.72);
+      padding: 34px;
+    }
+
+    .empty-state strong {
+      display: block;
+      color: #fff;
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .empty-state code {
+      color: #bdd0ff;
+      background: #111417;
+      padding: 2px 6px;
+      border-radius: 5px;
+    }
+
+    .device-frame {
+      background: #08090b;
+      border: 1px solid #343944;
+      border-radius: 34px;
+      padding: 14px;
+      box-shadow: 0 28px 80px rgba(0,0,0,0.48);
+      transition: width 0.18s ease, height 0.18s ease;
+      max-width: calc(100vw - 58px);
+      max-height: calc(100vh - 138px);
+    }
+
+    .device-topbar {
+      height: 34px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 0 10px;
+      color: #8e98a4;
+      font-size: 11px;
+      overflow: hidden;
+    }
+
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #555d69; flex: 0 0 auto; }
+    .frame-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-left: 5px; }
+
+    .device-screen {
+      width: 100%;
+      height: calc(100% - 34px);
+      overflow: hidden;
+      border-radius: 22px;
+      background: #fff;
+      border: 1px solid #222832;
+    }
+
+    .device-screen iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      background: #fff;
+    }
+
+    .viewer-help {
+      color: #7d8793;
+      font-size: 12px;
+      text-align: center;
+      max-width: 720px;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 1050px) {
+      .masthead-grid { grid-template-columns: 1fr; text-align: center; }
+      .issue-card, .weather-card { text-align: center; }
+      .masthead-rule { flex-direction: column; }
+      .layout { grid-template-columns: 1fr; }
+      aside { position: static; }
+      .related-grid { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      body { font-size: 16px; }
+      .top-line-inner, .top-line-left, .top-line-right { flex-wrap: wrap; justify-content: center; }
+      .brand h1 { font-size: 42px; }
+      .article-title { font-size: 40px; }
+      .label-row, .byline-strip { grid-template-columns: 1fr; display: grid; }
+      .read-meta { text-align: left; }
+      article { padding: 24px 18px; }
+      .viewer-bar { flex-wrap: wrap; }
+      .viewer-brand { width: 100%; }
+      .viewer input[type="text"] { min-width: 100%; order: 3; }
+      .viewer-status { margin-left: auto; }
+      .footer-inner { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; }
+      .author-box { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-line">
+    <div class="top-line-inner">
+      <div class="top-line-left">
+        <span><span class="live-dot"></span>Subscriber Edition</span>
+        <span class="dim">Friday, May 15, 2026</span>
+        <span class="dim">Volume LXIV · No. 19</span>
+      </div>
+      <div class="top-line-right">
+        <a href="#">Archive Index</a>
+        <a href="#">Newsletters</a>
+        <a href="#">Institutional Access</a>
+      </div>
+    </div>
+  </div>
+
+  <header class="masthead">
+    <div class="masthead-inner">
+      <div class="masthead-grid">
+        <div class="issue-card">
+          <strong>From the Archive Desk</strong>
+          Maritime records, preservation reports, and newly digitized regional collections.
+        </div>
+        <div class="brand">
+          <div class="kicker">Independent Historical Journalism</div>
+          <h1>Historical Archives Quarterly</h1>
+          <div class="tagline">Memoriae Custodes · Guardians of Memory · Est. 1962</div>
+        </div>
+        <div class="weather-card">
+          <strong>Research Notes</strong>
+          Boston Maritime Reading Room open 9:00 AM to 4:30 PM · Reading requests due by noon.
+        </div>
+      </div>
+      <div class="masthead-rule">
+        <span>Long-form history · Primary sources · Preservation reporting</span>
+        <a href="#" class="subscribe-pill">Subscribe · $4/month</a>
+      </div>
+    </div>
+  </header>
+
+  <nav class="main-nav">
+    <div class="nav-inner">
+      <a href="#">Home</a>
+      <a href="#">Maritime</a>
+      <a href="#">Civil War</a>
+      <a href="#">Indigenous History</a>
+      <a href="#">Industrial Age</a>
+      <a href="#">Archaeology</a>
+      <a href="#">Biography</a>
+      <a href="#">Forgotten Places</a>
+      <a href="#">Maps</a>
+      <a href="#">Submit</a>
+      <span class="nav-spacer"></span>
+      <span class="search-chip">Search archive ⌘K</span>
+    </div>
+  </nav>
+
+  <div class="breaking">
+    <div class="breaking-inner">
+      <strong>Editor’s Note</strong>
+      <span>Newly cataloged lighthouse ledgers from the Wexley County Historical Society have been added to our source appendix.</span>
+    </div>
+  </div>
+
+  <div class="breadcrumbs">
+    <a href="#">Home</a><span class="sep">›</span>
+    <a href="#">Maritime</a><span class="sep">›</span>
+    <a href="#">Lighthouses</a><span class="sep">›</span>
+    <span>The Wexley Light</span>
+  </div>
+
+  <main class="layout">
+    <div class="article-card">
+      <article>
+        <div class="label-row">
+          <span class="category-tag">Maritime History · Long Read</span>
+          <div class="article-tools">
+            <span class="tool-pill">Save</span>
+            <span class="tool-pill">Print</span>
+            <span class="tool-pill">Gift Article</span>
+          </div>
+        </div>
+
+        <h2 class="article-title">The Wexley Light: Storm, Sabotage, and the Last Keeper</h2>
+        <p class="deck">A granite tower on a forgotten reach of coast may have saved a Union supply vessel in 1863. The story survives through ledger entries, family letters, and the quiet reputation of one injured sailor who refused to let the lamp go dark.</p>
+
+        <div class="byline-strip">
+          <div class="avatar">EW</div>
+          <div class="byline-main">
+            <div>By <a href="#"><strong>Eleanor Whitcombe</strong></a>, Senior Maritime Historian</div>
+            <div>Updated May 14, 2026 · Originally published March 14, 1987 · Filed from Salem, Massachusetts</div>
+          </div>
+          <div class="read-meta"><strong>14 min read</strong>47 comments · 12,438 views</div>
+        </div>
+
+        <div class="hero-image">
+          <div class="hero-overlay">
+            <span>Digitized from glass plate negative, c. 1898</span>
+            <span>Cape Wexley Mariners’ Society Archive</span>
+          </div>
+        </div>
+        <p class="caption"><strong>Above:</strong> The Cape Wexley lighthouse photographed two years before decommissioning. The keeper’s cottage, since demolished, appears as a low roofline just east of the tower.</p>
+
+        <section class="article-body">
+          <p>Along the windswept cliffs of the northern Atlantic seaboard stands a structure most travelers will never notice. Built in 1834 by the Cape Wexley Mariners’ Society, the lighthouse served as a critical navigational beacon for nearly seventy years before being decommissioned in 1903, a quiet end for a tower that had, on at least one occasion, altered the course of the American Civil War.</p>
+
+          <p>I first encountered the lighthouse not in person, but in a footnote. While researching coastal shipping records at the Boston Maritime Archive in the autumn of 1984, I found a brief mention in the logbook of the U.S.S. <em>Concordia</em>, a Union supply vessel that passed safely through Cape Wexley waters on the night of October 17, 1863. The entry was unremarkable except for one sentence by the watch officer: <em>“Beacon held steady through the storm. Without it we should certainly have been wrecked.”</em><span class="footnote-ref">1</span></p>
+
+          <p>That single observation began a four-decade preoccupation that has now culminated in this account.</p>
+
+          <div class="inline-note"><strong>Archive status:</strong> This article combines public records, private family correspondence, and documents from the Cape Wexley Mariners’ Society. Several ledgers remain partially damaged from the 1971 basement flood.</div>
+
+          <h2>Origins and Construction</h2>
+          <p>The original blueprints, recovered from a flooded basement archive in 1971 by a volunteer team from the Wexley County Historical Society, reveal an unusually ambitious design for its era. The lighthouse was constructed of locally quarried granite and stood forty-two feet tall, with a copper-plated lantern room imported from a Boston foundry operated by Sargent &amp; Whitman.<span class="footnote-ref">2</span></p>
+
+          <p>Records suggest the entire project cost the Mariners’ Society just over three thousand dollars, a remarkable sum for the period. The money was raised through a subscription drive among merchant captains who used the surrounding waters, a fact recorded in a brittle leather-bound ledger now held in the Society’s permanent collection.</p>
+
+          <div class="document-scan">
+            <div class="document-paper">
+              <strong>Extract from Mariners’ Society Ledger, April 1834</strong><br>
+              Received from Capt. Elias W. Marden the sum of six dollars toward the construction and continued maintenance of the Wexley signal light. May the lamp stand where the charts do not suffice.<br><br>
+              <em>Ledger hand attributed to treasurer Abel Hartwick.</em>
+            </div>
+          </div>
+
+          <p>The <span class="secret-trigger" id="trigger">keeper</span> of the lighthouse, a man named Josiah Penn, lived in a small cottage adjacent to the tower. According to letters preserved by his descendants, Penn maintained the beacon faithfully for thirty-one years, riding out three significant hurricanes and one documented attempt at sabotage during the Civil War.</p>
+
+          <p>Penn was, by all available accounts, an unusual man for his time. Born in 1816 to a Quaker family in coastal Massachusetts, he spent his youth as a deckhand aboard whaling vessels before an injury to his left leg ended his seafaring career at the age of twenty-six.</p>
+
+          <div class="pull-quote">
+            “Mr. Penn does not speak unless spoken to, but the lamp has never once gone dark in his keeping. I should rather employ ten such men than a hundred of the chattering sort.”
+            <cite>From a letter by Society treasurer Abel Hartwick, March 1851</cite>
+          </div>
+
+          <h2>The Sabotage Incident of 1863</h2>
+          <p>In the autumn of 1863, two men were reportedly seen attempting to extinguish the lighthouse beacon. Local newspapers described the suspects as Confederate sympathizers operating through a coastal smuggling network based in Norfolk. Their likely goal was to disable the light long enough to lure a Union supply vessel onto the rocks below.<span class="footnote-ref">3</span></p>
+
+          <p>The most detailed account comes from Penn himself, in a letter to his sister dated October 22, 1863. His description is plain, almost reluctant, and appears to avoid any attempt at self-mythologizing.</p>
+
+          <div class="pull-quote">
+            “I heard them in the lower passage near to ten in the evening. I had not lit my own lamp, on account of the storm coming hard, and so they did not know I was in the cottage.”
+            <cite>Josiah Penn to Margaret Penn, October 22, 1863</cite>
+          </div>
+
+          <p>Penn modestly omits a detail recorded in the subsequent investigation: that he climbed the forty-two feet to the lantern room and personally maintained the beacon for the remainder of the storm, despite his injured leg and the possibility that the saboteurs might return.<span class="footnote-ref">4</span></p>
+
+          <h2>Decline and Decommissioning</h2>
+          <p>By the turn of the century, advances in maritime navigation had begun to render the Cape Wexley beacon increasingly obsolete. Telegraph-based weather warnings, a larger electrically powered lighthouse at Marston Point, and the gradual silting of the southern shipping channel all reduced traffic past the old tower to a trickle.</p>
+
+          <p>In 1903, the Mariners’ Society formally decommissioned the structure and sold the surrounding land, though notably not the lighthouse itself, to an estate owned by industrialist Cornelius Bramwell. The terms included an unusual preservation clause requiring that the tower be kept “in such state as it then stands, for so long as it shall continue to stand.”</p>
+
+          <h2>Legacy</h2>
+          <p>For students of maritime history, the Cape Wexley lighthouse represents a quiet but important chapter in American coastal navigation. It never achieved the fame of Cape Hatteras or Portland Head, yet its longevity and the discipline of its sole keeper offer a compelling glimpse into the everyday labor that kept ships alive.</p>
+
+          <p>Josiah Penn is buried in a small plot a quarter mile inland from the lighthouse he served. His headstone, simple granite from the same quarry as the tower itself, bears only his name, his dates, and one line chosen by his sister: <em>He kept the light.</em></p>
+
+          <div class="tags">
+            <span class="tag">Maritime History</span>
+            <span class="tag">Lighthouses</span>
+            <span class="tag">Civil War</span>
+            <span class="tag">Primary Sources</span>
+            <span class="tag">New England</span>
+            <span class="tag">Preservation</span>
+          </div>
+
+          <div class="author-box">
+            <div class="avatar">EW</div>
+            <div>
+              <h3>About Eleanor Whitcombe</h3>
+              <p>Eleanor Whitcombe is a retired archivist and founding curator of the Whitcombe Library of Coastal History in Salem, Massachusetts. She has contributed to Historical Archives Quarterly since 1979 and is the author of three books on maritime preservation.</p>
+            </div>
+          </div>
+
+          <div class="source-list">
+            <h3>Footnotes &amp; Sources</h3>
+            <ol>
+              <li>U.S.S. <em>Concordia</em>, ship’s log, October 17, 1863. Boston Maritime Archive, Collection 14-B, Folio 22.</li>
+              <li>Sargent &amp; Whitman Foundry, invoice ledger, March 1834. Massachusetts Historical Society, Industrial Records Collection.</li>
+              <li>“Disturbance at the Wexley Light,” <em>The Coastal Sentinel</em>, October 24, 1863, p. 3.</li>
+              <li>Investigation report, Wexley County Sheriff’s Office, October 28, 1863. Reproduced in Hartwell, J., <em>Coastal Crimes of the Civil War Era</em>.</li>
+            </ol>
+          </div>
+
+          <div class="discussion">
+            <div class="discussion-header">
+              <h3>Reader Discussion</h3>
+              <a href="#">View all 47 comments</a>
+            </div>
+            <div class="comment">
+              <div class="avatar">RM</div>
+              <div><strong>Robert M., Portsmouth</strong><time>3 days ago</time><p>Wonderful piece. My grandfather was a Marston Point keeper in the 1930s and used to tell stories about the old Wexley light with real reverence.</p></div>
+            </div>
+            <div class="comment">
+              <div class="avatar">SP</div>
+              <div><strong>Sarah Penn-Hollister</strong><time>1 week ago</time><p>I am a descendant of Josiah Penn and have been waiting decades for someone to tell this story properly. The detail about the musket is correct; we still have it in the family.</p></div>
+            </div>
+            <div class="comment">
+              <div class="avatar">DK</div>
+              <div><strong>Dr. Daniel Kessler, UMass Maritime</strong><time>2 weeks ago</time><p>Excellent research as always. The distinction between Sargent &amp; Whitman and Sargent &amp; Whitley is especially useful here.</p></div>
+            </div>
+          </div>
+        </section>
+      </article>
+    </div>
+
+    <aside>
+      <div class="side-card">
+        <div class="side-card-inner">
+          <h3 class="side-title">Most Read This Week</h3>
+          <div class="most-item"><div class="most-num">1</div><div><a href="#">The Lost Mining Camps of the Bitterroot Range</a><span>Industrial West · 17 min</span></div></div>
+          <div class="most-item"><div class="most-num">2</div><div><a href="#">What the Hartford Letters Tell Us About Reconstruction</a><span>Civil War · 12 min</span></div></div>
+          <div class="most-item"><div class="most-num">3</div><div><a href="#">A Brief History of the American Lifesaving Service</a><span>Maritime · 9 min</span></div></div>
+          <div class="most-item"><div class="most-num">4</div><div><a href="#">The Wexley Light: Storm and Sabotage</a><span>Lighthouses · 14 min</span></div></div>
+          <div class="most-item"><div class="most-num">5</div><div><a href="#">When the Erie Canal Froze: The Winter of 1856</a><span>Infrastructure · 8 min</span></div></div>
+        </div>
+      </div>
+
+      <div class="side-card newsletter">
+        <div class="side-card-inner">
+          <h3 class="side-title" style="border-color:rgba(255,255,255,0.35);">The Weekly Dispatch</h3>
+          <p>One long-form historical essay, preservation note, and source highlight every Sunday morning.</p>
+          <input type="email" placeholder="you@example.com" />
+          <button>Subscribe</button>
+        </div>
+      </div>
+
+      <div class="side-card ad-unit">
+        <div class="ad-label">Sponsored</div>
+        <div class="ad-art"><div><strong>The Lamp and the Lantern</strong><span>Now in paperback from Northshore Press</span></div></div>
+      </div>
+
+      <div class="side-card event-list">
+        <div class="side-card-inner">
+          <h3 class="side-title">Upcoming Events</h3>
+          <p><strong>June 8 ·</strong> Lecture: “Lighthouses of the North Atlantic” at Boston Public Library, 6 PM.</p>
+          <p><strong>June 22 ·</strong> Annual HAQ Subscribers’ Symposium in Cambridge, MA.</p>
+          <p><strong>July 11 ·</strong> Archive Tour: Whitcombe Library, Salem, MA.</p>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <section class="related">
+    <h2 class="section-heading">More from Maritime History</h2>
+    <div class="related-grid">
+      <a class="related-card" href="#"><div class="related-thumb"></div><div class="related-body"><small>Lighthouses</small><h3>The Last Keeper of Marston Point</h3><p>For forty-one years, Hiram Bellweather tended a light no one had asked him to keep.</p></div></a>
+      <a class="related-card" href="#"><div class="related-thumb"></div><div class="related-body"><small>Civil War</small><h3>The Confederate Smuggling Networks of New England</h3><p>A surprising number of southern sympathizers operated quietly in northern coastal towns.</p></div></a>
+      <a class="related-card" href="#"><div class="related-thumb"></div><div class="related-body"><small>Shipwrecks</small><h3>What Sank the Concordia, Really?</h3><p>Three years after her brush with disaster off Cape Wexley, the ship’s final voyage remains contested.</p></div></a>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">Historical Archives Quarterly</div>
+        <p>Independent historical journalism since 1962. Reader-supported, advertising-light, and committed to careful work with primary sources.</p>
+      </div>
+      <div><h4>Sections</h4><ul><li><a href="#">Maritime</a></li><li><a href="#">Civil War</a></li><li><a href="#">Archaeology</a></li><li><a href="#">Biography</a></li></ul></div>
+      <div><h4>About</h4><ul><li><a href="#">Editorial Standards</a></li><li><a href="#">Contributors</a></li><li><a href="#">Submissions</a></li><li><a href="#">Contact</a></li></ul></div>
+      <div><h4>Support</h4><ul><li><a href="#">Subscribe</a></li><li><a href="#">Donate</a></li><li><a href="#">Institutional Access</a></li><li><a href="#">Gift Subscription</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 1962–2026 Historical Archives Quarterly · ISSN 0742-3819</span>
+      <span>Privacy · Terms · RSS</span>
+    </div>
+  </footer>
+
+  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="accessTitle">
+      <h3 id="accessTitle">Restricted Research Console</h3>
+      <p>Enter the four-digit archive access code.</p>
+      <input type="password" id="pwInput" maxlength="4" inputmode="numeric" autocomplete="off" aria-label="Access code" />
+      <div class="error" id="pwError"></div>
+      <div class="modal-actions">
+        <button id="pwSubmit">Unlock</button>
+        <button id="pwCancel" class="ghost">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="viewer" id="viewer" aria-hidden="true">
+    <div class="viewer-bar">
+      <div class="viewer-brand"><span></span>Archive Preview Lab</div>
+      <div class="browser-controls">
+        <button id="backBtn" title="Back">←</button>
+        <button id="forwardBtn" title="Forward">→</button>
+        <button id="refreshBtn" title="Refresh">↻</button>
+      </div>
+      <input type="text" id="urlInput" placeholder="Paste an allowlisted URL, like https://example.com" autocomplete="off" />
+      <select id="deviceSelect" aria-label="Device size">
+        <option value="375x667">iPhone SE</option>
+        <option value="390x844" selected>iPhone 14</option>
+        <option value="430x932">iPhone 15 Pro Max</option>
+        <option value="412x915">Pixel 7</option>
+        <option value="360x800">Galaxy S22</option>
+        <option value="768x1024">iPad</option>
+        <option value="1024x768">iPad Landscape</option>
+        <option value="1440x900">Desktop</option>
+      </select>
+      <button id="loadBtn">Load</button>
+      <button id="openOriginalBtn">Open Original</button>
+      <span class="viewer-status" id="viewerStatus">Ready</span>
+      <button class="close-btn" id="closeViewer">Close</button>
+    </div>
+    <div class="viewer-stage" id="viewerStage">
+      <div class="empty-state">
+        <strong>Allowlisted Site Preview</strong>
+        Paste a public test URL that you added to <code>ALLOWED_HOSTS</code> in <code>api/proxy.js</code>.
+      </div>
+      <div class="viewer-help">This viewer is for owned/client/test websites. It depends on your Vercel <code>/api/proxy</code> route and will not load domains that are not allowlisted in the backend.</div>
+    </div>
+  </div>
+
+  <script>
+    let clickCount = 0;
+    let clickTimer = null;
+    let browserHistory = [];
+    let browserIndex = -1;
+    let currentUrl = "";
+
+    const ACCESS_CODE = "1111";
+
+    const trigger = document.getElementById("trigger");
+    const modalBackdrop = document.getElementById("modalBackdrop");
+    const pwInput = document.getElementById("pwInput");
+    const pwError = document.getElementById("pwError");
+    const pwSubmit = document.getElementById("pwSubmit");
+    const pwCancel = document.getElementById("pwCancel");
+    const viewer = document.getElementById("viewer");
+    const urlInput = document.getElementById("urlInput");
+    const deviceSelect = document.getElementById("deviceSelect");
+    const loadBtn = document.getElementById("loadBtn");
+    const closeViewer = document.getElementById("closeViewer");
+    const viewerStage = document.getElementById("viewerStage");
+    const viewerStatus = document.getElementById("viewerStatus");
+    const backBtn = document.getElementById("backBtn");
+    const forwardBtn = document.getElementById("forwardBtn");
+    const refreshBtn = document.getElementById("refreshBtn");
+    const openOriginalBtn = document.getElementById("openOriginalBtn");
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, function (character) {
+        return {
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#039;"
+        }[character];
+      });
+    }
+
+    function setStatus(message) {
+      viewerStatus.textContent = message;
+    }
+
+    function normalizeUrl(value) {
+      let url = String(value || "").trim();
+      if (!url) return null;
+      if (!/^https?:\/\//i.test(url)) url = "https://" + url;
+
+      try {
+        const parsed = new URL(url);
+        if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return null;
+        return parsed.href;
+      } catch {
+        return null;
+      }
+    }
+
+    function getProxyUrl(url) {
+      return "/api/proxy?url=" + encodeURIComponent(url);
+    }
+
+    function getDeviceSize() {
+      const value = deviceSelect.value || "390x844";
+      const parts = value.split("x").map(Number);
+      return {
+        width: parts[0] || 390,
+        height: parts[1] || 844
+      };
+    }
+
+    function updateButtons() {
+      backBtn.disabled = browserIndex <= 0;
+      forwardBtn.disabled = browserIndex >= browserHistory.length - 1;
+      refreshBtn.disabled = !currentUrl;
+      openOriginalBtn.disabled = !currentUrl;
+    }
+
+    function pushHistory(url) {
+      if (browserHistory[browserIndex] === url) return;
+      browserHistory = browserHistory.slice(0, browserIndex + 1);
+      browserHistory.push(url);
+      browserIndex = browserHistory.length - 1;
+      updateButtons();
+    }
+
+    function syncFromFrame(frame, shouldPushNavigation) {
+      try {
+        const frameUrl = new URL(frame.contentWindow.location.href);
+        const target = frameUrl.searchParams.get("url");
+
+        if (target && target !== currentUrl) {
+          currentUrl = target;
+          urlInput.value = target;
+          if (shouldPushNavigation) pushHistory(target);
+        }
+      } catch {
+        // The proxy usually keeps the iframe same-origin, but this prevents errors if a page escapes access.
+      }
+    }
+
+    function renderFrame(url, options = {}) {
+      const safeUrl = normalizeUrl(url);
+      const shouldPush = options.push !== false;
+      const shouldTrackFrameNavigation = options.trackFrameNavigation !== false;
+
+      if (!safeUrl) {
+        setStatus("Invalid URL");
+        urlInput.focus();
+        return;
+      }
+
+      const size = getDeviceSize();
+      const proxyUrl = getProxyUrl(safeUrl);
+
+      currentUrl = safeUrl;
+      urlInput.value = safeUrl;
+      if (shouldPush) pushHistory(safeUrl);
+      updateButtons();
+      setStatus("Loading...");
+
+      viewerStage.innerHTML = `
+        <div class="device-frame" style="width:${size.width + 30}px;height:${size.height + 64}px;">
+          <div class="device-topbar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="frame-title">${escapeHtml(safeUrl)}</span>
+          </div>
+          <div class="device-screen">
+            <iframe
+              id="previewFrame"
+              title="Allowlisted website preview"
+              src="${escapeHtml(proxyUrl)}"
+              sandbox="allow-scripts allow-forms allow-same-origin allow-popups allow-top-navigation-by-user-activation"
+            ></iframe>
+          </div>
+        </div>
+        <div class="viewer-help">Interactive preview through your allowlisted <code>/api/proxy</code> route. Heavy JavaScript apps and login-only sites may not behave like a full browser.</div>
+      `;
+
+      const frame = document.getElementById("previewFrame");
+
+      frame.addEventListener("load", function () {
+        syncFromFrame(frame, shouldTrackFrameNavigation);
+        setStatus("Ready");
+        updateButtons();
+      });
+
+      frame.addEventListener("error", function () {
+        setStatus("Load error");
+      });
+    }
+
+    function loadUrl() {
+      renderFrame(urlInput.value, { push: true, trackFrameNavigation: true });
+    }
+
+    function goBack() {
+      if (browserIndex <= 0) return;
+      browserIndex--;
+      renderFrame(browserHistory[browserIndex], { push: false, trackFrameNavigation: false });
+    }
+
+    function goForward() {
+      if (browserIndex >= browserHistory.length - 1) return;
+      browserIndex++;
+      renderFrame(browserHistory[browserIndex], { push: false, trackFrameNavigation: false });
+    }
+
+    function refreshFrame() {
+      if (!currentUrl) return;
+      renderFrame(currentUrl, { push: false, trackFrameNavigation: true });
+    }
+
+    function openOriginal() {
+      const safeUrl = normalizeUrl(urlInput.value || currentUrl);
+      if (!safeUrl) {
+        setStatus("Invalid URL");
+        return;
+      }
+      window.open(safeUrl, "_blank", "noopener,noreferrer");
+    }
+
+    function openModal() {
+      modalBackdrop.classList.add("active");
+      modalBackdrop.setAttribute("aria-hidden", "false");
+      pwInput.value = "";
+      pwError.textContent = "";
+      setTimeout(function () { pwInput.focus(); }, 60);
+    }
+
+    function closeModal() {
+      modalBackdrop.classList.remove("active");
+      modalBackdrop.setAttribute("aria-hidden", "true");
+    }
+
+    function openViewer() {
+      viewer.classList.add("active");
+      viewer.setAttribute("aria-hidden", "false");
+      setTimeout(function () { urlInput.focus(); }, 60);
+      updateButtons();
+    }
+
+    function closeViewerPanel() {
+      viewer.classList.remove("active");
+      viewer.setAttribute("aria-hidden", "true");
+    }
+
+    function checkPassword() {
+      if (pwInput.value === ACCESS_CODE) {
+        closeModal();
+        openViewer();
+      } else {
+        pwError.textContent = "Incorrect code.";
+        pwInput.value = "";
+        pwInput.focus();
+      }
+    }
+
+    trigger.addEventListener("click", function (event) {
+      event.preventDefault();
+      clickCount++;
+      clearTimeout(clickTimer);
+
+      clickTimer = setTimeout(function () {
+        clickCount = 0;
+      }, 3000);
+
+      if (clickCount >= 5) {
+        clickCount = 0;
+        openModal();
+      }
+    });
+
+    pwSubmit.addEventListener("click", checkPassword);
+    pwCancel.addEventListener("click", closeModal);
+
+    pwInput.addEventListener("keydown", function (event) {
+      if (event.key === "Enter") checkPassword();
+    });
+
+    modalBackdrop.addEventListener("click", function (event) {
+      if (event.target === modalBackdrop) closeModal();
+    });
+
+    loadBtn.addEventListener("click", loadUrl);
+    backBtn.addEventListener("click", goBack);
+    forwardBtn.addEventListener("click", goForward);
+    refreshBtn.addEventListener("click", refreshFrame);
+    openOriginalBtn.addEventListener("click", openOriginal);
+    closeViewer.addEventListener("click", closeViewerPanel);
+
+    urlInput.addEventListener("keydown", function (event) {
+      if (event.key === "Enter") loadUrl();
+    });
+
+    deviceSelect.addEventListener("change", function () {
+      if (currentUrl) renderFrame(currentUrl, { push: false, trackFrameNavigation: true });
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key !== "Escape") return;
+      if (modalBackdrop.classList.contains("active")) closeModal();
+      else if (viewer.classList.contains("active")) closeViewerPanel();
+    });
+
+    updateButtons();
+  </script>
+</body>
+</html>
