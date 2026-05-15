@@ -1,1593 +1,1806 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The Forgotten Lighthouse of Cape Wexley: A Maritime Mystery Rediscovered | Historical Archives Quarterly</title>
-<meta name="description" content="The remarkable story of Josiah Penn and the lighthouse he kept for thirty-one years on the storm-battered coast of Cape Wexley, including the 1863 sabotage incident.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Serif+Pro:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Source Serif Pro', Georgia, serif;
-    background: #f9f6f1;
-    color: #1a1a1a;
-    line-height: 1.65;
-    font-size: 17px;
-  }
-  a { color: #8b1818; text-decoration: none; }
-  a:hover { text-decoration: underline; }
-  img { max-width: 100%; display: block; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Wexley Light: Storm, Sabotage, and the Last Keeper | Historical Archives Quarterly</title>
+  <meta name="description" content="A long-form archival feature on the Cape Wexley lighthouse, keeper Josiah Penn, and the 1863 storm that nearly changed Union supply routes." />
+  <meta name="theme-color" content="#14110e" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Libre+Baskerville:wght@400;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,700;6..72,800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #17120e;
+      --muted: #6f665f;
+      --faint: #9b9188;
+      --paper: #f8f4eb;
+      --sheet: #fffdf8;
+      --line: #ded2c4;
+      --line-dark: #bba995;
+      --red: #8b1f1a;
+      --red-dark: #5f1513;
+      --gold: #b88a44;
+      --charcoal: #171717;
+      --serif: 'Newsreader', 'Libre Baskerville', Georgia, serif;
+      --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
 
-  .top-bar {
-    background: #1a1a1a;
-    color: #ccc;
-    font-size: 12px;
-    padding: 6px 0;
-    font-family: 'Inter', sans-serif;
-  }
-  .top-bar-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .top-bar a { color: #ccc; margin-left: 16px; }
-  .top-bar .date-line { color: #999; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  .masthead {
-    background: #fff;
-    border-bottom: 2px solid #1a1a1a;
-    padding: 28px 20px 20px;
-    text-align: center;
-  }
-  .masthead-inner { max-width: 1200px; margin: 0 auto; position: relative; }
-  .masthead h1 {
-    font-family: 'Playfair Display', serif;
-    font-weight: 900;
-    font-size: 52px;
-    letter-spacing: 1px;
-    color: #1a1a1a;
-    line-height: 1;
-  }
-  .masthead .latin {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 14px;
-    color: #6a5a4a;
-    margin-top: 6px;
-  }
-  .masthead-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 14px;
-    padding-top: 10px;
-    border-top: 1px solid #ddd;
-    font-family: 'Inter', sans-serif;
-    font-size: 11px;
-    color: #666;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-  .subscribe-btn {
-    background: #8b1818;
-    color: #fff !important;
-    padding: 6px 14px;
-    border-radius: 2px;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
+    html { scroll-behavior: smooth; }
 
-  nav.main-nav {
-    background: #fff;
-    border-bottom: 1px solid #ddd;
-    font-family: 'Inter', sans-serif;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .nav-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-    display: flex;
-    align-items: center;
-    height: 44px;
-    overflow-x: auto;
-  }
-  .nav-inner a {
-    color: #333;
-    font-size: 13px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-right: 24px;
-    white-space: nowrap;
-  }
-  .nav-inner a:hover { color: #8b1818; text-decoration: none; }
-  .search-icon {
-    margin-left: auto;
-    color: #666;
-    cursor: pointer;
-  }
+    body {
+      font-family: var(--serif);
+      background:
+        radial-gradient(circle at 20% 0%, rgba(139, 31, 26, 0.055), transparent 32rem),
+        linear-gradient(180deg, #fbf8f1 0%, var(--paper) 42%, #f1e8dc 100%);
+      color: var(--ink);
+      line-height: 1.72;
+      font-size: 17px;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
 
-  .breadcrumbs {
-    max-width: 1200px;
-    margin: 20px auto 0;
-    padding: 0 20px;
-    font-family: 'Inter', sans-serif;
-    font-size: 12px;
-    color: #666;
-  }
-  .breadcrumbs a { color: #666; }
-  .breadcrumbs .sep { margin: 0 6px; color: #aaa; }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(23, 18, 14, 0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 18, 14, 0.014) 1px, transparent 1px);
+      background-size: 26px 26px;
+      opacity: 0.65;
+      z-index: -1;
+    }
 
-  .layout {
-    max-width: 1200px;
-    margin: 20px auto 40px;
-    padding: 0 20px;
-    display: grid;
-    grid-template-columns: 1fr 320px;
-    gap: 50px;
-  }
+    a { color: var(--red); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    button, input, select { font: inherit; }
+    img { max-width: 100%; display: block; }
 
-  article {
-    background: #fff;
-    padding: 40px 50px 50px;
-    border: 1px solid #e0d8c8;
-  }
-  .category-tag {
-    display: inline-block;
-    background: #8b1818;
-    color: #fff;
-    padding: 4px 10px;
-    font-family: 'Inter', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-  }
-  article h2.article-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 42px;
-    line-height: 1.1;
-    font-weight: 900;
-    margin-bottom: 16px;
-    color: #1a1a1a;
-  }
-  article .deck {
-    font-size: 20px;
-    color: #555;
-    font-style: italic;
-    line-height: 1.4;
-    margin-bottom: 24px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #e0d8c8;
-  }
-  .byline {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 20px;
-    font-family: 'Inter', sans-serif;
-    font-size: 13px;
-  }
-  .author-avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #b8a888 0%, #6a5a4a 100%);
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 18px;
-  }
-  .byline-text { line-height: 1.4; }
-  .byline-text .author { font-weight: 600; color: #1a1a1a; }
-  .byline-text .date { color: #888; font-size: 12px; }
+    .top-line {
+      background: #15110e;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      color: #d3c7b8;
+      font-family: var(--sans);
+      font-size: 12px;
+      letter-spacing: 0.01em;
+    }
 
-  .article-meta-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 0;
-    border-top: 1px solid #e0d8c8;
-    border-bottom: 1px solid #e0d8c8;
-    margin-bottom: 28px;
-    font-family: 'Inter', sans-serif;
-    font-size: 12px;
-    color: #666;
-  }
-  .share-icons { display: flex; gap: 8px; }
-  .share-icons span {
-    width: 28px; height: 28px; border-radius: 50%;
-    background: #f0ebe2; color: #5a4738;
-    display: inline-flex; align-items: center; justify-content: center;
-    font-weight: 700; cursor: pointer; font-size: 12px;
-  }
-  .share-icons span:hover { background: #8b1818; color: #fff; }
+    .top-line-inner {
+      max-width: 1240px;
+      min-height: 34px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
 
-  .hero-image {
-    width: 100%;
-    height: 420px;
-    background: linear-gradient(135deg, #2c3e50 0%, #4a6278 30%, #708090 60%, #8a9aab 100%);
-    margin-bottom: 12px;
-    position: relative;
-    overflow: hidden;
-    border: 1px solid #c0b8a8;
-  }
-  .hero-image::before {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0; height: 55%;
-    background: linear-gradient(to top, #1a2a3a, transparent);
-  }
-  .hero-image::after {
-    content: '';
-    position: absolute;
-    left: 50%; bottom: 12%;
-    width: 80px; height: 220px;
-    background: linear-gradient(to bottom, #6a5a4a 0%, #5a4738 50%, #4a3728 100%);
-    transform: translateX(-50%);
-    border-radius: 6px 6px 0 0;
-    box-shadow: 2px 0 6px rgba(0,0,0,0.4);
-  }
-  .hero-caption {
-    font-size: 13px;
-    color: #777;
-    font-style: italic;
-    margin-bottom: 30px;
-    padding-bottom: 14px;
-    border-bottom: 1px solid #f0ebe2;
-    font-family: 'Source Serif Pro', serif;
-  }
-  .hero-caption strong { color: #555; font-style: normal; font-weight: 600; }
+    .top-line-left,
+    .top-line-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      white-space: nowrap;
+    }
 
-  article p { margin-bottom: 18px; }
-  article p:first-of-type::first-letter {
-    font-family: 'Playfair Display', serif;
-    float: left;
-    font-size: 68px;
-    line-height: 56px;
-    padding: 6px 10px 0 0;
-    font-weight: 900;
-    color: #1a1a1a;
-  }
-  article h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 26px;
-    font-weight: 700;
-    margin-top: 36px;
-    margin-bottom: 14px;
-    color: #1a1a1a;
-  }
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--red);
+      box-shadow: 0 0 0 3px rgba(139, 31, 26, 0.24);
+      display: inline-block;
+      margin-right: 6px;
+    }
 
-  .pull-quote {
-    border-left: 4px solid #8b1818;
-    padding: 18px 24px;
-    margin: 28px 0;
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 22px;
-    line-height: 1.4;
-    color: #3a2e26;
-    background: #faf6ee;
-  }
-  .pull-quote cite {
-    display: block;
-    font-family: 'Inter', sans-serif;
-    font-style: normal;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: #888;
-    margin-top: 10px;
-  }
+    .top-line a { color: #d3c7b8; }
+    .top-line .dim { color: #9f9283; }
 
-  .inline-image { margin: 28px 0; }
-  .inline-image .img-box {
-    width: 100%;
-    height: 280px;
-    background:
-      radial-gradient(circle at 30% 40%, rgba(139,111,71,0.6), transparent 50%),
-      radial-gradient(circle at 70% 60%, rgba(58,46,38,0.7), transparent 50%),
-      linear-gradient(45deg, #d4c4a0 0%, #8b6f47 50%, #5a4738 100%);
-    border: 1px solid #c0b8a8;
-  }
+    .masthead {
+      background: rgba(255, 253, 248, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 3px double var(--ink);
+    }
 
-  .footnote-ref {
-    color: #8b1818;
-    font-size: 12px;
-    vertical-align: super;
-    cursor: pointer;
-    font-weight: 600;
-  }
+    .masthead-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 30px 20px 22px;
+    }
 
-  .secret-trigger { cursor: pointer; user-select: none; }
+    .masthead-grid {
+      display: grid;
+      grid-template-columns: 1fr minmax(420px, 680px) 1fr;
+      gap: 24px;
+      align-items: center;
+    }
 
-  .tag-list {
-    margin-top: 36px;
-    padding-top: 20px;
-    border-top: 1px solid #e0d8c8;
-    font-family: 'Inter', sans-serif;
-  }
-  .tag-list-label {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: #888;
-    margin-bottom: 10px;
-  }
-  .tag {
-    display: inline-block;
-    background: #f0ebe2;
-    color: #5a4738;
-    padding: 5px 12px;
-    font-size: 12px;
-    margin-right: 6px;
-    margin-bottom: 6px;
-    border-radius: 2px;
-  }
-  .tag:hover { background: #e0d8c8; }
+    .issue-card,
+    .weather-card {
+      font-family: var(--sans);
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
 
-  .author-bio {
-    margin-top: 30px;
-    padding: 24px;
-    background: #faf6ee;
-    border-left: 3px solid #8b6f47;
-    display: flex;
-    gap: 18px;
-  }
-  .author-bio .author-avatar { width: 72px; height: 72px; font-size: 26px; }
-  .author-bio h4 {
-    font-family: 'Playfair Display', serif;
-    font-size: 18px;
-    margin-bottom: 6px;
-  }
-  .author-bio p {
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 8px;
-    line-height: 1.5;
-  }
-  .author-bio p:first-of-type::first-letter { all: unset; }
-  .author-bio .author-links { font-family: 'Inter', sans-serif; font-size: 12px; }
+    .issue-card strong,
+    .weather-card strong {
+      display: block;
+      color: var(--ink);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
 
-  .footnotes {
-    margin-top: 36px;
-    padding-top: 20px;
-    border-top: 2px solid #1a1a1a;
-    font-size: 13px;
-    color: #555;
-  }
-  .footnotes h4 {
-    font-family: 'Inter', sans-serif;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-bottom: 12px;
-    color: #888;
-  }
-  .footnotes ol { padding-left: 24px; }
-  .footnotes li { margin-bottom: 8px; line-height: 1.5; }
+    .weather-card { text-align: right; }
 
-  .comments-section {
-    margin-top: 36px;
-    padding-top: 20px;
-    border-top: 1px solid #e0d8c8;
-  }
-  .comments-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 18px;
-    font-family: 'Inter', sans-serif;
-  }
-  .comments-header h4 { font-size: 18px; font-family: 'Playfair Display', serif; }
-  .comment {
-    padding: 14px 0;
-    border-bottom: 1px solid #f0ebe2;
-    display: flex;
-    gap: 12px;
-  }
-  .comment .author-avatar { width: 36px; height: 36px; font-size: 14px; }
-  .comment-body { flex: 1; font-size: 14px; }
-  .comment-body .commenter {
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 13px;
-    color: #1a1a1a;
-  }
-  .comment-body .time {
-    font-family: 'Inter', sans-serif;
-    font-size: 11px;
-    color: #999;
-    margin-left: 6px;
-  }
-  .comment-body p { font-size: 14px; margin-top: 4px; margin-bottom: 4px; color: #444; }
-  .comment-body p:first-of-type::first-letter { all: unset; }
-  .comment-actions {
-    font-family: 'Inter', sans-serif;
-    font-size: 11px;
-    color: #888;
-  }
-  .comment-actions span { margin-right: 12px; cursor: pointer; }
+    .brand {
+      text-align: center;
+    }
 
-  aside { font-family: 'Inter', sans-serif; }
-  .sidebar-block {
-    background: #fff;
-    border: 1px solid #e0d8c8;
-    padding: 20px;
-    margin-bottom: 20px;
-  }
-  .sidebar-block h4 {
-    font-family: 'Playfair Display', serif;
-    font-size: 18px;
-    margin-bottom: 14px;
-    padding-bottom: 8px;
-    border-bottom: 2px solid #1a1a1a;
-    font-weight: 700;
-  }
-  .sidebar-block .most-read-item {
-    display: flex;
-    gap: 12px;
-    padding: 10px 0;
-    border-bottom: 1px solid #f0ebe2;
-  }
-  .most-read-item:last-child { border-bottom: none; }
-  .most-read-item .num {
-    font-family: 'Playfair Display', serif;
-    font-size: 28px;
-    font-weight: 900;
-    color: #c0b8a8;
-    line-height: 1;
-    width: 28px;
-    flex-shrink: 0;
-  }
-  .most-read-item .headline {
-    font-family: 'Source Serif Pro', serif;
-    font-size: 14px;
-    line-height: 1.35;
-    color: #1a1a1a;
-    font-weight: 600;
-  }
-  .most-read-item .headline:hover { color: #8b1818; }
+    .brand .kicker {
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--red);
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
 
-  .newsletter-box {
-    background: #1a1a1a;
-    color: #fff;
-    padding: 24px;
-    margin-bottom: 20px;
-  }
-  .newsletter-box h4 {
-    color: #fff;
-    font-family: 'Playfair Display', serif;
-    font-size: 20px;
-    margin-bottom: 8px;
-    border: none;
-  }
-  .newsletter-box p { font-size: 13px; color: #bbb; margin-bottom: 14px; line-height: 1.4; }
-  .newsletter-box input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #444;
-    background: #2a2a2a;
-    color: #fff;
-    font-family: 'Inter', sans-serif;
-    margin-bottom: 8px;
-  }
-  .newsletter-box button {
-    width: 100%;
-    padding: 10px;
-    background: #8b1818;
-    color: #fff;
-    border: none;
-    font-family: 'Inter', sans-serif;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: 12px;
-    cursor: pointer;
-  }
+    .brand h1 {
+      font-family: var(--serif);
+      font-weight: 800;
+      font-size: clamp(40px, 6vw, 76px);
+      line-height: 0.9;
+      letter-spacing: -0.045em;
+    }
 
-  .ad-box {
-    background: #f0ebe2;
-    border: 1px dashed #b8a888;
-    padding: 30px 20px;
-    text-align: center;
-    margin-bottom: 20px;
-    color: #888;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-  .ad-box .ad-content {
-    height: 240px;
-    background: linear-gradient(135deg, #8b6f47 0%, #5a4738 100%);
-    margin-top: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-family: 'Playfair Display', serif;
-    font-size: 18px;
-    font-style: italic;
-    letter-spacing: normal;
-    text-transform: none;
-    text-align: center;
-    padding: 20px;
-  }
+    .brand .tagline {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #756b61;
+      font-style: italic;
+    }
 
-  .related-section {
-    max-width: 1200px;
-    margin: 0 auto 40px;
-    padding: 0 20px;
-  }
-  .related-section h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 28px;
-    font-weight: 900;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #1a1a1a;
-  }
-  .related-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-  }
-  .related-card { background: #fff; border: 1px solid #e0d8c8; display: block; }
-  .related-card .card-img {
-    height: 160px;
-    background: linear-gradient(135deg, #5a4738 0%, #8b6f47 100%);
-  }
-  .related-card:nth-child(2) .card-img {
-    background: linear-gradient(135deg, #2c3e50 0%, #4a6278 100%);
-  }
-  .related-card:nth-child(3) .card-img {
-    background: linear-gradient(135deg, #6a3818 0%, #b85428 100%);
-  }
-  .related-card .card-body { padding: 16px 18px 20px; }
-  .related-card .card-cat {
-    font-family: 'Inter', sans-serif;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: #8b1818;
-    font-weight: 700;
-    margin-bottom: 6px;
-  }
-  .related-card h5 {
-    font-family: 'Playfair Display', serif;
-    font-size: 18px;
-    font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 8px;
-    color: #1a1a1a;
-  }
-  .related-card p {
-    font-size: 13px;
-    color: #666;
-    line-height: 1.4;
-  }
-  .related-card .card-meta {
-    font-family: 'Inter', sans-serif;
-    font-size: 11px;
-    color: #999;
-    margin-top: 10px;
-  }
+    .masthead-rule {
+      margin-top: 18px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      font-family: var(--sans);
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
 
-  footer.site-footer {
-    background: #1a1a1a;
-    color: #ccc;
-    padding: 50px 20px 20px;
-    font-family: 'Inter', sans-serif;
-    font-size: 13px;
-  }
-  .footer-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: 40px;
-  }
-  .footer-inner h5 {
-    color: #fff;
-    font-family: 'Playfair Display', serif;
-    font-size: 16px;
-    margin-bottom: 14px;
-  }
-  .footer-inner ul { list-style: none; }
-  .footer-inner ul li { margin-bottom: 8px; }
-  .footer-inner a { color: #bbb; }
-  .footer-inner a:hover { color: #fff; }
-  .footer-brand p { color: #999; line-height: 1.5; margin-bottom: 10px; font-size: 13px; }
-  .footer-brand .logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 24px;
-    font-weight: 900;
-    color: #fff;
-    margin-bottom: 12px;
-  }
-  .footer-bottom {
-    max-width: 1200px;
-    margin: 40px auto 0;
-    padding-top: 20px;
-    border-top: 1px solid #333;
-    display: flex;
-    justify-content: space-between;
-    color: #777;
-    font-size: 12px;
-  }
+    .subscribe-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--red);
+      color: #fff !important;
+      background: var(--red);
+      padding: 8px 13px;
+      border-radius: 999px;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: 0.06em;
+    }
 
-  .modal-backdrop {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.85);
-    z-index: 10000;
-    align-items: center;
-    justify-content: center;
-  }
-  .modal-backdrop.active { display: flex; }
-  .modal {
-    background: #1a1a1a;
-    color: #eee;
-    padding: 30px 40px;
-    border: 1px solid #444;
-    border-radius: 4px;
-    width: 320px;
-    text-align: center;
-    font-family: 'Courier New', monospace;
-  }
-  .modal h3 { color: #eee; font-size: 16px; margin-bottom: 16px; }
-  .modal input {
-    width: 100%;
-    padding: 10px;
-    background: #000;
-    color: #0f0;
-    border: 1px solid #333;
-    font-family: 'Courier New', monospace;
-    font-size: 18px;
-    text-align: center;
-    letter-spacing: 8px;
-    margin-bottom: 12px;
-  }
-  .modal button {
-    width: 100%;
-    padding: 10px;
-    background: #333;
-    color: #eee;
-    border: 1px solid #555;
-    cursor: pointer;
-    font-family: 'Courier New', monospace;
-  }
-  .modal button:hover { background: #444; }
-  .modal .error { color: #f55; font-size: 12px; height: 16px; margin-bottom: 8px; }
+    .main-nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255, 253, 248, 0.94);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 8px 20px rgba(23, 18, 14, 0.035);
+    }
 
+    .nav-inner {
+      max-width: 1240px;
+      height: 48px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      font-family: var(--sans);
+    }
 
-  .viewer {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: #111827;
-    z-index: 9999;
-    flex-direction: column;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  }
-  .viewer.active { display: flex; }
+    .nav-inner::-webkit-scrollbar { display: none; }
 
-  .viewer-bar {
-    min-height: 64px;
-    background: #171717;
-    padding: 10px 14px;
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    border-bottom: 1px solid #333;
-  }
-  .browser-brand {
-    color: #e5e5e5;
-    font-size: 13px;
-    font-weight: 700;
-    white-space: nowrap;
-    margin-right: 4px;
-  }
-  .url-form {
-    flex: 1;
-    display: flex;
-    min-width: 200px;
-  }
-  .viewer-bar input[type="text"] {
-    flex: 1;
-    min-width: 0;
-    padding: 10px 12px;
-    background: #0b0b0b;
-    color: #f5f5f5;
-    border: 1px solid #444;
-    border-radius: 8px;
-    font-size: 14px;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    outline: none;
-  }
-  .viewer-bar input[type="text"]:focus {
-    border-color: #737373;
-  }
-  .viewer-bar select,
-  .viewer-bar button {
-    padding: 10px 12px;
-    background: #262626;
-    color: #f5f5f5;
-    border: 1px solid #444;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 13px;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    white-space: nowrap;
-  }
-  .viewer-bar button:hover,
-  .viewer-bar select:hover {
-    background: #333;
-  }
-  .viewer-bar .nav-btn {
-    width: 40px;
-    padding-left: 0;
-    padding-right: 0;
-    font-weight: 700;
-  }
-  .viewer-bar .load-btn {
-    background: #8b1818;
-    border-color: #9f1d1d;
-    font-weight: 700;
-  }
-  .viewer-bar .load-btn:hover {
-    background: #a02020;
-  }
-  .viewer-bar .close-btn {
-    background: #3a1f1f;
-    border-color: #5a2a2a;
-  }
-  .viewer-bar .close-btn:hover {
-    background: #6b2b2b;
-  }
+    .nav-inner a {
+      color: #2b2723;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
 
-  .viewer-stage {
-    flex: 1;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: auto;
-    padding: 30px;
-    background:
-      radial-gradient(circle at top left, rgba(139,24,24,0.22), transparent 34%),
-      linear-gradient(135deg, #111827 0%, #0a0a0a 100%);
-  }
-  .device-shell {
-    background: #080808;
-    border: 1px solid #333;
-    border-radius: 28px;
-    padding: 12px;
-    box-shadow: 0 24px 70px rgba(0,0,0,0.58);
-    display: flex;
-    flex-direction: column;
-    transition: width 0.18s ease, height 0.18s ease;
-  }
-  .device-top {
-    height: 34px;
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    padding: 0 8px 10px;
-    color: #aaa;
-    font-size: 11px;
-  }
-  .device-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #3f3f46;
-    flex-shrink: 0;
-  }
-  .device-title {
-    margin-left: 6px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  .device-shell iframe {
-    width: 100%;
-    flex: 1;
-    border: none;
-    border-radius: 18px;
-    background: #fff;
-  }
-  .empty-state {
-    max-width: 560px;
-    color: #d4d4d4;
-    font-size: 15px;
-    text-align: center;
-    line-height: 1.5;
-    background: rgba(23,23,23,0.76);
-    border: 1px solid #333;
-    border-radius: 18px;
-    padding: 26px;
-  }
-  .empty-state strong {
-    color: #fff;
-    display: block;
-    font-size: 18px;
-    margin-bottom: 8px;
-  }
-  .viewer-note {
-    position: absolute;
-    left: 18px;
-    bottom: 14px;
-    right: 18px;
-    text-align: center;
-    color: #a3a3a3;
-    font-size: 12px;
-    pointer-events: none;
-  }
-  .browser-status {
-    color: #a3a3a3;
-    font-size: 12px;
-    white-space: nowrap;
-    min-width: 84px;
-    text-align: right;
-  }
+    .nav-inner a:hover { color: var(--red); text-decoration: none; }
 
+    .nav-spacer { margin-left: auto; }
 
+    .search-chip {
+      font-size: 12px;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 10px;
+      background: #fffaf2;
+      white-space: nowrap;
+    }
 
-  #electronBrowserSlot {
-    width: 100%;
-    flex: 1;
-    border: none;
-    border-radius: 22px;
-    background: #fff;
-    overflow: hidden;
-  }
+    .breaking {
+      max-width: 1240px;
+      margin: 18px auto 0;
+      padding: 0 20px;
+      font-family: var(--sans);
+    }
 
-  .empty-state code, .viewer-note code {
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 4px;
-    padding: 2px 5px;
-  }
+    .breaking-inner {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      background: #fffaf2;
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--red);
+      padding: 10px 14px;
+      color: var(--muted);
+      font-size: 13px;
+    }
 
-  @media (max-width: 960px) {
-    .layout { grid-template-columns: 1fr; }
-    .related-grid { grid-template-columns: 1fr; }
-    .footer-inner { grid-template-columns: 1fr 1fr; }
-    .masthead h1 { font-size: 36px; }
-    article { padding: 24px 20px; }
-    article h2.article-title { font-size: 28px; }
-  }
-</style>
+    .breaking strong {
+      color: var(--ink);
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .breadcrumbs {
+      max-width: 1240px;
+      margin: 18px auto 0;
+      padding: 0 20px;
+      font-family: var(--sans);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .breadcrumbs a { color: var(--muted); }
+    .breadcrumbs .sep { margin: 0 7px; color: var(--line-dark); }
+
+    .layout {
+      max-width: 1240px;
+      margin: 22px auto 42px;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 336px;
+      gap: 38px;
+      align-items: start;
+    }
+
+    .article-card {
+      background: var(--sheet);
+      border: 1px solid var(--line);
+      box-shadow: 0 22px 50px rgba(23, 18, 14, 0.07);
+    }
+
+    article {
+      padding: clamp(28px, 4vw, 56px);
+    }
+
+    .label-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 18px;
+      font-family: var(--sans);
+    }
+
+    .category-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--red);
+      color: #fff;
+      padding: 7px 11px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      border-radius: 3px;
+    }
+
+    .category-tag::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #fff;
+      opacity: 0.9;
+    }
+
+    .article-tools {
+      display: flex;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .tool-pill {
+      border: 1px solid var(--line);
+      padding: 6px 9px;
+      border-radius: 999px;
+      background: #fffaf2;
+    }
+
+    .article-title {
+      font-family: var(--serif);
+      font-size: clamp(42px, 6vw, 74px);
+      line-height: 0.94;
+      letter-spacing: -0.045em;
+      font-weight: 800;
+      max-width: 920px;
+      margin-bottom: 18px;
+    }
+
+    .deck {
+      font-size: clamp(19px, 2.3vw, 24px);
+      line-height: 1.42;
+      color: #504941;
+      font-weight: 400;
+      max-width: 900px;
+      margin-bottom: 26px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .byline-strip {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+      align-items: center;
+      font-family: var(--sans);
+      margin-bottom: 24px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 35% 28%, #dfc18d 0 18%, transparent 19%),
+        linear-gradient(135deg, #5e4b3d, #a78352);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-family: var(--serif);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.25);
+    }
+
+    .byline-main { line-height: 1.42; font-size: 13px; color: var(--muted); }
+    .byline-main strong { color: var(--ink); }
+    .byline-main a { font-weight: 800; }
+
+    .read-meta {
+      text-align: right;
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .read-meta strong {
+      display: block;
+      color: var(--ink);
+      font-size: 13px;
+    }
+
+    .hero-image {
+      height: clamp(320px, 45vw, 520px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line-dark);
+      background:
+        linear-gradient(180deg, rgba(13, 19, 27, 0.08), rgba(13, 19, 27, 0.86)),
+        radial-gradient(circle at 50% 20%, rgba(255, 231, 172, 0.95) 0 6%, rgba(255, 231, 172, 0.34) 7% 13%, transparent 14%),
+        linear-gradient(135deg, #314458 0%, #5d7080 42%, #9a9a8d 72%, #d3b783 100%);
+      box-shadow: inset 0 -70px 120px rgba(0,0,0,0.35);
+    }
+
+    .hero-image::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 11%;
+      width: 82px;
+      height: 265px;
+      transform: translateX(-50%);
+      border-radius: 8px 8px 2px 2px;
+      background:
+        linear-gradient(90deg, rgba(0,0,0,0.22), transparent 30%, rgba(255,255,255,0.14) 55%, rgba(0,0,0,0.32)),
+        repeating-linear-gradient(0deg, #736052 0 18px, #675345 18px 36px);
+      box-shadow: 18px 20px 70px rgba(0,0,0,0.45);
+    }
+
+    .hero-image::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 51%;
+      width: 120px;
+      height: 54px;
+      transform: translateX(-50%);
+      border-radius: 14px 14px 5px 5px;
+      background:
+        linear-gradient(90deg, #271f1b, #4e3b31 45%, #201815);
+      box-shadow: 0 0 54px 14px rgba(255, 212, 116, 0.55);
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: auto 0 0;
+      padding: 22px;
+      color: rgba(255,255,255,0.88);
+      font-family: var(--sans);
+      font-size: 12px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      background: linear-gradient(180deg, transparent, rgba(0,0,0,0.6));
+    }
+
+    .caption {
+      margin-top: 12px;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--muted);
+      font-style: italic;
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .caption strong { color: var(--ink); font-style: normal; }
+
+    .article-body {
+      max-width: 780px;
+      margin-top: 30px;
+    }
+
+    .article-body p { margin-bottom: 19px; }
+
+    .article-body > p:first-child::first-letter {
+      float: left;
+      font-family: var(--serif);
+      font-size: 78px;
+      line-height: 0.82;
+      font-weight: 800;
+      padding: 10px 12px 2px 0;
+      color: var(--red);
+    }
+
+    .article-body h2 {
+      font-family: var(--serif);
+      font-size: 31px;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin: 42px 0 14px;
+    }
+
+    .inline-note {
+      background: #fff8ea;
+      border: 1px solid #e8d4ad;
+      border-left: 4px solid var(--gold);
+      padding: 16px 18px;
+      margin: 26px 0;
+      font-family: var(--sans);
+      font-size: 13px;
+      color: #5c4b38;
+      line-height: 1.55;
+    }
+
+    .pull-quote {
+      margin: 32px 0;
+      padding: 24px 28px;
+      border-top: 2px solid var(--ink);
+      border-bottom: 1px solid var(--line-dark);
+      background:
+        linear-gradient(90deg, rgba(139,31,26,0.08), transparent 40%),
+        #fffaf3;
+      font-size: 23px;
+      line-height: 1.4;
+      color: #2b241f;
+      font-weight: 500;
+    }
+
+    .pull-quote cite {
+      display: block;
+      margin-top: 12px;
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-style: normal;
+      font-weight: 800;
+    }
+
+    .document-scan {
+      margin: 28px 0;
+      border: 1px solid var(--line-dark);
+      background: #eee2ce;
+      padding: 16px;
+      transform: rotate(-0.4deg);
+      box-shadow: 0 18px 34px rgba(23,18,14,0.12);
+    }
+
+    .document-paper {
+      min-height: 220px;
+      padding: 22px;
+      background:
+        linear-gradient(90deg, rgba(132, 94, 52, 0.1) 1px, transparent 1px),
+        linear-gradient(#fdf4df, #f5e8cb);
+      background-size: 28px 100%, 100% 100%;
+      border: 1px solid rgba(72, 53, 35, 0.18);
+      color: #5a4532;
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: 14px;
+      line-height: 1.85;
+    }
+
+    .footnote-ref {
+      color: var(--red);
+      font-family: var(--sans);
+      font-weight: 800;
+      font-size: 11px;
+      vertical-align: super;
+      margin-left: 2px;
+    }
+
+    .secret-trigger {
+      cursor: pointer;
+      user-select: none;
+      border-bottom: 1px dotted rgba(139, 31, 26, 0.35);
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 38px;
+      padding-top: 22px;
+      border-top: 1px solid var(--line);
+      font-family: var(--sans);
+    }
+
+    .tag {
+      font-size: 12px;
+      color: #5d5147;
+      background: #f0e6d8;
+      border: 1px solid #e1d3c0;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+
+    .author-box {
+      margin-top: 32px;
+      background: #fbf4e9;
+      border: 1px solid var(--line);
+      padding: 22px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 16px;
+    }
+
+    .author-box h3 {
+      font-family: var(--serif);
+      font-size: 20px;
+      margin-bottom: 5px;
+    }
+
+    .author-box p {
+      font-family: var(--sans);
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .source-list {
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 2px solid var(--ink);
+      font-family: var(--sans);
+      font-size: 13px;
+      color: #514940;
+    }
+
+    .source-list h3 {
+      font-family: var(--sans);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .source-list ol { padding-left: 20px; }
+    .source-list li { margin-bottom: 8px; line-height: 1.5; }
+
+    .discussion {
+      margin-top: 34px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+    }
+
+    .discussion-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+      font-family: var(--sans);
+    }
+
+    .discussion-header h3 {
+      font-family: var(--serif);
+      font-size: 22px;
+    }
+
+    .comment {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      padding: 14px 0;
+      border-top: 1px solid #eee2d3;
+      font-family: var(--sans);
+    }
+
+    .comment .avatar {
+      width: 36px;
+      height: 36px;
+      font-size: 12px;
+    }
+
+    .comment strong { font-size: 13px; }
+    .comment time { color: var(--faint); font-size: 11px; margin-left: 6px; }
+    .comment p { color: #4b453f; font-size: 13px; line-height: 1.55; margin-top: 3px; }
+
+    aside {
+      position: sticky;
+      top: 66px;
+      font-family: var(--sans);
+    }
+
+    .side-card {
+      background: rgba(255, 253, 248, 0.94);
+      border: 1px solid var(--line);
+      margin-bottom: 18px;
+      box-shadow: 0 12px 30px rgba(23,18,14,0.045);
+    }
+
+    .side-card-inner { padding: 18px; }
+
+    .side-title {
+      font-family: var(--serif);
+      font-size: 19px;
+      line-height: 1.05;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .most-item {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 10px;
+      padding: 11px 0;
+      border-bottom: 1px solid #eadfce;
+    }
+
+    .most-item:last-child { border-bottom: 0; }
+
+    .most-num {
+      font-family: var(--serif);
+      font-size: 30px;
+      line-height: 0.9;
+      color: #cbbba8;
+      font-weight: 800;
+    }
+
+    .most-item a {
+      color: var(--ink);
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 15px;
+      line-height: 1.22;
+    }
+
+    .most-item span {
+      display: block;
+      margin-top: 5px;
+      color: var(--faint);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .newsletter {
+      background:
+        radial-gradient(circle at 85% 0%, rgba(184,138,68,0.2), transparent 18rem),
+        #16120f;
+      color: #fff;
+      border-color: #16120f;
+    }
+
+    .newsletter p {
+      color: #cbbfb1;
+      font-size: 13px;
+      line-height: 1.55;
+      margin: 8px 0 14px;
+    }
+
+    .newsletter input {
+      width: 100%;
+      background: #0d0b09;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 3px;
+      padding: 11px;
+      font-size: 13px;
+      margin-bottom: 9px;
+      font-family: var(--sans);
+    }
+
+    .newsletter button,
+    .solid-btn {
+      width: 100%;
+      border: 0;
+      background: var(--red);
+      color: #fff;
+      padding: 11px 12px;
+      border-radius: 3px;
+      cursor: pointer;
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .ad-unit {
+      padding: 12px;
+      text-align: center;
+    }
+
+    .ad-label {
+      color: var(--faint);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 8px;
+    }
+
+    .ad-art {
+      height: 245px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,0.1), rgba(0,0,0,0.55)),
+        radial-gradient(circle at 50% 20%, rgba(255,226,155,0.9) 0 10%, transparent 11%),
+        linear-gradient(145deg, #453225, #a7753a);
+      font-family: var(--serif);
+      padding: 18px;
+    }
+
+    .ad-art strong {
+      display: block;
+      font-size: 22px;
+      line-height: 1.05;
+      margin-bottom: 8px;
+    }
+
+    .event-list p {
+      font-size: 13px;
+      line-height: 1.45;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .event-list strong { color: var(--ink); }
+
+    .related {
+      max-width: 1240px;
+      margin: 0 auto 44px;
+      padding: 0 20px;
+    }
+
+    .section-heading {
+      font-family: var(--serif);
+      font-size: 28px;
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 10px;
+      margin-bottom: 18px;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .related-card {
+      background: var(--sheet);
+      border: 1px solid var(--line);
+      color: var(--ink);
+      box-shadow: 0 12px 30px rgba(23,18,14,0.045);
+    }
+
+    .related-thumb {
+      height: 155px;
+      background: linear-gradient(135deg, #2f4453, #a7793d);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .related-card:nth-child(2) .related-thumb { background: linear-gradient(135deg, #5b2b22, #c77a52); }
+    .related-card:nth-child(3) .related-thumb { background: linear-gradient(135deg, #26341f, #9b8b58); }
+
+    .related-body { padding: 15px; }
+    .related-body small {
+      display: block;
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--red);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .related-body h3 { font-family: var(--serif); font-size: 20px; line-height: 1.1; margin-bottom: 7px; }
+    .related-body p { font-size: 13px; color: var(--muted); line-height: 1.45; }
+
+    .site-footer {
+      background: #15110e;
+      color: #c5b8aa;
+      padding: 44px 20px 20px;
+      font-family: var(--sans);
+    }
+
+    .footer-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 34px;
+    }
+
+    .footer-logo {
+      color: #fff;
+      font-family: var(--serif);
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-bottom: 10px;
+    }
+
+    .site-footer p,
+    .site-footer li { font-size: 13px; line-height: 1.55; color: #a99b8c; }
+    .site-footer h4 { color: #fff; font-size: 13px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 12px; }
+    .site-footer ul { list-style: none; }
+    .site-footer li { margin-bottom: 7px; }
+    .site-footer a { color: #c5b8aa; }
+
+    .footer-bottom {
+      max-width: 1240px;
+      margin: 32px auto 0;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      color: #85796d;
+      font-size: 12px;
+    }
+
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      background:
+        radial-gradient(circle at 50% 35%, rgba(125, 24, 20, 0.16), transparent 32rem),
+        rgba(8, 7, 6, 0.86);
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      backdrop-filter: blur(8px);
+    }
+
+    .modal-backdrop.active { display: flex; }
+
+    .modal {
+      width: min(370px, 100%);
+      background: #151515;
+      color: #eee;
+      border: 1px solid #393939;
+      border-radius: 14px;
+      padding: 24px;
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+      box-shadow: 0 24px 70px rgba(0,0,0,0.55);
+      text-align: center;
+    }
+
+    .modal h3 {
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .modal p {
+      color: #9a9a9a;
+      font-size: 12px;
+      line-height: 1.45;
+      margin-bottom: 16px;
+    }
+
+    .modal input {
+      width: 100%;
+      background: #050505;
+      color: #77ff8f;
+      border: 1px solid #333;
+      outline: none;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 22px;
+      letter-spacing: 0.45em;
+      text-align: center;
+      margin-bottom: 10px;
+      font-family: inherit;
+    }
+
+    .modal input:focus { border-color: #4c8f56; box-shadow: 0 0 0 3px rgba(80, 180, 96, 0.14); }
+
+    .modal .error {
+      min-height: 18px;
+      color: #ff6e6e;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .modal-actions { display: grid; gap: 9px; }
+
+    .modal button {
+      border: 1px solid #404040;
+      background: #2b2b2b;
+      color: #f2f2f2;
+      border-radius: 8px;
+      padding: 11px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .modal button:hover { background: #363636; }
+    .modal .ghost { background: transparent; color: #bdbdbd; }
+
+    .viewer {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #111315;
+      color: #e7e7e7;
+      flex-direction: column;
+      font-family: var(--sans);
+    }
+
+    .viewer.active { display: flex; }
+
+    .viewer-bar {
+      min-height: 62px;
+      background: #1f2328;
+      border-bottom: 1px solid #343a43;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 10px 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    }
+
+    .viewer-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #d7dce2;
+      font-weight: 800;
+      font-size: 13px;
+      padding-right: 7px;
+      white-space: nowrap;
+    }
+
+    .viewer-brand span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #56d364;
+      box-shadow: 0 0 0 4px rgba(86, 211, 100, 0.13);
+    }
+
+    .browser-controls {
+      display: flex;
+      gap: 6px;
+    }
+
+    .viewer button,
+    .viewer select,
+    .viewer input {
+      border-radius: 9px;
+      border: 1px solid #3a4049;
+      background: #2b3038;
+      color: #e7e7e7;
+      height: 38px;
+      font-family: var(--sans);
+      font-size: 13px;
+    }
+
+    .viewer button {
+      padding: 0 12px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .viewer button:hover { background: #363d47; }
+    .viewer button:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .viewer input[type="text"] {
+      flex: 1;
+      min-width: 160px;
+      background: #121417;
+      border-color: #3a4049;
+      padding: 0 13px;
+      outline: none;
+    }
+
+    .viewer input[type="text"]:focus {
+      border-color: #6b93ff;
+      box-shadow: 0 0 0 3px rgba(107, 147, 255, 0.13);
+    }
+
+    .viewer select { padding: 0 10px; cursor: pointer; }
+
+    .viewer .close-btn {
+      background: #6f2525;
+      border-color: #8e3333;
+    }
+
+    .viewer .close-btn:hover { background: #853030; }
+
+    .viewer-status {
+      color: #9da7b2;
+      font-size: 12px;
+      white-space: nowrap;
+      min-width: 64px;
+    }
+
+    .viewer-stage {
+      flex: 1;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding: 28px;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(73, 89, 131, 0.28), transparent 26rem),
+        radial-gradient(circle at 80% 78%, rgba(130, 74, 47, 0.2), transparent 28rem),
+        #111315;
+    }
+
+    .empty-state {
+      width: min(520px, 100%);
+      text-align: center;
+      color: #aab2bd;
+      border: 1px dashed #3d444f;
+      border-radius: 18px;
+      background: rgba(31, 35, 40, 0.72);
+      padding: 34px;
+    }
+
+    .empty-state strong {
+      display: block;
+      color: #fff;
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .empty-state code {
+      color: #bdd0ff;
+      background: #111417;
+      padding: 2px 6px;
+      border-radius: 5px;
+    }
+
+    .device-frame {
+      background: #08090b;
+      border: 1px solid #343944;
+      border-radius: 34px;
+      padding: 14px;
+      box-shadow: 0 28px 80px rgba(0,0,0,0.48);
+      transition: width 0.18s ease, height 0.18s ease;
+      max-width: calc(100vw - 58px);
+      max-height: calc(100vh - 138px);
+    }
+
+    .device-topbar {
+      height: 34px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 0 10px;
+      color: #8e98a4;
+      font-size: 11px;
+      overflow: hidden;
+    }
+
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #555d69; flex: 0 0 auto; }
+    .frame-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-left: 5px; }
+
+    .device-screen {
+      width: 100%;
+      height: calc(100% - 34px);
+      overflow: hidden;
+      border-radius: 22px;
+      background: #fff;
+      border: 1px solid #222832;
+    }
+
+    .device-screen iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      background: #fff;
+    }
+
+    .viewer-help {
+      color: #7d8793;
+      font-size: 12px;
+      text-align: center;
+      max-width: 720px;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 1050px) {
+      .masthead-grid { grid-template-columns: 1fr; text-align: center; }
+      .issue-card, .weather-card { text-align: center; }
+      .masthead-rule { flex-direction: column; }
+      .layout { grid-template-columns: 1fr; }
+      aside { position: static; }
+      .related-grid { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      body { font-size: 16px; }
+      .top-line-inner, .top-line-left, .top-line-right { flex-wrap: wrap; justify-content: center; }
+      .brand h1 { font-size: 42px; }
+      .article-title { font-size: 40px; }
+      .label-row, .byline-strip { grid-template-columns: 1fr; display: grid; }
+      .read-meta { text-align: left; }
+      article { padding: 24px 18px; }
+      .viewer-bar { flex-wrap: wrap; }
+      .viewer-brand { width: 100%; }
+      .viewer input[type="text"] { min-width: 100%; order: 3; }
+      .viewer-status { margin-left: auto; }
+      .footer-inner { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; }
+      .author-box { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-
-<div class="top-bar">
-  <div class="top-bar-inner">
-    <span class="date-line">Thursday, May 14, 2026 · Volume XXIV, Issue 3</span>
-    <div>
-      <a href="#">Subscribe</a>
-      <a href="#">Sign In</a>
-      <a href="#">Donate</a>
-    </div>
-  </div>
-</div>
-
-<div class="masthead">
-  <div class="masthead-inner">
-    <h1>Historical Archives Quarterly</h1>
-    <div class="latin">Memoriae Custodes — Guardians of Memory · Est. 1962</div>
-    <div class="masthead-meta">
-      <span>Independent Historical Journalism Since 1962</span>
-      <a href="#" class="subscribe-btn">Subscribe — $4/mo</a>
-    </div>
-  </div>
-</div>
-
-<nav class="main-nav">
-  <div class="nav-inner">
-    <a href="#">Home</a>
-    <a href="#">Maritime</a>
-    <a href="#">Civil War</a>
-    <a href="#">Indigenous</a>
-    <a href="#">Industrial Age</a>
-    <a href="#">Archaeology</a>
-    <a href="#">Biography</a>
-    <a href="#">Forgotten Places</a>
-    <a href="#">Submit</a>
-    <span class="search-icon">&#9906;</span>
-  </div>
-</nav>
-
-<div class="breadcrumbs">
-  <a href="#">Home</a><span class="sep">&rsaquo;</span>
-  <a href="#">Maritime</a><span class="sep">&rsaquo;</span>
-  <a href="#">Lighthouses</a><span class="sep">&rsaquo;</span>
-  <span>The Forgotten Lighthouse of Cape Wexley</span>
-</div>
-
-<div class="layout">
-
-  <article>
-    <span class="category-tag">Maritime History &middot; Long Read</span>
-    <h2 class="article-title">The Forgotten Lighthouse of Cape Wexley: A Maritime Mystery Rediscovered</h2>
-    <div class="deck">Hidden along a stretch of coastline most travelers will never visit stands a granite tower that once stood between Union supply ships and ruin. The remarkable story of Josiah Penn and the beacon he tended for thirty-one years.</div>
-
-    <div class="byline">
-      <div class="author-avatar">EW</div>
-      <div class="byline-text">
-        <div class="author">By <a href="#">Eleanor Whitcombe</a>, Senior Maritime Historian</div>
-        <div class="date">Updated November 3, 2024 &middot; Originally published March 14, 1987 &middot; 14 min read</div>
+  <div class="top-line">
+    <div class="top-line-inner">
+      <div class="top-line-left">
+        <span><span class="live-dot"></span>Subscriber Edition</span>
+        <span class="dim">Friday, May 15, 2026</span>
+        <span class="dim">Volume LXIV · No. 19</span>
+      </div>
+      <div class="top-line-right">
+        <a href="#">Archive Index</a>
+        <a href="#">Newsletters</a>
+        <a href="#">Institutional Access</a>
       </div>
     </div>
+  </div>
 
-    <div class="article-meta-bar">
-      <span>14 min read &middot; 47 comments &middot; 12,438 views</span>
-      <div class="share-icons">
-        <span title="Share on Facebook">f</span>
-        <span title="Share on X">X</span>
-        <span title="Share on LinkedIn">in</span>
-        <span title="Email">@</span>
-        <span title="Save">+</span>
+  <header class="masthead">
+    <div class="masthead-inner">
+      <div class="masthead-grid">
+        <div class="issue-card">
+          <strong>From the Archive Desk</strong>
+          Maritime records, preservation reports, and newly digitized regional collections.
+        </div>
+        <div class="brand">
+          <div class="kicker">Independent Historical Journalism</div>
+          <h1>Historical Archives Quarterly</h1>
+          <div class="tagline">Memoriae Custodes · Guardians of Memory · Est. 1962</div>
+        </div>
+        <div class="weather-card">
+          <strong>Research Notes</strong>
+          Boston Maritime Reading Room open 9:00 AM to 4:30 PM · Reading requests due by noon.
+        </div>
+      </div>
+      <div class="masthead-rule">
+        <span>Long-form history · Primary sources · Preservation reporting</span>
+        <a href="#" class="subscribe-pill">Subscribe · $4/month</a>
       </div>
     </div>
+  </header>
 
-    <div class="hero-image"></div>
-    <div class="hero-caption"><strong>Above:</strong> The Cape Wexley lighthouse, photographed circa 1898, two years before its decommissioning. The cottage where keeper Josiah Penn lived for over three decades is visible at the base of the tower. <em>Image courtesy of the Cape Wexley Mariners' Society Archive.</em></div>
+  <nav class="main-nav">
+    <div class="nav-inner">
+      <a href="#">Home</a>
+      <a href="#">Maritime</a>
+      <a href="#">Civil War</a>
+      <a href="#">Indigenous History</a>
+      <a href="#">Industrial Age</a>
+      <a href="#">Archaeology</a>
+      <a href="#">Biography</a>
+      <a href="#">Forgotten Places</a>
+      <a href="#">Maps</a>
+      <a href="#">Submit</a>
+      <span class="nav-spacer"></span>
+      <span class="search-chip">Search archive ⌘K</span>
+    </div>
+  </nav>
 
-    <p>Along the windswept cliffs of the northern Atlantic seaboard stands a structure most modern travelers will never notice. Built in 1834 by the Cape Wexley Mariners' Society, the lighthouse served as a critical navigational beacon for nearly seventy years before being decommissioned in 1903 &mdash; a quiet end for a structure that had, on at least one occasion, altered the course of the American Civil War.</p>
+  <div class="breaking">
+    <div class="breaking-inner">
+      <strong>Editor’s Note</strong>
+      <span>Newly cataloged lighthouse ledgers from the Wexley County Historical Society have been added to our source appendix.</span>
+    </div>
+  </div>
 
-    <p>I first encountered the lighthouse not in person but in a footnote. While researching coastal shipping records at the Boston Maritime Archive in the autumn of 1984, I came across a brief mention in the logbook of the U.S.S. <em>Concordia</em>, a Union supply vessel that had passed safely through Cape Wexley waters on the night of October 17, 1863. The entry was unremarkable except for a single observation by the watch officer: <em>"Beacon held steady through the storm. Without it we should certainly have been wrecked."</em><span class="footnote-ref">1</span></p>
+  <div class="breadcrumbs">
+    <a href="#">Home</a><span class="sep">›</span>
+    <a href="#">Maritime</a><span class="sep">›</span>
+    <a href="#">Lighthouses</a><span class="sep">›</span>
+    <span>The Wexley Light</span>
+  </div>
 
-    <p>That single sentence began a four-decade preoccupation that has now culminated in this account.</p>
+  <main class="layout">
+    <div class="article-card">
+      <article>
+        <div class="label-row">
+          <span class="category-tag">Maritime History · Long Read</span>
+          <div class="article-tools">
+            <span class="tool-pill">Save</span>
+            <span class="tool-pill">Print</span>
+            <span class="tool-pill">Gift Article</span>
+          </div>
+        </div>
 
-    <h3>Origins and Construction</h3>
+        <h2 class="article-title">The Wexley Light: Storm, Sabotage, and the Last Keeper</h2>
+        <p class="deck">A granite tower on a forgotten reach of coast may have saved a Union supply vessel in 1863. The story survives through ledger entries, family letters, and the quiet reputation of one injured sailor who refused to let the lamp go dark.</p>
 
-    <p>The original blueprints, recovered from a flooded basement archive in 1971 by a volunteer team from the Wexley County Historical Society, reveal an unusually ambitious design for its era. The lighthouse was constructed of locally quarried granite and stood forty-two feet tall, with a copper-plated lantern room imported from a foundry in Boston operated by the firm of Sargent &amp; Whitman.<span class="footnote-ref">2</span></p>
+        <div class="byline-strip">
+          <div class="avatar">EW</div>
+          <div class="byline-main">
+            <div>By <a href="#"><strong>Eleanor Whitcombe</strong></a>, Senior Maritime Historian</div>
+            <div>Updated May 14, 2026 · Originally published March 14, 1987 · Filed from Salem, Massachusetts</div>
+          </div>
+          <div class="read-meta"><strong>14 min read</strong>47 comments · 12,438 views</div>
+        </div>
 
-    <p>Records suggest the entire project cost the Mariners' Society just over three thousand dollars &mdash; a remarkable sum for the period, equivalent to approximately one hundred and twenty thousand dollars in modern currency. The cost was raised primarily through a subscription drive among the merchant captains who used the surrounding waters, a fact recorded in a brittle leather-bound ledger that now resides in the Society's permanent collection.</p>
+        <div class="hero-image">
+          <div class="hero-overlay">
+            <span>Digitized from glass plate negative, c. 1898</span>
+            <span>Cape Wexley Mariners’ Society Archive</span>
+          </div>
+        </div>
+        <p class="caption"><strong>Above:</strong> The Cape Wexley lighthouse photographed two years before decommissioning. The keeper’s cottage, since demolished, appears as a low roofline just east of the tower.</p>
 
-    <div class="inline-image">
-      <div class="img-box"></div>
-      <div class="hero-caption"><strong>Above:</strong> Original blueprints for the Cape Wexley lighthouse, recovered from the flooded archive of the Mariners' Society in 1971. The drawings show the unusual cantilevered design of the lantern room, which allowed the keeper to service the lamp without exiting the structure during severe weather.</div>
+        <section class="article-body">
+          <p>Along the windswept cliffs of the northern Atlantic seaboard stands a structure most travelers will never notice. Built in 1834 by the Cape Wexley Mariners’ Society, the lighthouse served as a critical navigational beacon for nearly seventy years before being decommissioned in 1903, a quiet end for a tower that had, on at least one occasion, altered the course of the American Civil War.</p>
+
+          <p>I first encountered the lighthouse not in person, but in a footnote. While researching coastal shipping records at the Boston Maritime Archive in the autumn of 1984, I found a brief mention in the logbook of the U.S.S. <em>Concordia</em>, a Union supply vessel that passed safely through Cape Wexley waters on the night of October 17, 1863. The entry was unremarkable except for one sentence by the watch officer: <em>“Beacon held steady through the storm. Without it we should certainly have been wrecked.”</em><span class="footnote-ref">1</span></p>
+
+          <p>That single observation began a four-decade preoccupation that has now culminated in this account.</p>
+
+          <div class="inline-note"><strong>Archive status:</strong> This article combines public records, private family correspondence, and documents from the Cape Wexley Mariners’ Society. Several ledgers remain partially damaged from the 1971 basement flood.</div>
+
+          <h2>Origins and Construction</h2>
+          <p>The original blueprints, recovered from a flooded basement archive in 1971 by a volunteer team from the Wexley County Historical Society, reveal an unusually ambitious design for its era. The lighthouse was constructed of locally quarried granite and stood forty-two feet tall, with a copper-plated lantern room imported from a Boston foundry operated by Sargent &amp; Whitman.<span class="footnote-ref">2</span></p>
+
+          <p>Records suggest the entire project cost the Mariners’ Society just over three thousand dollars, a remarkable sum for the period. The money was raised through a subscription drive among merchant captains who used the surrounding waters, a fact recorded in a brittle leather-bound ledger now held in the Society’s permanent collection.</p>
+
+          <div class="document-scan">
+            <div class="document-paper">
+              <strong>Extract from Mariners’ Society Ledger, April 1834</strong><br>
+              Received from Capt. Elias W. Marden the sum of six dollars toward the construction and continued maintenance of the Wexley signal light. May the lamp stand where the charts do not suffice.<br><br>
+              <em>Ledger hand attributed to treasurer Abel Hartwick.</em>
+            </div>
+          </div>
+
+          <p>The <span class="secret-trigger" id="trigger">keeper</span> of the lighthouse, a man named Josiah Penn, lived in a small cottage adjacent to the tower. According to letters preserved by his descendants, Penn maintained the beacon faithfully for thirty-one years, riding out three significant hurricanes and one documented attempt at sabotage during the Civil War.</p>
+
+          <p>Penn was, by all available accounts, an unusual man for his time. Born in 1816 to a Quaker family in coastal Massachusetts, he spent his youth as a deckhand aboard whaling vessels before an injury to his left leg ended his seafaring career at the age of twenty-six.</p>
+
+          <div class="pull-quote">
+            “Mr. Penn does not speak unless spoken to, but the lamp has never once gone dark in his keeping. I should rather employ ten such men than a hundred of the chattering sort.”
+            <cite>From a letter by Society treasurer Abel Hartwick, March 1851</cite>
+          </div>
+
+          <h2>The Sabotage Incident of 1863</h2>
+          <p>In the autumn of 1863, two men were reportedly seen attempting to extinguish the lighthouse beacon. Local newspapers described the suspects as Confederate sympathizers operating through a coastal smuggling network based in Norfolk. Their likely goal was to disable the light long enough to lure a Union supply vessel onto the rocks below.<span class="footnote-ref">3</span></p>
+
+          <p>The most detailed account comes from Penn himself, in a letter to his sister dated October 22, 1863. His description is plain, almost reluctant, and appears to avoid any attempt at self-mythologizing.</p>
+
+          <div class="pull-quote">
+            “I heard them in the lower passage near to ten in the evening. I had not lit my own lamp, on account of the storm coming hard, and so they did not know I was in the cottage.”
+            <cite>Josiah Penn to Margaret Penn, October 22, 1863</cite>
+          </div>
+
+          <p>Penn modestly omits a detail recorded in the subsequent investigation: that he climbed the forty-two feet to the lantern room and personally maintained the beacon for the remainder of the storm, despite his injured leg and the possibility that the saboteurs might return.<span class="footnote-ref">4</span></p>
+
+          <h2>Decline and Decommissioning</h2>
+          <p>By the turn of the century, advances in maritime navigation had begun to render the Cape Wexley beacon increasingly obsolete. Telegraph-based weather warnings, a larger electrically powered lighthouse at Marston Point, and the gradual silting of the southern shipping channel all reduced traffic past the old tower to a trickle.</p>
+
+          <p>In 1903, the Mariners’ Society formally decommissioned the structure and sold the surrounding land, though notably not the lighthouse itself, to an estate owned by industrialist Cornelius Bramwell. The terms included an unusual preservation clause requiring that the tower be kept “in such state as it then stands, for so long as it shall continue to stand.”</p>
+
+          <h2>Legacy</h2>
+          <p>For students of maritime history, the Cape Wexley lighthouse represents a quiet but important chapter in American coastal navigation. It never achieved the fame of Cape Hatteras or Portland Head, yet its longevity and the discipline of its sole keeper offer a compelling glimpse into the everyday labor that kept ships alive.</p>
+
+          <p>Josiah Penn is buried in a small plot a quarter mile inland from the lighthouse he served. His headstone, simple granite from the same quarry as the tower itself, bears only his name, his dates, and one line chosen by his sister: <em>He kept the light.</em></p>
+
+          <div class="tags">
+            <span class="tag">Maritime History</span>
+            <span class="tag">Lighthouses</span>
+            <span class="tag">Civil War</span>
+            <span class="tag">Primary Sources</span>
+            <span class="tag">New England</span>
+            <span class="tag">Preservation</span>
+          </div>
+
+          <div class="author-box">
+            <div class="avatar">EW</div>
+            <div>
+              <h3>About Eleanor Whitcombe</h3>
+              <p>Eleanor Whitcombe is a retired archivist and founding curator of the Whitcombe Library of Coastal History in Salem, Massachusetts. She has contributed to Historical Archives Quarterly since 1979 and is the author of three books on maritime preservation.</p>
+            </div>
+          </div>
+
+          <div class="source-list">
+            <h3>Footnotes &amp; Sources</h3>
+            <ol>
+              <li>U.S.S. <em>Concordia</em>, ship’s log, October 17, 1863. Boston Maritime Archive, Collection 14-B, Folio 22.</li>
+              <li>Sargent &amp; Whitman Foundry, invoice ledger, March 1834. Massachusetts Historical Society, Industrial Records Collection.</li>
+              <li>“Disturbance at the Wexley Light,” <em>The Coastal Sentinel</em>, October 24, 1863, p. 3.</li>
+              <li>Investigation report, Wexley County Sheriff’s Office, October 28, 1863. Reproduced in Hartwell, J., <em>Coastal Crimes of the Civil War Era</em>.</li>
+            </ol>
+          </div>
+
+          <div class="discussion">
+            <div class="discussion-header">
+              <h3>Reader Discussion</h3>
+              <a href="#">View all 47 comments</a>
+            </div>
+            <div class="comment">
+              <div class="avatar">RM</div>
+              <div><strong>Robert M., Portsmouth</strong><time>3 days ago</time><p>Wonderful piece. My grandfather was a Marston Point keeper in the 1930s and used to tell stories about the old Wexley light with real reverence.</p></div>
+            </div>
+            <div class="comment">
+              <div class="avatar">SP</div>
+              <div><strong>Sarah Penn-Hollister</strong><time>1 week ago</time><p>I am a descendant of Josiah Penn and have been waiting decades for someone to tell this story properly. The detail about the musket is correct; we still have it in the family.</p></div>
+            </div>
+            <div class="comment">
+              <div class="avatar">DK</div>
+              <div><strong>Dr. Daniel Kessler, UMass Maritime</strong><time>2 weeks ago</time><p>Excellent research as always. The distinction between Sargent &amp; Whitman and Sargent &amp; Whitley is especially useful here.</p></div>
+            </div>
+          </div>
+        </section>
+      </article>
     </div>
 
-    <p>The <span class="secret-trigger" id="trigger">keeper</span> of the lighthouse, a man named Josiah Penn, lived in a small cottage adjacent to the tower. According to letters preserved by his descendants &mdash; a remarkable collection now housed at the Whitcombe Library of Coastal History &mdash; Penn maintained the beacon faithfully for thirty-one years, riding out three significant hurricanes and one documented attempt at sabotage during the Civil War.</p>
+    <aside>
+      <div class="side-card">
+        <div class="side-card-inner">
+          <h3 class="side-title">Most Read This Week</h3>
+          <div class="most-item"><div class="most-num">1</div><div><a href="#">The Lost Mining Camps of the Bitterroot Range</a><span>Industrial West · 17 min</span></div></div>
+          <div class="most-item"><div class="most-num">2</div><div><a href="#">What the Hartford Letters Tell Us About Reconstruction</a><span>Civil War · 12 min</span></div></div>
+          <div class="most-item"><div class="most-num">3</div><div><a href="#">A Brief History of the American Lifesaving Service</a><span>Maritime · 9 min</span></div></div>
+          <div class="most-item"><div class="most-num">4</div><div><a href="#">The Wexley Light: Storm and Sabotage</a><span>Lighthouses · 14 min</span></div></div>
+          <div class="most-item"><div class="most-num">5</div><div><a href="#">When the Erie Canal Froze: The Winter of 1856</a><span>Infrastructure · 8 min</span></div></div>
+        </div>
+      </div>
 
-    <p>Penn was, by all available accounts, an unusual man for his time. Born in 1816 to a Quaker family in coastal Massachusetts, he had spent his youth as a deckhand aboard whaling vessels before an injury to his left leg ended his seafaring career at the age of twenty-six. Hired by the Mariners' Society in 1842, he would remain in their employ until his death from pneumonia in the winter of 1873.</p>
+      <div class="side-card newsletter">
+        <div class="side-card-inner">
+          <h3 class="side-title" style="border-color:rgba(255,255,255,0.35);">The Weekly Dispatch</h3>
+          <p>One long-form historical essay, preservation note, and source highlight every Sunday morning.</p>
+          <input type="email" placeholder="you@example.com" />
+          <button>Subscribe</button>
+        </div>
+      </div>
 
-    <div class="pull-quote">
-      "Mr. Penn does not speak unless spoken to, but the lamp has never once gone dark in his keeping. I should rather employ ten such men than a hundred of the chattering sort."
-      <cite>&mdash; From a letter by Society treasurer Abel Hartwick, March 1851</cite>
+      <div class="side-card ad-unit">
+        <div class="ad-label">Sponsored</div>
+        <div class="ad-art"><div><strong>The Lamp and the Lantern</strong><span>Now in paperback from Northshore Press</span></div></div>
+      </div>
+
+      <div class="side-card event-list">
+        <div class="side-card-inner">
+          <h3 class="side-title">Upcoming Events</h3>
+          <p><strong>June 8 ·</strong> Lecture: “Lighthouses of the North Atlantic” at Boston Public Library, 6 PM.</p>
+          <p><strong>June 22 ·</strong> Annual HAQ Subscribers’ Symposium in Cambridge, MA.</p>
+          <p><strong>July 11 ·</strong> Archive Tour: Whitcombe Library, Salem, MA.</p>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <section class="related">
+    <h2 class="section-heading">More from Maritime History</h2>
+    <div class="related-grid">
+      <a class="related-card" href="#"><div class="related-thumb"></div><div class="related-body"><small>Lighthouses</small><h3>The Last Keeper of Marston Point</h3><p>For forty-one years, Hiram Bellweather tended a light no one had asked him to keep.</p></div></a>
+      <a class="related-card" href="#"><div class="related-thumb"></div><div class="related-body"><small>Civil War</small><h3>The Confederate Smuggling Networks of New England</h3><p>A surprising number of southern sympathizers operated quietly in northern coastal towns.</p></div></a>
+      <a class="related-card" href="#"><div class="related-thumb"></div><div class="related-body"><small>Shipwrecks</small><h3>What Sank the Concordia, Really?</h3><p>Three years after her brush with disaster off Cape Wexley, the ship’s final voyage remains contested.</p></div></a>
     </div>
+  </section>
 
-    <h3>The Sabotage Incident of 1863</h3>
-
-    <p>In the autumn of 1863, two men were apprehended attempting to extinguish the lighthouse beacon. Local newspapers of the period reported that the suspects, believed to be Confederate sympathizers operating out of a coastal smuggling network based in Norfolk, intended to disable the light in order to lure a Union supply vessel &mdash; almost certainly the <em>Concordia</em> &mdash; onto the treacherous rocks below.<span class="footnote-ref">3</span></p>
-
-    <p>The most detailed account of the incident comes from Penn himself, in a letter to his sister dated October 22, 1863:</p>
-
-    <div class="pull-quote">
-      "I heard them in the lower passage near to ten in the evening. I had not lit my own lamp, on account of the storm coming hard, and so they did not know I was in the cottage. I took down the musket my father gave me &mdash; the one you will remember &mdash; and went to the window. I did not aim to hit them, only to send them off, and so I fired twice into the air. They were running before the second shot was fully reported."
-    </div>
-
-    <p>Penn modestly omits a detail recorded in the subsequent investigation: that he then climbed the forty-two feet to the lantern room and personally maintained the beacon for the remainder of the storm, despite his injured leg and the very real possibility that the saboteurs might return.<span class="footnote-ref">4</span></p>
-
-    <p>The Union supply ship passed safely through the channel some three hours later. The saboteurs were never identified or apprehended, though local lore long maintained &mdash; without substantiating evidence &mdash; that one of them was a cousin of the prominent Wexley merchant family who had quietly relocated to Charleston the previous spring.</p>
-
-    <h3>Decline and Decommissioning</h3>
-
-    <p>By the turn of the century, advances in maritime navigation had begun to render the Cape Wexley beacon increasingly obsolete. The widespread adoption of telegraph-based weather warnings, the construction of a larger and electrically powered lighthouse twelve miles to the north at Marston Point, and the gradual silting of the southern shipping channel all conspired to reduce traffic past the old tower to a trickle.</p>
-
-    <p>In 1903, the Mariners' Society formally decommissioned the structure and sold the surrounding land &mdash; though notably not the lighthouse itself &mdash; to a private estate owned by the industrialist Cornelius Bramwell. The terms of the sale included an unusual clause requiring that the tower be preserved "in such state as it then stands, for so long as it shall continue to stand," a provision that has prompted considerable legal debate in the decades since.</p>
-
-    <p>Today, the lighthouse remains standing, though its lantern room has long since been stripped of its original copper plating &mdash; likely scavenged during the metal drives of the Second World War. Local preservation societies have made several attempts to secure historical landmark status, but jurisdictional disputes over the surrounding property continue to delay official recognition.</p>
-
-    <h3>Legacy</h3>
-
-    <p>For students of maritime history, the Cape Wexley lighthouse represents a quiet but important chapter in the development of American coastal navigation. Though it never achieved the fame of its larger counterparts further south &mdash; the Cape Hatteras Light, for instance, or the Portland Head &mdash; the structure's longevity, and the dedication of its sole keeper, offer a compelling glimpse into the everyday lives of those who once tended the lights along our nation's most treacherous shores.</p>
-
-    <p>Josiah Penn is buried in a small plot a quarter mile inland from the lighthouse he served. His headstone, simple granite from the same quarry as the tower itself, bears only his name, his dates, and a single line of inscription chosen by his sister: <em>"He kept the light."</em></p>
-
-    <p>It is, I have come to believe, the only epitaph he would have wanted.</p>
-
-    <div class="tag-list">
-      <div class="tag-list-label">Filed under</div>
-      <span class="tag">Maritime History</span>
-      <span class="tag">Lighthouses</span>
-      <span class="tag">Civil War</span>
-      <span class="tag">19th Century</span>
-      <span class="tag">New England</span>
-      <span class="tag">Coastal Preservation</span>
-      <span class="tag">Josiah Penn</span>
-    </div>
-
-    <div class="author-bio">
-      <div class="author-avatar">EW</div>
+  <footer class="site-footer">
+    <div class="footer-inner">
       <div>
-        <h4>About Eleanor Whitcombe</h4>
-        <p>Eleanor Whitcombe is a retired archivist and the founding curator of the Whitcombe Library of Coastal History in Salem, Massachusetts. She has contributed to <em>Historical Archives Quarterly</em> since 1979, and is the author of three books on maritime preservation, including <em>The Lamp and the Lantern</em> (1992) and <em>Storm Lights</em> (forthcoming, 2026).</p>
-        <div class="author-links">
-          <a href="#">More from this author &rarr;</a> &nbsp;&middot;&nbsp; <a href="#">Follow on Mastodon</a> &nbsp;&middot;&nbsp; <a href="#">Email</a>
-        </div>
+        <div class="footer-logo">Historical Archives Quarterly</div>
+        <p>Independent historical journalism since 1962. Reader-supported, advertising-light, and committed to careful work with primary sources.</p>
       </div>
+      <div><h4>Sections</h4><ul><li><a href="#">Maritime</a></li><li><a href="#">Civil War</a></li><li><a href="#">Archaeology</a></li><li><a href="#">Biography</a></li></ul></div>
+      <div><h4>About</h4><ul><li><a href="#">Editorial Standards</a></li><li><a href="#">Contributors</a></li><li><a href="#">Submissions</a></li><li><a href="#">Contact</a></li></ul></div>
+      <div><h4>Support</h4><ul><li><a href="#">Subscribe</a></li><li><a href="#">Donate</a></li><li><a href="#">Institutional Access</a></li><li><a href="#">Gift Subscription</a></li></ul></div>
     </div>
+    <div class="footer-bottom">
+      <span>© 1962–2026 Historical Archives Quarterly · ISSN 0742-3819</span>
+      <span>Privacy · Terms · RSS</span>
+    </div>
+  </footer>
 
-    <div class="footnotes">
-      <h4>Footnotes &amp; Sources</h4>
-      <ol>
-        <li>U.S.S. <em>Concordia</em>, ship's log, October 17, 1863. Boston Maritime Archive, Collection 14-B, Folio 22.</li>
-        <li>Sargent &amp; Whitman Foundry, invoice ledger, March 1834. Massachusetts Historical Society, Industrial Records Collection.</li>
-        <li>"Disturbance at the Wexley Light," <em>The Coastal Sentinel</em>, October 24, 1863, p. 3.</li>
-        <li>Investigation report, Wexley County Sheriff's Office, October 28, 1863. Reproduced in Hartwell, J., <em>Coastal Crimes of the Civil War Era</em> (Boston: Pemberton Press, 1958), pp. 142-148.</li>
-      </ol>
-    </div>
-
-    <div class="comments-section">
-      <div class="comments-header">
-        <h4>Reader Discussion (47)</h4>
-        <a href="#" style="font-family:'Inter',sans-serif;font-size:12px;color:#8b1818;">View all comments &rarr;</a>
+  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="accessTitle">
+      <h3 id="accessTitle">Restricted Research Console</h3>
+      <p>Enter the four-digit archive access code.</p>
+      <input type="password" id="pwInput" maxlength="4" inputmode="numeric" autocomplete="off" aria-label="Access code" />
+      <div class="error" id="pwError"></div>
+      <div class="modal-actions">
+        <button id="pwSubmit">Unlock</button>
+        <button id="pwCancel" class="ghost">Cancel</button>
       </div>
-      <div class="comment">
-        <div class="author-avatar">RM</div>
-        <div class="comment-body">
-          <span class="commenter">Robert M., Portsmouth</span><span class="time">3 days ago</span>
-          <p>Wonderful piece. My grandfather was a Marston Point keeper in the 1930s and used to tell stories about the "old Wexley light" &mdash; always with a kind of reverence. Lovely to finally read the history.</p>
-          <div class="comment-actions"><span>Like &middot; 24</span><span>Reply</span></div>
-        </div>
-      </div>
-      <div class="comment">
-        <div class="author-avatar">SP</div>
-        <div class="comment-body">
-          <span class="commenter">Sarah Penn-Hollister</span><span class="time">1 week ago</span>
-          <p>I'm a descendant of Josiah Penn (great-great-grandniece, I believe) and have been waiting decades for someone to tell his story properly. Eleanor &mdash; thank you. The detail about the musket is correct; we still have it in the family.</p>
-          <div class="comment-actions"><span>Like &middot; 89</span><span>Reply</span></div>
-        </div>
-      </div>
-      <div class="comment">
-        <div class="author-avatar">DK</div>
-        <div class="comment-body">
-          <span class="commenter">Dr. Daniel Kessler, UMass Maritime</span><span class="time">2 weeks ago</span>
-          <p>Excellent research as always. One small note: the firm of Sargent &amp; Whitman is sometimes confused in the secondary literature with the unrelated Sargent &amp; Whitley of New Haven. The footnote here gets it right.</p>
-          <div class="comment-actions"><span>Like &middot; 17</span><span>Reply</span></div>
-        </div>
-      </div>
-    </div>
-
-  </article>
-
-  <aside>
-    <div class="sidebar-block">
-      <h4>Most Read This Week</h4>
-      <div class="most-read-item">
-        <div class="num">1</div>
-        <a class="headline" href="#">The Lost Mining Camps of the Bitterroot Range, 1864-1879</a>
-      </div>
-      <div class="most-read-item">
-        <div class="num">2</div>
-        <a class="headline" href="#">What the Hartford Letters Tell Us About Reconstruction</a>
-      </div>
-      <div class="most-read-item">
-        <div class="num">3</div>
-        <a class="headline" href="#">A Brief History of the American Lifesaving Service</a>
-      </div>
-      <div class="most-read-item">
-        <div class="num">4</div>
-        <a class="headline" href="#">The Forgotten Lighthouse of Cape Wexley</a>
-      </div>
-      <div class="most-read-item">
-        <div class="num">5</div>
-        <a class="headline" href="#">When the Erie Canal Froze: The Winter of 1856</a>
-      </div>
-    </div>
-
-    <div class="newsletter-box">
-      <h4>The Weekly Dispatch</h4>
-      <p>One long-form historical essay, delivered to your inbox every Sunday morning. Free, no ads.</p>
-      <input type="email" placeholder="you@example.com" />
-      <button>Subscribe</button>
-    </div>
-
-    <div class="ad-box">
-      Sponsored
-      <div class="ad-content">The Lamp and the Lantern<br><span style="font-size:12px;font-style:normal;">Now in paperback</span></div>
-    </div>
-
-    <div class="sidebar-block">
-      <h4>From the Archive</h4>
-      <div class="most-read-item">
-        <div class="num">'94</div>
-        <a class="headline" href="#">The Salem Witch Trial Documents: A Reassessment</a>
-      </div>
-      <div class="most-read-item">
-        <div class="num">'02</div>
-        <a class="headline" href="#">Reading the Civil War Through Its Quartermaster Records</a>
-      </div>
-      <div class="most-read-item">
-        <div class="num">'11</div>
-        <a class="headline" href="#">Indigenous Trade Routes of the Pre-Columbian Northeast</a>
-      </div>
-    </div>
-
-    <div class="sidebar-block">
-      <h4>Upcoming Events</h4>
-      <p style="font-size:13px;color:#555;line-height:1.5;margin-bottom:12px;"><strong style="color:#1a1a1a;">June 8 &middot;</strong> Lecture: "Lighthouses of the North Atlantic" &mdash; Boston Public Library, 6 PM</p>
-      <p style="font-size:13px;color:#555;line-height:1.5;margin-bottom:12px;"><strong style="color:#1a1a1a;">June 22 &middot;</strong> Annual HAQ Subscribers' Symposium &mdash; Cambridge, MA</p>
-      <p style="font-size:13px;color:#555;line-height:1.5;"><strong style="color:#1a1a1a;">July 11 &middot;</strong> Archive Tour: Whitcombe Library &mdash; Salem, MA</p>
-    </div>
-  </aside>
-</div>
-
-<div class="related-section">
-  <h3>More from Maritime History</h3>
-  <div class="related-grid">
-    <a class="related-card" href="#">
-      <div class="card-img"></div>
-      <div class="card-body">
-        <div class="card-cat">Lighthouses</div>
-        <h5>The Last Keeper of Marston Point</h5>
-        <p>For forty-one years, Hiram Bellweather tended a light no one had asked him to keep.</p>
-        <div class="card-meta">By T. Caldwell &middot; 11 min read</div>
-      </div>
-    </a>
-    <a class="related-card" href="#">
-      <div class="card-img"></div>
-      <div class="card-body">
-        <div class="card-cat">Civil War</div>
-        <h5>The Confederate Smuggling Networks of New England</h5>
-        <p>A surprising number of southern sympathizers operated quietly in northern coastal towns. This is how.</p>
-        <div class="card-meta">By J. Holloway &middot; 18 min read</div>
-      </div>
-    </a>
-    <a class="related-card" href="#">
-      <div class="card-img"></div>
-      <div class="card-body">
-        <div class="card-cat">Maritime History</div>
-        <h5>What Sank the Concordia, Really?</h5>
-        <p>Three years after her brush with disaster off Cape Wexley, the supply ship's eventual fate remains contested.</p>
-        <div class="card-meta">By E. Whitcombe &middot; 9 min read</div>
-      </div>
-    </a>
-  </div>
-</div>
-
-<footer class="site-footer">
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <div class="logo">Historical Archives Quarterly</div>
-      <p>Independent historical journalism since 1962. Reader-supported, advertising-light, and proudly nonpartisan in matters of the past.</p>
-      <p style="margin-top:14px;">A publication of the Whitcombe Foundation, Salem, MA.</p>
-    </div>
-    <div>
-      <h5>Sections</h5>
-      <ul>
-        <li><a href="#">Maritime</a></li>
-        <li><a href="#">Civil War</a></li>
-        <li><a href="#">Indigenous History</a></li>
-        <li><a href="#">Industrial Age</a></li>
-        <li><a href="#">Archaeology</a></li>
-        <li><a href="#">Biography</a></li>
-      </ul>
-    </div>
-    <div>
-      <h5>About</h5>
-      <ul>
-        <li><a href="#">Our Mission</a></li>
-        <li><a href="#">Editorial Standards</a></li>
-        <li><a href="#">Contributors</a></li>
-        <li><a href="#">Submission Guidelines</a></li>
-        <li><a href="#">Internships</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-    </div>
-    <div>
-      <h5>Support</h5>
-      <ul>
-        <li><a href="#">Subscribe &mdash; $4/mo</a></li>
-        <li><a href="#">Donate</a></li>
-        <li><a href="#">Institutional Access</a></li>
-        <li><a href="#">Gift a Subscription</a></li>
-        <li><a href="#">Sponsorship</a></li>
-        <li><a href="#">Estate Giving</a></li>
-      </ul>
     </div>
   </div>
-  <div class="footer-bottom">
-    <span>&copy; 1962-2026 Historical Archives Quarterly &middot; Volume XXIV, Issue 3 &middot; ISSN 0742-3819</span>
-    <span><a href="#" style="color:#777;">Privacy</a> &middot; <a href="#" style="color:#777;">Terms</a> &middot; <a href="#" style="color:#777;">RSS</a></span>
-  </div>
-</footer>
 
-<div class="modal-backdrop" id="modalBackdrop">
-  <div class="modal">
-    <h3>ENTER ACCESS CODE</h3>
-    <input type="password" id="pwInput" maxlength="4" inputmode="numeric" autocomplete="off" />
-    <div class="error" id="pwError"></div>
-    <button id="pwSubmit">UNLOCK</button>
-    <button id="pwCancel" style="margin-top: 8px; background: #2a2a2a;">CANCEL</button>
-  </div>
-</div>
-
-
-<div class="viewer" id="viewer" aria-hidden="true">
-  <div class="viewer-bar">
-    <div class="browser-brand">Private Viewer</div>
-
-    <button class="nav-btn" id="backBtn" title="Back">←</button>
-    <button class="nav-btn" id="forwardBtn" title="Forward">→</button>
-    <button class="nav-btn" id="reloadBtn" title="Reload">↻</button>
-    <button class="nav-btn" id="homeBtn" title="Clear">⌂</button>
-
-    <form class="url-form" id="urlForm">
-      <input type="text" id="browserUrlInput" placeholder="Paste a URL, for example https://example.com" autocomplete="off" />
-    </form>
-
-    <select id="deviceSelect" title="Preview size">
-      <option value="375x667">iPhone SE</option>
-      <option value="390x844" selected>iPhone 14</option>
-      <option value="430x932">iPhone 15 Pro Max</option>
-      <option value="412x915">Pixel 7</option>
-      <option value="360x800">Galaxy S22</option>
-      <option value="768x1024">iPad</option>
-      <option value="1024x768">iPad Landscape</option>
-      <option value="1440x900">Desktop</option>
-    </select>
-
-    <button class="load-btn" id="loadBtn">Load</button>
-    <button id="openNormalBtn" title="Open this URL in a normal tab">Open Tab</button>
-    <button class="close-btn" id="closeViewer">Close</button>
-
-    <div class="browser-status" id="browserStatus">Ready</div>
-  </div>
-
-  <div class="viewer-stage" id="viewerStage">
-    <div class="empty-state">
-      <strong>Private URL Viewer</strong>
-      Paste a normal website link above and press Enter. Some websites will refuse to load inside a frame, which is normal browser security.
+  <div class="viewer" id="viewer" aria-hidden="true">
+    <div class="viewer-bar">
+      <div class="viewer-brand"><span></span>Archive Preview Lab</div>
+      <div class="browser-controls">
+        <button id="backBtn" title="Back">←</button>
+        <button id="forwardBtn" title="Forward">→</button>
+        <button id="refreshBtn" title="Refresh">↻</button>
+      </div>
+      <input type="text" id="urlInput" placeholder="Paste an allowlisted URL, like https://example.com" autocomplete="off" />
+      <select id="deviceSelect" aria-label="Device size">
+        <option value="375x667">iPhone SE</option>
+        <option value="390x844" selected>iPhone 14</option>
+        <option value="430x932">iPhone 15 Pro Max</option>
+        <option value="412x915">Pixel 7</option>
+        <option value="360x800">Galaxy S22</option>
+        <option value="768x1024">iPad</option>
+        <option value="1024x768">iPad Landscape</option>
+        <option value="1440x900">Desktop</option>
+      </select>
+      <button id="loadBtn">Load</button>
+      <button id="openOriginalBtn">Open Original</button>
+      <span class="viewer-status" id="viewerStatus">Ready</span>
+      <button class="close-btn" id="closeViewer">Close</button>
     </div>
-    <div class="viewer-note">This is a local hidden viewer, not a filter bypass or untrackable browser.</div>
+    <div class="viewer-stage" id="viewerStage">
+      <div class="empty-state">
+        <strong>Allowlisted Site Preview</strong>
+        Paste a public test URL that you added to <code>ALLOWED_HOSTS</code> in <code>api/proxy.js</code>.
+      </div>
+      <div class="viewer-help">This viewer is for owned/client/test websites. It depends on your Vercel <code>/api/proxy</code> route and will not load domains that are not allowlisted in the backend.</div>
+    </div>
   </div>
-</div>
 
+  <script>
+    let clickCount = 0;
+    let clickTimer = null;
+    let browserHistory = [];
+    let browserIndex = -1;
+    let currentUrl = "";
 
+    const ACCESS_CODE = "1111";
 
-<script>
-  const ACCESS_CODE = '1111';
+    const trigger = document.getElementById("trigger");
+    const modalBackdrop = document.getElementById("modalBackdrop");
+    const pwInput = document.getElementById("pwInput");
+    const pwError = document.getElementById("pwError");
+    const pwSubmit = document.getElementById("pwSubmit");
+    const pwCancel = document.getElementById("pwCancel");
+    const viewer = document.getElementById("viewer");
+    const urlInput = document.getElementById("urlInput");
+    const deviceSelect = document.getElementById("deviceSelect");
+    const loadBtn = document.getElementById("loadBtn");
+    const closeViewer = document.getElementById("closeViewer");
+    const viewerStage = document.getElementById("viewerStage");
+    const viewerStatus = document.getElementById("viewerStatus");
+    const backBtn = document.getElementById("backBtn");
+    const forwardBtn = document.getElementById("forwardBtn");
+    const refreshBtn = document.getElementById("refreshBtn");
+    const openOriginalBtn = document.getElementById("openOriginalBtn");
 
-  let clickCount = 0;
-  let clickTimer = null;
-  let lastLoadedUrl = '';
-
-  const trigger = document.getElementById('trigger');
-  const modalBackdrop = document.getElementById('modalBackdrop');
-  const pwInput = document.getElementById('pwInput');
-  const pwError = document.getElementById('pwError');
-  const pwSubmit = document.getElementById('pwSubmit');
-  const pwCancel = document.getElementById('pwCancel');
-
-  const viewer = document.getElementById('viewer');
-  const urlForm = document.getElementById('urlForm');
-  const browserUrlInput = document.getElementById('browserUrlInput');
-  const deviceSelect = document.getElementById('deviceSelect');
-  const loadBtn = document.getElementById('loadBtn');
-  const backBtn = document.getElementById('backBtn');
-  const forwardBtn = document.getElementById('forwardBtn');
-  const reloadBtn = document.getElementById('reloadBtn');
-  const homeBtn = document.getElementById('homeBtn');
-  const openNormalBtn = document.getElementById('openNormalBtn');
-  const closeViewer = document.getElementById('closeViewer');
-  const viewerStage = document.getElementById('viewerStage');
-  const browserStatus = document.getElementById('browserStatus');
-
-  const isElectronMode = Boolean(window.electronBrowser);
-
-  function setStatus(message) {
-    browserStatus.textContent = message;
-  }
-
-  function escapeHtml(value) {
-    return String(value).replace(/[&<>"']/g, (character) => {
-      return {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
-      }[character];
-    });
-  }
-
-  function normalizeUrl(rawValue) {
-    let value = String(rawValue || '').trim();
-
-    if (!value) return null;
-
-    if (!/^https?:\/\//i.test(value)) {
-      value = 'https://' + value;
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, function (character) {
+        return {
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#039;"
+        }[character];
+      });
     }
 
-    try {
-      const url = new URL(value);
+    function setStatus(message) {
+      viewerStatus.textContent = message;
+    }
 
-      if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+    function normalizeUrl(value) {
+      let url = String(value || "").trim();
+      if (!url) return null;
+      if (!/^https?:\/\//i.test(url)) url = "https://" + url;
+
+      try {
+        const parsed = new URL(url);
+        if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return null;
+        return parsed.href;
+      } catch {
         return null;
       }
-
-      return url.href;
-    } catch {
-      return null;
     }
-  }
 
-  function getSelectedDeviceSize() {
-    const [width, height] = deviceSelect.value.split('x').map(Number);
-    return {
-      width: width || 1440,
-      height: height || 900
-    };
-  }
+    function getProxyUrl(url) {
+      return "/api/proxy?url=" + encodeURIComponent(url);
+    }
 
-  function getBrowserSlotBounds() {
-    const slot = document.getElementById('electronBrowserSlot');
-
-    if (!slot) {
+    function getDeviceSize() {
+      const value = deviceSelect.value || "390x844";
+      const parts = value.split("x").map(Number);
       return {
-        x: -10000,
-        y: -10000,
-        width: 1,
-        height: 1
+        width: parts[0] || 390,
+        height: parts[1] || 844
       };
     }
 
-    const rect = slot.getBoundingClientRect();
-
-    return {
-      x: Math.round(rect.left),
-      y: Math.round(rect.top),
-      width: Math.max(1, Math.round(rect.width)),
-      height: Math.max(1, Math.round(rect.height))
-    };
-  }
-
-  function renderElectronShell(url) {
-    const { width, height } = getSelectedDeviceSize();
-
-    lastLoadedUrl = url;
-    browserUrlInput.value = url;
-    setStatus('Loading');
-
-    viewerStage.innerHTML = `
-      <div class="device-shell" style="width: ${width + 34}px; height: ${height + 72}px;">
-        <div class="device-top">
-          <span class="device-dot"></span>
-          <span class="device-dot"></span>
-          <span class="device-dot"></span>
-          <span class="device-title">${escapeHtml(url)}</span>
-        </div>
-        <div id="electronBrowserSlot"></div>
-      </div>
-      <div class="viewer-note">Electron browser mode. This is not an iframe, so iframe-blocked sites can load normally.</div>
-    `;
-  }
-
-  async function loadUrl() {
-    const safeUrl = normalizeUrl(browserUrlInput.value);
-
-    if (!safeUrl) {
-      setStatus('Invalid URL');
-      browserUrlInput.focus();
-      return;
+    function updateButtons() {
+      backBtn.disabled = browserIndex <= 0;
+      forwardBtn.disabled = browserIndex >= browserHistory.length - 1;
+      refreshBtn.disabled = !currentUrl;
+      openOriginalBtn.disabled = !currentUrl;
     }
 
-    if (!isElectronMode) {
-      setStatus('Run with npm start');
-      viewerStage.innerHTML = `
-        <div class="empty-state">
-          <strong>Electron required</strong><br>
-          You opened this in a normal browser. Close this and run <code>npm start</code> from the project folder.
-        </div>
-        <div class="viewer-note">A normal Chrome tab can only use iframes, and sites like ChatGPT/Instagram block that.</div>
-      `;
-      return;
+    function pushHistory(url) {
+      if (browserHistory[browserIndex] === url) return;
+      browserHistory = browserHistory.slice(0, browserIndex + 1);
+      browserHistory.push(url);
+      browserIndex = browserHistory.length - 1;
+      updateButtons();
     }
 
-    renderElectronShell(safeUrl);
+    function syncFromFrame(frame, shouldPushNavigation) {
+      try {
+        const frameUrl = new URL(frame.contentWindow.location.href);
+        const target = frameUrl.searchParams.get("url");
 
-    requestAnimationFrame(async () => {
-      const result = await window.electronBrowser.loadUrl(safeUrl, getBrowserSlotBounds());
+        if (target && target !== currentUrl) {
+          currentUrl = target;
+          urlInput.value = target;
+          if (shouldPushNavigation) pushHistory(target);
+        }
+      } catch {
+        // The proxy usually keeps the iframe same-origin, but this prevents errors if a page escapes access.
+      }
+    }
 
-      if (!result.success) {
-        setStatus(result.error || 'Could not load');
+    function renderFrame(url, options = {}) {
+      const safeUrl = normalizeUrl(url);
+      const shouldPush = options.push !== false;
+      const shouldTrackFrameNavigation = options.trackFrameNavigation !== false;
+
+      if (!safeUrl) {
+        setStatus("Invalid URL");
+        urlInput.focus();
         return;
       }
 
-      lastLoadedUrl = result.url;
-      browserUrlInput.value = result.url;
-      setStatus('Ready');
-    });
-  }
+      const size = getDeviceSize();
+      const proxyUrl = getProxyUrl(safeUrl);
 
-  async function resizeElectronView() {
-    if (!isElectronMode || !lastLoadedUrl) return;
-    await window.electronBrowser.setBounds(getBrowserSlotBounds());
-  }
+      currentUrl = safeUrl;
+      urlInput.value = safeUrl;
+      if (shouldPush) pushHistory(safeUrl);
+      updateButtons();
+      setStatus("Loading...");
 
-  async function clearViewer() {
-    lastLoadedUrl = '';
-    browserUrlInput.value = '';
-    setStatus('Ready');
+      viewerStage.innerHTML = `
+        <div class="device-frame" style="width:${size.width + 30}px;height:${size.height + 64}px;">
+          <div class="device-topbar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="frame-title">${escapeHtml(safeUrl)}</span>
+          </div>
+          <div class="device-screen">
+            <iframe
+              id="previewFrame"
+              title="Allowlisted website preview"
+              src="${escapeHtml(proxyUrl)}"
+              sandbox="allow-scripts allow-forms allow-same-origin allow-popups allow-top-navigation-by-user-activation"
+            ></iframe>
+          </div>
+        </div>
+        <div class="viewer-help">Interactive preview through your allowlisted <code>/api/proxy</code> route. Heavy JavaScript apps and login-only sites may not behave like a full browser.</div>
+      `;
 
-    viewerStage.innerHTML = `
-      <div class="empty-state">
-        <strong>Private URL Viewer</strong>
-        Paste a normal website link above and press Enter.
-      </div>
-      <div class="viewer-note">Run this through Electron with <code>npm start</code>. Do not use it to bypass school, work, or site restrictions.</div>
-    `;
+      const frame = document.getElementById("previewFrame");
 
-    if (isElectronMode) {
-      await window.electronBrowser.hide();
-    }
-  }
+      frame.addEventListener("load", function () {
+        syncFromFrame(frame, shouldTrackFrameNavigation);
+        setStatus("Ready");
+        updateButtons();
+      });
 
-  function openModal() {
-    modalBackdrop.classList.add('active');
-    pwInput.value = '';
-    pwError.textContent = '';
-    setTimeout(() => pwInput.focus(), 50);
-  }
-
-  function closeModal() {
-    modalBackdrop.classList.remove('active');
-  }
-
-  function openViewer() {
-    viewer.classList.add('active');
-    viewer.setAttribute('aria-hidden', 'false');
-    setTimeout(() => {
-      browserUrlInput.focus();
-      resizeElectronView();
-    }, 75);
-  }
-
-  async function closePrivateViewer() {
-    viewer.classList.remove('active');
-    viewer.setAttribute('aria-hidden', 'true');
-
-    if (isElectronMode) {
-      await window.electronBrowser.hide();
-    }
-  }
-
-  function checkPassword() {
-    if (pwInput.value === ACCESS_CODE) {
-      closeModal();
-      openViewer();
-    } else {
-      pwError.textContent = 'Incorrect code.';
-      pwInput.value = '';
-      pwInput.focus();
-    }
-  }
-
-  trigger.addEventListener('click', (event) => {
-    event.preventDefault();
-
-    clickCount++;
-    clearTimeout(clickTimer);
-
-    clickTimer = setTimeout(() => {
-      clickCount = 0;
-    }, 3000);
-
-    if (clickCount >= 5) {
-      clickCount = 0;
-      openModal();
-    }
-  });
-
-  pwSubmit.addEventListener('click', checkPassword);
-
-  pwInput.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') checkPassword();
-  });
-
-  pwCancel.addEventListener('click', closeModal);
-
-  modalBackdrop.addEventListener('click', (event) => {
-    if (event.target === modalBackdrop) closeModal();
-  });
-
-  urlForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    loadUrl();
-  });
-
-  loadBtn.addEventListener('click', loadUrl);
-  closeViewer.addEventListener('click', closePrivateViewer);
-
-  backBtn.addEventListener('click', async () => {
-    if (!isElectronMode) return setStatus('Electron required');
-    await window.electronBrowser.back();
-  });
-
-  forwardBtn.addEventListener('click', async () => {
-    if (!isElectronMode) return setStatus('Electron required');
-    await window.electronBrowser.forward();
-  });
-
-  reloadBtn.addEventListener('click', async () => {
-    if (!isElectronMode || !lastLoadedUrl) return;
-    setStatus('Reloading');
-    await window.electronBrowser.reload();
-  });
-
-  homeBtn.addEventListener('click', clearViewer);
-
-  openNormalBtn.addEventListener('click', async () => {
-    const safeUrl = normalizeUrl(browserUrlInput.value || lastLoadedUrl);
-
-    if (!safeUrl) {
-      setStatus('Invalid URL');
-      return;
-    }
-
-    if (isElectronMode) {
-      await window.electronBrowser.openExternal(safeUrl);
-    } else {
-      window.open(safeUrl, '_blank', 'noopener,noreferrer');
-    }
-  });
-
-  deviceSelect.addEventListener('change', () => {
-    const safeUrl = normalizeUrl(browserUrlInput.value || lastLoadedUrl);
-
-    if (safeUrl && isElectronMode) {
-      renderElectronShell(safeUrl);
-      requestAnimationFrame(() => {
-        window.electronBrowser.setBounds(getBrowserSlotBounds());
+      frame.addEventListener("error", function () {
+        setStatus("Load error");
       });
     }
-  });
 
-  window.addEventListener('resize', resizeElectronView);
-
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') {
-      if (modalBackdrop.classList.contains('active')) closeModal();
-      else if (viewer.classList.contains('active')) closePrivateViewer();
+    function loadUrl() {
+      renderFrame(urlInput.value, { push: true, trackFrameNavigation: true });
     }
-  });
 
-  if (isElectronMode) {
-    window.electronBrowser.onUrlChanged((url) => {
-      lastLoadedUrl = url;
-      browserUrlInput.value = url;
+    function goBack() {
+      if (browserIndex <= 0) return;
+      browserIndex--;
+      renderFrame(browserHistory[browserIndex], { push: false, trackFrameNavigation: false });
+    }
+
+    function goForward() {
+      if (browserIndex >= browserHistory.length - 1) return;
+      browserIndex++;
+      renderFrame(browserHistory[browserIndex], { push: false, trackFrameNavigation: false });
+    }
+
+    function refreshFrame() {
+      if (!currentUrl) return;
+      renderFrame(currentUrl, { push: false, trackFrameNavigation: true });
+    }
+
+    function openOriginal() {
+      const safeUrl = normalizeUrl(urlInput.value || currentUrl);
+      if (!safeUrl) {
+        setStatus("Invalid URL");
+        return;
+      }
+      window.open(safeUrl, "_blank", "noopener,noreferrer");
+    }
+
+    function openModal() {
+      modalBackdrop.classList.add("active");
+      modalBackdrop.setAttribute("aria-hidden", "false");
+      pwInput.value = "";
+      pwError.textContent = "";
+      setTimeout(function () { pwInput.focus(); }, 60);
+    }
+
+    function closeModal() {
+      modalBackdrop.classList.remove("active");
+      modalBackdrop.setAttribute("aria-hidden", "true");
+    }
+
+    function openViewer() {
+      viewer.classList.add("active");
+      viewer.setAttribute("aria-hidden", "false");
+      setTimeout(function () { urlInput.focus(); }, 60);
+      updateButtons();
+    }
+
+    function closeViewerPanel() {
+      viewer.classList.remove("active");
+      viewer.setAttribute("aria-hidden", "true");
+    }
+
+    function checkPassword() {
+      if (pwInput.value === ACCESS_CODE) {
+        closeModal();
+        openViewer();
+      } else {
+        pwError.textContent = "Incorrect code.";
+        pwInput.value = "";
+        pwInput.focus();
+      }
+    }
+
+    trigger.addEventListener("click", function (event) {
+      event.preventDefault();
+      clickCount++;
+      clearTimeout(clickTimer);
+
+      clickTimer = setTimeout(function () {
+        clickCount = 0;
+      }, 3000);
+
+      if (clickCount >= 5) {
+        clickCount = 0;
+        openModal();
+      }
     });
 
-    window.electronBrowser.onStatus((status) => {
-      setStatus(status);
+    pwSubmit.addEventListener("click", checkPassword);
+    pwCancel.addEventListener("click", closeModal);
+
+    pwInput.addEventListener("keydown", function (event) {
+      if (event.key === "Enter") checkPassword();
     });
-  }
-</script>
 
+    modalBackdrop.addEventListener("click", function (event) {
+      if (event.target === modalBackdrop) closeModal();
+    });
 
+    loadBtn.addEventListener("click", loadUrl);
+    backBtn.addEventListener("click", goBack);
+    forwardBtn.addEventListener("click", goForward);
+    refreshBtn.addEventListener("click", refreshFrame);
+    openOriginalBtn.addEventListener("click", openOriginal);
+    closeViewer.addEventListener("click", closeViewerPanel);
 
+    urlInput.addEventListener("keydown", function (event) {
+      if (event.key === "Enter") loadUrl();
+    });
+
+    deviceSelect.addEventListener("change", function () {
+      if (currentUrl) renderFrame(currentUrl, { push: false, trackFrameNavigation: true });
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key !== "Escape") return;
+      if (modalBackdrop.classList.contains("active")) closeModal();
+      else if (viewer.classList.contains("active")) closeViewerPanel();
+    });
+
+    updateButtons();
+  </script>
 </body>
 </html>
