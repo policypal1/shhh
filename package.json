@@ -1,13 +1,12 @@
 {
-  "name": "hidden-url-viewer",
+  "name": "hidden-preview-proxy",
   "version": "1.0.0",
-  "description": "Local hidden URL viewer built with Electron",
-  "main": "main.js",
+  "description": "Allowlisted responsive preview proxy for owned/test websites",
   "scripts": {
-    "start": "electron .",
-    "dev": "electron ."
+    "dev": "vercel dev"
   },
+  "dependencies": {},
   "devDependencies": {
-    "electron": "latest"
+    "vercel": "latest"
   }
 }
