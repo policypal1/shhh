@@ -1,33 +1,7 @@
 const dns = require("dns").promises;
 const net = require("net");
 
-const ALLOWED_HOSTS = [
-  "example.com",
-  "www.example.com",
-
-  // Add your own/client domains here:
-  "theoneclearchoiceautoglass.com",
-  "www.theoneclearchoiceautoglass.com",
-  "keizermobiledetailing.com",
-  "www.keizermobiledetailing.com"
-];
-
 const MAX_RESPONSE_BYTES = 4_500_000;
-
-function isAllowedHost(hostname) {
-  const cleanHost = hostname.toLowerCase();
-
-  return ALLOWED_HOSTS.some((allowedHost) => {
-    const cleanAllowed = allowedHost.toLowerCase().trim();
-
-    if (cleanAllowed.startsWith("*.")) {
-      const root = cleanAllowed.slice(2);
-      return cleanHost === root || cleanHost.endsWith("." + root);
-    }
-
-    return cleanHost === cleanAllowed;
-  });
-}
 
 function isPrivateIp(ip) {
   if (!ip) return true;
@@ -80,9 +54,7 @@ async function validateTargetUrl(rawUrl) {
     throw new Error("Only http and https URLs are allowed.");
   }
 
-  if (!isAllowedHost(target.hostname)) {
-    throw new Error(`This domain is not allowed: ${target.hostname}`);
-  }
+  // All hosts are now allowed - removed the isAllowedHost check
 
   const records = await dns.lookup(target.hostname, { all: true });
 
@@ -111,10 +83,7 @@ function makeProxyUrl(rawUrl, baseUrl) {
       return rawUrl;
     }
 
-    if (!isAllowedHost(absolute.hostname)) {
-      return rawUrl;
-    }
-
+    // All hosts are now allowed - removed the isAllowedHost check
     return `/api/proxy?url=${encodeURIComponent(absolute.href)}`;
   } catch {
     return rawUrl;
@@ -138,7 +107,7 @@ function rewriteSrcset(srcset, baseUrl) {
 }
 
 function rewriteCssUrls(cssText, baseUrl) {
-  return cssText.replace(/url\((['"]?)(.*?)\1\)/gi, (match, quote, rawUrl) => {
+  return cssText.replace(/url$$(['"]?)(.*?)\1$$/gi, (match, quote, rawUrl) => {
     const cleanUrl = rawUrl.trim();
 
     if (
@@ -329,16 +298,11 @@ module.exports = async function handler(req, res) {
       const location = upstreamResponse.headers.get("location");
       const redirectTarget = new URL(location, target.href);
 
-      if (!isAllowedHost(redirectTarget.hostname)) {
-        res.statusCode = 403;
-        res.end("Redirect blocked because the target domain is not allowlisted.");
-        return;
-      }
-
+      // All hosts are now allowed - removed the isAllowedHost check
       res.statusCode = upstreamResponse.status;
       res.setHeader(
         "location",
-        `/api/proxy?url=${encodeURIComponent(redirectTarget.href)}`
+        `/api/proxy?url=\${encodeURIComponent(redirectTarget.href)}`
       );
       res.end();
       return;
@@ -351,35 +315,4 @@ module.exports = async function handler(req, res) {
 
     res.statusCode = upstreamResponse.status;
 
-    if (contentType.includes("text/html")) {
-      const html = buffer.toString("utf8");
-      const rewrittenHtml = rewriteHtml(html, target.href);
-      res.end(rewrittenHtml);
-      return;
-    }
-
-    if (
-      contentType.includes("text/css") ||
-      target.pathname.toLowerCase().endsWith(".css")
-    ) {
-      const css = buffer.toString("utf8");
-      const rewrittenCss = rewriteCssUrls(css, target.href);
-      res.end(rewrittenCss);
-      return;
-    }
-
-    res.end(buffer);
-  } catch (error) {
-    res.statusCode = 400;
-    res.setHeader("content-type", "text/html; charset=utf-8");
-    res.end(`
-      <div style="font-family: system-ui, sans-serif; padding: 24px;">
-        <h2>Preview blocked</h2>
-        <p>${escapeHtmlAttr(error.message)}</p>
-        <p style="color:#666;font-size:14px;">
-          Add the site to <code>ALLOWED_HOSTS</code> in <code>api/proxy.js</code> if you own it or have permission to test it.
-        </p>
-      </div>
-    `);
-  }
-};
+   
