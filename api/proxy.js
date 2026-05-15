@@ -3,6 +3,47 @@ const net = require("net");
 
 const MAX_RESPONSE_BYTES = 4_500_000;
 
+/*
+  ADD ONLY YOUR OWN / CLIENT / TEST DOMAINS HERE.
+
+  Example:
+  const DEFAULT_ALLOWED_HOSTS = [
+    "yourwebsite.com",
+    "www.yourwebsite.com",
+    "clientsite.com",
+    "www.clientsite.com"
+  ];
+*/
+const DEFAULT_ALLOWED_HOSTS = [
+  "instagram.com",
+  "chatgpt.com"
+];
+
+function getAllowedHosts() {
+  const envHosts = String(process.env.ALLOWED_HOSTS || "")
+    .split(",")
+    .map((host) => host.trim().toLowerCase())
+    .filter(Boolean);
+
+  return new Set([
+    ...DEFAULT_ALLOWED_HOSTS.map((host) => host.toLowerCase()),
+    ...envHosts
+  ]);
+}
+
+function isAllowedHost(hostname) {
+  const host = String(hostname || "").toLowerCase();
+  const allowedHosts = getAllowedHosts();
+
+  for (const allowed of allowedHosts) {
+    if (host === allowed || host.endsWith("." + allowed)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 function isPrivateIp(ip) {
   if (!ip) return true;
 
@@ -27,9 +68,9 @@ function isPrivateIp(ip) {
     const lower = ip.toLowerCase();
 
     if (lower === "::1") return true;
+    if (lower === "::") return true;
     if (lower.startsWith("fc") || lower.startsWith("fd")) return true;
     if (lower.startsWith("fe80")) return true;
-    if (lower === "::") return true;
 
     return false;
   }
@@ -54,7 +95,19 @@ async function validateTargetUrl(rawUrl) {
     throw new Error("Only http and https URLs are allowed.");
   }
 
-  // All hosts are now allowed - removed the isAllowedHost check
+  if (target.username || target.password) {
+    throw new Error("Username/password URLs are not allowed.");
+  }
+
+  if (target.port && target.port !== "80" && target.port !== "443") {
+    throw new Error("Only normal HTTP and HTTPS ports are allowed.");
+  }
+
+  if (!isAllowedHost(target.hostname)) {
+    throw new Error(
+      `Host is not allowlisted: ${target.hostname}. Add it to DEFAULT_ALLOWED_HOSTS or the ALLOWED_HOSTS env variable.`
+    );
+  }
 
   const records = await dns.lookup(target.hostname, { all: true });
 
@@ -75,15 +128,36 @@ function escapeHtmlAttr(value) {
     .replaceAll(">", "&gt;");
 }
 
+function shouldSkipUrl(value) {
+  const clean = String(value || "").trim().toLowerCase();
+
+  return (
+    !clean ||
+    clean.startsWith("#") ||
+    clean.startsWith("javascript:") ||
+    clean.startsWith("mailto:") ||
+    clean.startsWith("tel:") ||
+    clean.startsWith("data:") ||
+    clean.startsWith("blob:")
+  );
+}
+
 function makeProxyUrl(rawUrl, baseUrl) {
   try {
+    if (shouldSkipUrl(rawUrl)) {
+      return rawUrl;
+    }
+
     const absolute = new URL(rawUrl, baseUrl);
 
     if (absolute.protocol !== "http:" && absolute.protocol !== "https:") {
       return rawUrl;
     }
 
-    // All hosts are now allowed - removed the isAllowedHost check
+    if (!isAllowedHost(absolute.hostname)) {
+      return rawUrl;
+    }
+
     return `/api/proxy?url=${encodeURIComponent(absolute.href)}`;
   } catch {
     return rawUrl;
@@ -91,7 +165,7 @@ function makeProxyUrl(rawUrl, baseUrl) {
 }
 
 function rewriteSrcset(srcset, baseUrl) {
-  return srcset
+  return String(srcset || "")
     .split(",")
     .map((part) => {
       const trimmed = part.trim();
@@ -107,21 +181,19 @@ function rewriteSrcset(srcset, baseUrl) {
 }
 
 function rewriteCssUrls(cssText, baseUrl) {
-  return cssText.replace(/url$$(['"]?)(.*?)\1$$/gi, (match, quote, rawUrl) => {
-    const cleanUrl = rawUrl.trim();
+  return String(cssText || "").replace(
+    /url\((['"]?)(.*?)\1\)/gi,
+    (match, quote, rawUrl) => {
+      const cleanUrl = String(rawUrl || "").trim();
 
-    if (
-      !cleanUrl ||
-      cleanUrl.startsWith("data:") ||
-      cleanUrl.startsWith("blob:") ||
-      cleanUrl.startsWith("#")
-    ) {
-      return match;
+      if (shouldSkipUrl(cleanUrl)) {
+        return match;
+      }
+
+      const rewritten = makeProxyUrl(cleanUrl, baseUrl);
+      return `url("${rewritten}")`;
     }
-
-    const rewritten = makeProxyUrl(cleanUrl, baseUrl);
-    return `url("${rewritten}")`;
-  });
+  );
 }
 
 function injectNavigationHelper(html) {
@@ -172,7 +244,7 @@ function injectNavigationHelper(html) {
 
     if (method !== "GET") {
       event.preventDefault();
-      alert("POST forms are disabled in this learning preview tool.");
+      alert("POST forms are disabled in this preview tool.");
       return;
     }
 
@@ -200,26 +272,20 @@ function injectNavigationHelper(html) {
 }
 
 function rewriteHtml(html, baseUrl) {
-  let rewritten = html;
+  let rewritten = String(html || "");
 
-  rewritten = rewritten.replace(/<head([^>]*)>/i, (match, attrs) => {
-    return `<head${attrs}><base href="${escapeHtmlAttr(baseUrl)}">`;
-  });
+  if (/<head([^>]*)>/i.test(rewritten)) {
+    rewritten = rewritten.replace(/<head([^>]*)>/i, (match, attrs) => {
+      return `<head${attrs}><base href="${escapeHtmlAttr(baseUrl)}">`;
+    });
+  }
 
   rewritten = rewritten.replace(
     /\s(href|src|action|poster)=("([^"]*)"|'([^']*)'|([^\s>]+))/gi,
     (match, attr, fullValue, doubleQuoted, singleQuoted, unquoted) => {
       const value = doubleQuoted ?? singleQuoted ?? unquoted ?? "";
 
-      if (
-        !value ||
-        value.startsWith("#") ||
-        value.startsWith("javascript:") ||
-        value.startsWith("mailto:") ||
-        value.startsWith("tel:") ||
-        value.startsWith("data:") ||
-        value.startsWith("blob:")
-      ) {
+      if (shouldSkipUrl(value)) {
         return match;
       }
 
@@ -253,8 +319,6 @@ function copySafeHeaders(upstreamResponse, res) {
   res.setHeader("cache-control", "no-store");
   res.setHeader("x-robots-tag", "noindex, nofollow");
   res.setHeader("x-content-type-options", "nosniff");
-
-  // Do not pass upstream CSP/X-Frame-Options because this is a controlled preview frame.
 }
 
 async function responseToLimitedBuffer(response) {
@@ -266,6 +330,13 @@ async function responseToLimitedBuffer(response) {
   }
 
   return buffer;
+}
+
+function sendPlain(res, statusCode, message) {
+  res.statusCode = statusCode;
+  res.setHeader("content-type", "text/plain; charset=utf-8");
+  res.setHeader("cache-control", "no-store");
+  res.end(message);
 }
 
 module.exports = async function handler(req, res) {
@@ -297,12 +368,12 @@ module.exports = async function handler(req, res) {
     ) {
       const location = upstreamResponse.headers.get("location");
       const redirectTarget = new URL(location, target.href);
+      const safeRedirectTarget = await validateTargetUrl(redirectTarget.href);
 
-      // All hosts are now allowed - removed the isAllowedHost check
       res.statusCode = upstreamResponse.status;
       res.setHeader(
         "location",
-        `/api/proxy?url=\${encodeURIComponent(redirectTarget.href)}`
+        `/api/proxy?url=${encodeURIComponent(safeRedirectTarget.href)}`
       );
       res.end();
       return;
@@ -310,9 +381,36 @@ module.exports = async function handler(req, res) {
 
     copySafeHeaders(upstreamResponse, res);
 
+    if (req.method === "HEAD") {
+      res.statusCode = upstreamResponse.status;
+      res.end();
+      return;
+    }
+
     const contentType = upstreamResponse.headers.get("content-type") || "";
     const buffer = await responseToLimitedBuffer(upstreamResponse);
 
     res.statusCode = upstreamResponse.status;
 
-   
+    if (contentType.includes("text/html")) {
+      const html = buffer.toString("utf8");
+      const rewrittenHtml = rewriteHtml(html, target.href);
+      res.setHeader("content-type", "text/html; charset=utf-8");
+      res.end(rewrittenHtml);
+      return;
+    }
+
+    if (contentType.includes("text/css")) {
+      const css = buffer.toString("utf8");
+      const rewrittenCss = rewriteCssUrls(css, target.href);
+      res.setHeader("content-type", "text/css; charset=utf-8");
+      res.end(rewrittenCss);
+      return;
+    }
+
+    res.end(buffer);
+  } catch (error) {
+    console.error("Proxy error:", error);
+    sendPlain(res, 400, error.message || "Proxy request failed.");
+  }
+};
