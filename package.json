@@ -1,12 +1,8 @@
 {
-  "name": "allowlisted-site-preview",
+  "name": "web-proxy",
   "version": "1.0.0",
-  "description": "Allowlisted responsive preview tool for owned/client/test websites",
   "scripts": {
     "dev": "vercel dev"
   },
-  "dependencies": {},
-  "devDependencies": {
-    "vercel": "latest"
-  }
+  "dependencies": {}
 }
